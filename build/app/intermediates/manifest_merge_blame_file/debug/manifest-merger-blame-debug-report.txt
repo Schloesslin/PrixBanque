@@ -1,0 +1,335 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.example.prixbanqueapp"
+4    android:versionCode="1"
+5    android:versionName="1.0.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="21"
+9        android:targetSdkVersion="30" />
+10    <!--
+11         Flutter needs it to communicate with the running application
+12         to allow setting breakpoints, to provide hot reload, etc.
+13    -->
+14    <uses-permission android:name="android.permission.INTERNET" />
+14-->/home/beuzet/AndroidStudioProjects/prixbanqueapp/android/app/src/debug/AndroidManifest.xml:6:5-66
+14-->/home/beuzet/AndroidStudioProjects/prixbanqueapp/android/app/src/debug/AndroidManifest.xml:6:22-64
+15    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+15-->[:firebase_analytics] /home/beuzet/AndroidStudioProjects/prixbanqueapp/build/firebase_analytics/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-79
+15-->[:firebase_analytics] /home/beuzet/AndroidStudioProjects/prixbanqueapp/build/firebase_analytics/intermediates/library_manifest/debug/AndroidManifest.xml:7:22-76
+16    <uses-permission android:name="android.permission.WAKE_LOCK" />
+16-->[:firebase_analytics] /home/beuzet/AndroidStudioProjects/prixbanqueapp/build/firebase_analytics/intermediates/library_manifest/debug/AndroidManifest.xml:9:5-68
+16-->[:firebase_analytics] /home/beuzet/AndroidStudioProjects/prixbanqueapp/build/firebase_analytics/intermediates/library_manifest/debug/AndroidManifest.xml:9:22-65
+17    <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE" />
+17-->[com.google.android.gms:play-services-measurement:18.0.3] /home/beuzet/.gradle/caches/transforms-2/files-2.1/2f21e1e1b5e74b1f168d23b69db801fa/jetified-play-services-measurement-18.0.3/AndroidManifest.xml:26:5-110
+17-->[com.google.android.gms:play-services-measurement:18.0.3] /home/beuzet/.gradle/caches/transforms-2/files-2.1/2f21e1e1b5e74b1f168d23b69db801fa/jetified-play-services-measurement-18.0.3/AndroidManifest.xml:26:22-107
+18
+19    <application
+19-->/home/beuzet/AndroidStudioProjects/prixbanqueapp/android/app/src/main/AndroidManifest.xml:3:4-40:19
+20        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+20-->[androidx.core:core:1.1.0] /home/beuzet/.gradle/caches/transforms-2/files-2.1/ce83ae1304f45c19becb303500258754/core-1.1.0/AndroidManifest.xml:24:18-86
+21        android:debuggable="true"
+22        android:icon="@mipmap/ic_launcher"
+22-->/home/beuzet/AndroidStudioProjects/prixbanqueapp/android/app/src/main/AndroidManifest.xml:5:9-43
+23        android:label="prixbanqueapp" >
+23-->/home/beuzet/AndroidStudioProjects/prixbanqueapp/android/app/src/main/AndroidManifest.xml:4:9-38
+24        <activity
+24-->/home/beuzet/AndroidStudioProjects/prixbanqueapp/android/app/src/main/AndroidManifest.xml:6:9-34:20
+25            android:name="com.example.prixbanqueapp.MainActivity"
+25-->/home/beuzet/AndroidStudioProjects/prixbanqueapp/android/app/src/main/AndroidManifest.xml:7:13-41
+26            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+26-->/home/beuzet/AndroidStudioProjects/prixbanqueapp/android/app/src/main/AndroidManifest.xml:10:13-163
+27            android:hardwareAccelerated="true"
+27-->/home/beuzet/AndroidStudioProjects/prixbanqueapp/android/app/src/main/AndroidManifest.xml:11:13-47
+28            android:launchMode="singleTop"
+28-->/home/beuzet/AndroidStudioProjects/prixbanqueapp/android/app/src/main/AndroidManifest.xml:8:13-43
+29            android:theme="@style/LaunchTheme"
+29-->/home/beuzet/AndroidStudioProjects/prixbanqueapp/android/app/src/main/AndroidManifest.xml:9:13-47
+30            android:windowSoftInputMode="adjustResize" >
+30-->/home/beuzet/AndroidStudioProjects/prixbanqueapp/android/app/src/main/AndroidManifest.xml:12:13-55
+31
+32            <!--
+33                 Specifies an Android theme to apply to this Activity as soon as
+34                 the Android process has started. This theme is visible to the user
+35                 while the Flutter UI initializes. After that, this theme continues
+36                 to determine the Window background behind the Flutter UI.
+37            -->
+38            <meta-data
+38-->/home/beuzet/AndroidStudioProjects/prixbanqueapp/android/app/src/main/AndroidManifest.xml:17:13-20:17
+39                android:name="io.flutter.embedding.android.NormalTheme"
+39-->/home/beuzet/AndroidStudioProjects/prixbanqueapp/android/app/src/main/AndroidManifest.xml:18:15-70
+40                android:resource="@style/NormalTheme" />
+40-->/home/beuzet/AndroidStudioProjects/prixbanqueapp/android/app/src/main/AndroidManifest.xml:19:15-52
+41            <!--
+42                 Displays an Android View that continues showing the launch screen
+43                 Drawable until Flutter paints its first frame, then this splash
+44                 screen fades out. A splash screen is useful to avoid any visual
+45                 gap between the end of Android's launch screen and the painting of
+46                 Flutter's first frame.
+47            -->
+48            <meta-data
+48-->/home/beuzet/AndroidStudioProjects/prixbanqueapp/android/app/src/main/AndroidManifest.xml:26:13-29:17
+49                android:name="io.flutter.embedding.android.SplashScreenDrawable"
+49-->/home/beuzet/AndroidStudioProjects/prixbanqueapp/android/app/src/main/AndroidManifest.xml:27:15-79
+50                android:resource="@drawable/launch_background" />
+50-->/home/beuzet/AndroidStudioProjects/prixbanqueapp/android/app/src/main/AndroidManifest.xml:28:15-61
+51
+52            <intent-filter>
+52-->/home/beuzet/AndroidStudioProjects/prixbanqueapp/android/app/src/main/AndroidManifest.xml:30:13-33:29
+53                <action android:name="android.intent.action.MAIN" />
+53-->/home/beuzet/AndroidStudioProjects/prixbanqueapp/android/app/src/main/AndroidManifest.xml:31:17-68
+53-->/home/beuzet/AndroidStudioProjects/prixbanqueapp/android/app/src/main/AndroidManifest.xml:31:25-66
+54
+55                <category android:name="android.intent.category.LAUNCHER" />
+55-->/home/beuzet/AndroidStudioProjects/prixbanqueapp/android/app/src/main/AndroidManifest.xml:32:17-76
+55-->/home/beuzet/AndroidStudioProjects/prixbanqueapp/android/app/src/main/AndroidManifest.xml:32:27-74
+56            </intent-filter>
+57        </activity>
+58        <!--
+59             Don't delete the meta-data below.
+60             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java
+61        -->
+62        <meta-data
+62-->/home/beuzet/AndroidStudioProjects/prixbanqueapp/android/app/src/main/AndroidManifest.xml:37:9-39:33
+63            android:name="flutterEmbedding"
+63-->/home/beuzet/AndroidStudioProjects/prixbanqueapp/android/app/src/main/AndroidManifest.xml:38:13-44
+64            android:value="2" />
+64-->/home/beuzet/AndroidStudioProjects/prixbanqueapp/android/app/src/main/AndroidManifest.xml:39:13-30
+65
+66        <service
+66-->[:firebase_analytics] /home/beuzet/AndroidStudioProjects/prixbanqueapp/build/firebase_analytics/intermediates/library_manifest/debug/AndroidManifest.xml:12:9-16:19
+67            android:name="com.google.firebase.components.ComponentDiscoveryService"
+67-->[:firebase_analytics] /home/beuzet/AndroidStudioProjects/prixbanqueapp/build/firebase_analytics/intermediates/library_manifest/debug/AndroidManifest.xml:12:18-89
+68            android:directBootAware="true"
+68-->[com.google.firebase:firebase-common:19.5.0] /home/beuzet/.gradle/caches/transforms-2/files-2.1/9b4bd82ae0b47be582d97b97e8ba04ff/jetified-firebase-common-19.5.0/AndroidManifest.xml:35:13-43
+69            android:exported="false" >
+69-->[com.google.firebase:firebase-database:19.7.0] /home/beuzet/.gradle/caches/transforms-2/files-2.1/01442ab877f4f34d4a013bccddf29139/jetified-firebase-database-19.7.0/AndroidManifest.xml:31:13-37
+70            <meta-data
+70-->[:firebase_analytics] /home/beuzet/AndroidStudioProjects/prixbanqueapp/build/firebase_analytics/intermediates/library_manifest/debug/AndroidManifest.xml:13:13-15:85
+71                android:name="com.google.firebase.components:io.flutter.plugins.firebaseanalytics.FlutterFirebaseAppRegistrar"
+71-->[:firebase_analytics] /home/beuzet/AndroidStudioProjects/prixbanqueapp/build/firebase_analytics/intermediates/library_manifest/debug/AndroidManifest.xml:14:17-127
+72                android:value="com.google.firebase.components.ComponentRegistrar" />
+72-->[:firebase_analytics] /home/beuzet/AndroidStudioProjects/prixbanqueapp/build/firebase_analytics/intermediates/library_manifest/debug/AndroidManifest.xml:15:17-82
+73            <meta-data
+73-->[:firebase_auth] /home/beuzet/AndroidStudioProjects/prixbanqueapp/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-11:85
+74                android:name="com.google.firebase.components:io.flutter.plugins.firebaseauth.FlutterFirebaseAppRegistrar"
+74-->[:firebase_auth] /home/beuzet/AndroidStudioProjects/prixbanqueapp/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:10:17-122
+75                android:value="com.google.firebase.components.ComponentRegistrar" />
+75-->[:firebase_auth] /home/beuzet/AndroidStudioProjects/prixbanqueapp/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:11:17-82
+76            <meta-data
+76-->[:cloud_firestore] /home/beuzet/AndroidStudioProjects/prixbanqueapp/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-11:85
+77                android:name="com.google.firebase.components:io.flutter.plugins.firebase.cloudfirestore.FlutterFirebaseAppRegistrar"
+77-->[:cloud_firestore] /home/beuzet/AndroidStudioProjects/prixbanqueapp/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:10:17-133
+78                android:value="com.google.firebase.components.ComponentRegistrar" />
+78-->[:cloud_firestore] /home/beuzet/AndroidStudioProjects/prixbanqueapp/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:11:17-82
+79            <meta-data
+79-->[:firebase_database] /home/beuzet/AndroidStudioProjects/prixbanqueapp/build/firebase_database/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-11:85
+80                android:name="com.google.firebase.components:io.flutter.plugins.firebase.database.FlutterFirebaseAppRegistrar"
+80-->[:firebase_database] /home/beuzet/AndroidStudioProjects/prixbanqueapp/build/firebase_database/intermediates/library_manifest/debug/AndroidManifest.xml:10:17-127
+81                android:value="com.google.firebase.components.ComponentRegistrar" />
+81-->[:firebase_database] /home/beuzet/AndroidStudioProjects/prixbanqueapp/build/firebase_database/intermediates/library_manifest/debug/AndroidManifest.xml:11:17-82
+82            <meta-data
+82-->[:firebase_core] /home/beuzet/AndroidStudioProjects/prixbanqueapp/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-11:85
+83                android:name="com.google.firebase.components:io.flutter.plugins.firebase.core.FlutterFirebaseAppRegistrar"
+83-->[:firebase_core] /home/beuzet/AndroidStudioProjects/prixbanqueapp/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:10:17-123
+84                android:value="com.google.firebase.components.ComponentRegistrar" />
+84-->[:firebase_core] /home/beuzet/AndroidStudioProjects/prixbanqueapp/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:11:17-82
+85            <meta-data
+85-->[com.google.firebase:firebase-database:19.7.0] /home/beuzet/.gradle/caches/transforms-2/files-2.1/01442ab877f4f34d4a013bccddf29139/jetified-firebase-database-19.7.0/AndroidManifest.xml:32:13-34:85
+86                android:name="com.google.firebase.components:com.google.firebase.database.DatabaseRegistrar"
+86-->[com.google.firebase:firebase-database:19.7.0] /home/beuzet/.gradle/caches/transforms-2/files-2.1/01442ab877f4f34d4a013bccddf29139/jetified-firebase-database-19.7.0/AndroidManifest.xml:33:17-109
+87                android:value="com.google.firebase.components.ComponentRegistrar" />
+87-->[com.google.firebase:firebase-database:19.7.0] /home/beuzet/.gradle/caches/transforms-2/files-2.1/01442ab877f4f34d4a013bccddf29139/jetified-firebase-database-19.7.0/AndroidManifest.xml:34:17-82
+88            <meta-data
+88-->[com.google.firebase:firebase-storage:19.2.2] /home/beuzet/.gradle/caches/transforms-2/files-2.1/f01197d58cb7fecda8767b3ec19797ed/jetified-firebase-storage-19.2.2/AndroidManifest.xml:33:13-35:85
+89                android:name="com.google.firebase.components:com.google.firebase.storage.StorageRegistrar"
+89-->[com.google.firebase:firebase-storage:19.2.2] /home/beuzet/.gradle/caches/transforms-2/files-2.1/f01197d58cb7fecda8767b3ec19797ed/jetified-firebase-storage-19.2.2/AndroidManifest.xml:34:17-107
+90                android:value="com.google.firebase.components.ComponentRegistrar" />
+90-->[com.google.firebase:firebase-storage:19.2.2] /home/beuzet/.gradle/caches/transforms-2/files-2.1/f01197d58cb7fecda8767b3ec19797ed/jetified-firebase-storage-19.2.2/AndroidManifest.xml:35:17-82
+91            <meta-data
+91-->[com.google.firebase:firebase-auth:20.0.4] /home/beuzet/.gradle/caches/transforms-2/files-2.1/281071ccfbf0b2f107df0707f63ece78/jetified-firebase-auth-20.0.4/AndroidManifest.xml:77:13-79:85
+92                android:name="com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar"
+92-->[com.google.firebase:firebase-auth:20.0.4] /home/beuzet/.gradle/caches/transforms-2/files-2.1/281071ccfbf0b2f107df0707f63ece78/jetified-firebase-auth-20.0.4/AndroidManifest.xml:78:17-109
+93                android:value="com.google.firebase.components.ComponentRegistrar" />
+93-->[com.google.firebase:firebase-auth:20.0.4] /home/beuzet/.gradle/caches/transforms-2/files-2.1/281071ccfbf0b2f107df0707f63ece78/jetified-firebase-auth-20.0.4/AndroidManifest.xml:79:17-82
+94            <meta-data
+94-->[com.google.firebase:firebase-firestore:22.1.2] /home/beuzet/.gradle/caches/transforms-2/files-2.1/20e325fa49182995842d3e9d2813cc59/jetified-firebase-firestore-22.1.2/AndroidManifest.xml:20:13-22:85
+95                android:name="com.google.firebase.components:com.google.firebase.firestore.FirestoreRegistrar"
+95-->[com.google.firebase:firebase-firestore:22.1.2] /home/beuzet/.gradle/caches/transforms-2/files-2.1/20e325fa49182995842d3e9d2813cc59/jetified-firebase-firestore-22.1.2/AndroidManifest.xml:21:17-111
+96                android:value="com.google.firebase.components.ComponentRegistrar" />
+96-->[com.google.firebase:firebase-firestore:22.1.2] /home/beuzet/.gradle/caches/transforms-2/files-2.1/20e325fa49182995842d3e9d2813cc59/jetified-firebase-firestore-22.1.2/AndroidManifest.xml:22:17-82
+97            <meta-data
+97-->[com.google.android.gms:play-services-measurement-api:18.0.3] /home/beuzet/.gradle/caches/transforms-2/files-2.1/132f9e05509a161b336600a1b9658bad/jetified-play-services-measurement-api-18.0.3/AndroidManifest.xml:30:13-32:85
+98                android:name="com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar"
+98-->[com.google.android.gms:play-services-measurement-api:18.0.3] /home/beuzet/.gradle/caches/transforms-2/files-2.1/132f9e05509a161b336600a1b9658bad/jetified-play-services-measurement-api-18.0.3/AndroidManifest.xml:31:17-139
+99                android:value="com.google.firebase.components.ComponentRegistrar" />
+99-->[com.google.android.gms:play-services-measurement-api:18.0.3] /home/beuzet/.gradle/caches/transforms-2/files-2.1/132f9e05509a161b336600a1b9658bad/jetified-play-services-measurement-api-18.0.3/AndroidManifest.xml:32:17-82
+100            <meta-data
+100-->[com.google.firebase:firebase-installations:16.3.5] /home/beuzet/.gradle/caches/transforms-2/files-2.1/9a92fdf3970b54dff2e973ab0692e424/jetified-firebase-installations-16.3.5/AndroidManifest.xml:18:13-20:85
+101                android:name="com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsRegistrar"
+101-->[com.google.firebase:firebase-installations:16.3.5] /home/beuzet/.gradle/caches/transforms-2/files-2.1/9a92fdf3970b54dff2e973ab0692e424/jetified-firebase-installations-16.3.5/AndroidManifest.xml:19:17-127
+102                android:value="com.google.firebase.components.ComponentRegistrar" />
+102-->[com.google.firebase:firebase-installations:16.3.5] /home/beuzet/.gradle/caches/transforms-2/files-2.1/9a92fdf3970b54dff2e973ab0692e424/jetified-firebase-installations-16.3.5/AndroidManifest.xml:20:17-82
+103            <!--
+104                This registrar is not defined in the dynamic-module-support sdk itself to allow non-firebase
+105                clients to use it as well, by defining this registrar in their own core/common library.
+106            -->
+107            <meta-data
+107-->[com.google.firebase:firebase-common:19.5.0] /home/beuzet/.gradle/caches/transforms-2/files-2.1/9b4bd82ae0b47be582d97b97e8ba04ff/jetified-firebase-common-19.5.0/AndroidManifest.xml:43:13-45:85
+108                android:name="com.google.firebase.components:com.google.firebase.dynamicloading.DynamicLoadingRegistrar"
+108-->[com.google.firebase:firebase-common:19.5.0] /home/beuzet/.gradle/caches/transforms-2/files-2.1/9b4bd82ae0b47be582d97b97e8ba04ff/jetified-firebase-common-19.5.0/AndroidManifest.xml:44:17-121
+109                android:value="com.google.firebase.components.ComponentRegistrar" />
+109-->[com.google.firebase:firebase-common:19.5.0] /home/beuzet/.gradle/caches/transforms-2/files-2.1/9b4bd82ae0b47be582d97b97e8ba04ff/jetified-firebase-common-19.5.0/AndroidManifest.xml:45:17-82
+110        </service>
+111
+112        <activity
+112-->[com.google.firebase:firebase-auth:20.0.4] /home/beuzet/.gradle/caches/transforms-2/files-2.1/281071ccfbf0b2f107df0707f63ece78/jetified-firebase-auth-20.0.4/AndroidManifest.xml:27:9-44:20
+113            android:name="com.google.firebase.auth.internal.GenericIdpActivity"
+113-->[com.google.firebase:firebase-auth:20.0.4] /home/beuzet/.gradle/caches/transforms-2/files-2.1/281071ccfbf0b2f107df0707f63ece78/jetified-firebase-auth-20.0.4/AndroidManifest.xml:28:13-80
+114            android:excludeFromRecents="true"
+114-->[com.google.firebase:firebase-auth:20.0.4] /home/beuzet/.gradle/caches/transforms-2/files-2.1/281071ccfbf0b2f107df0707f63ece78/jetified-firebase-auth-20.0.4/AndroidManifest.xml:29:13-46
+115            android:exported="true"
+115-->[com.google.firebase:firebase-auth:20.0.4] /home/beuzet/.gradle/caches/transforms-2/files-2.1/281071ccfbf0b2f107df0707f63ece78/jetified-firebase-auth-20.0.4/AndroidManifest.xml:30:13-36
+116            android:launchMode="singleTask"
+116-->[com.google.firebase:firebase-auth:20.0.4] /home/beuzet/.gradle/caches/transforms-2/files-2.1/281071ccfbf0b2f107df0707f63ece78/jetified-firebase-auth-20.0.4/AndroidManifest.xml:31:13-44
+117            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+117-->[com.google.firebase:firebase-auth:20.0.4] /home/beuzet/.gradle/caches/transforms-2/files-2.1/281071ccfbf0b2f107df0707f63ece78/jetified-firebase-auth-20.0.4/AndroidManifest.xml:32:13-72
+118            <intent-filter>
+118-->[com.google.firebase:firebase-auth:20.0.4] /home/beuzet/.gradle/caches/transforms-2/files-2.1/281071ccfbf0b2f107df0707f63ece78/jetified-firebase-auth-20.0.4/AndroidManifest.xml:33:13-43:29
+119                <action android:name="android.intent.action.VIEW" />
+119-->[com.google.firebase:firebase-auth:20.0.4] /home/beuzet/.gradle/caches/transforms-2/files-2.1/281071ccfbf0b2f107df0707f63ece78/jetified-firebase-auth-20.0.4/AndroidManifest.xml:34:17-69
+119-->[com.google.firebase:firebase-auth:20.0.4] /home/beuzet/.gradle/caches/transforms-2/files-2.1/281071ccfbf0b2f107df0707f63ece78/jetified-firebase-auth-20.0.4/AndroidManifest.xml:34:25-66
+120
+121                <category android:name="android.intent.category.DEFAULT" />
+121-->[com.google.firebase:firebase-auth:20.0.4] /home/beuzet/.gradle/caches/transforms-2/files-2.1/281071ccfbf0b2f107df0707f63ece78/jetified-firebase-auth-20.0.4/AndroidManifest.xml:36:17-76
+121-->[com.google.firebase:firebase-auth:20.0.4] /home/beuzet/.gradle/caches/transforms-2/files-2.1/281071ccfbf0b2f107df0707f63ece78/jetified-firebase-auth-20.0.4/AndroidManifest.xml:36:27-73
+122                <category android:name="android.intent.category.BROWSABLE" />
+122-->[com.google.firebase:firebase-auth:20.0.4] /home/beuzet/.gradle/caches/transforms-2/files-2.1/281071ccfbf0b2f107df0707f63ece78/jetified-firebase-auth-20.0.4/AndroidManifest.xml:37:17-78
+122-->[com.google.firebase:firebase-auth:20.0.4] /home/beuzet/.gradle/caches/transforms-2/files-2.1/281071ccfbf0b2f107df0707f63ece78/jetified-firebase-auth-20.0.4/AndroidManifest.xml:37:27-75
+123
+124                <data
+124-->[com.google.firebase:firebase-auth:20.0.4] /home/beuzet/.gradle/caches/transforms-2/files-2.1/281071ccfbf0b2f107df0707f63ece78/jetified-firebase-auth-20.0.4/AndroidManifest.xml:39:17-42:51
+125                    android:host="firebase.auth"
+125-->[com.google.firebase:firebase-auth:20.0.4] /home/beuzet/.gradle/caches/transforms-2/files-2.1/281071ccfbf0b2f107df0707f63ece78/jetified-firebase-auth-20.0.4/AndroidManifest.xml:40:21-49
+126                    android:path="/"
+126-->[com.google.firebase:firebase-auth:20.0.4] /home/beuzet/.gradle/caches/transforms-2/files-2.1/281071ccfbf0b2f107df0707f63ece78/jetified-firebase-auth-20.0.4/AndroidManifest.xml:41:21-37
+127                    android:scheme="genericidp" />
+127-->[com.google.firebase:firebase-auth:20.0.4] /home/beuzet/.gradle/caches/transforms-2/files-2.1/281071ccfbf0b2f107df0707f63ece78/jetified-firebase-auth-20.0.4/AndroidManifest.xml:42:21-48
+128            </intent-filter>
+129        </activity>
+130        <activity
+130-->[com.google.firebase:firebase-auth:20.0.4] /home/beuzet/.gradle/caches/transforms-2/files-2.1/281071ccfbf0b2f107df0707f63ece78/jetified-firebase-auth-20.0.4/AndroidManifest.xml:45:9-62:20
+131            android:name="com.google.firebase.auth.internal.RecaptchaActivity"
+131-->[com.google.firebase:firebase-auth:20.0.4] /home/beuzet/.gradle/caches/transforms-2/files-2.1/281071ccfbf0b2f107df0707f63ece78/jetified-firebase-auth-20.0.4/AndroidManifest.xml:46:13-79
+132            android:excludeFromRecents="true"
+132-->[com.google.firebase:firebase-auth:20.0.4] /home/beuzet/.gradle/caches/transforms-2/files-2.1/281071ccfbf0b2f107df0707f63ece78/jetified-firebase-auth-20.0.4/AndroidManifest.xml:47:13-46
+133            android:exported="true"
+133-->[com.google.firebase:firebase-auth:20.0.4] /home/beuzet/.gradle/caches/transforms-2/files-2.1/281071ccfbf0b2f107df0707f63ece78/jetified-firebase-auth-20.0.4/AndroidManifest.xml:48:13-36
+134            android:launchMode="singleTask"
+134-->[com.google.firebase:firebase-auth:20.0.4] /home/beuzet/.gradle/caches/transforms-2/files-2.1/281071ccfbf0b2f107df0707f63ece78/jetified-firebase-auth-20.0.4/AndroidManifest.xml:49:13-44
+135            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+135-->[com.google.firebase:firebase-auth:20.0.4] /home/beuzet/.gradle/caches/transforms-2/files-2.1/281071ccfbf0b2f107df0707f63ece78/jetified-firebase-auth-20.0.4/AndroidManifest.xml:50:13-72
+136            <intent-filter>
+136-->[com.google.firebase:firebase-auth:20.0.4] /home/beuzet/.gradle/caches/transforms-2/files-2.1/281071ccfbf0b2f107df0707f63ece78/jetified-firebase-auth-20.0.4/AndroidManifest.xml:51:13-61:29
+137                <action android:name="android.intent.action.VIEW" />
+137-->[com.google.firebase:firebase-auth:20.0.4] /home/beuzet/.gradle/caches/transforms-2/files-2.1/281071ccfbf0b2f107df0707f63ece78/jetified-firebase-auth-20.0.4/AndroidManifest.xml:34:17-69
+137-->[com.google.firebase:firebase-auth:20.0.4] /home/beuzet/.gradle/caches/transforms-2/files-2.1/281071ccfbf0b2f107df0707f63ece78/jetified-firebase-auth-20.0.4/AndroidManifest.xml:34:25-66
+138
+139                <category android:name="android.intent.category.DEFAULT" />
+139-->[com.google.firebase:firebase-auth:20.0.4] /home/beuzet/.gradle/caches/transforms-2/files-2.1/281071ccfbf0b2f107df0707f63ece78/jetified-firebase-auth-20.0.4/AndroidManifest.xml:36:17-76
+139-->[com.google.firebase:firebase-auth:20.0.4] /home/beuzet/.gradle/caches/transforms-2/files-2.1/281071ccfbf0b2f107df0707f63ece78/jetified-firebase-auth-20.0.4/AndroidManifest.xml:36:27-73
+140                <category android:name="android.intent.category.BROWSABLE" />
+140-->[com.google.firebase:firebase-auth:20.0.4] /home/beuzet/.gradle/caches/transforms-2/files-2.1/281071ccfbf0b2f107df0707f63ece78/jetified-firebase-auth-20.0.4/AndroidManifest.xml:37:17-78
+140-->[com.google.firebase:firebase-auth:20.0.4] /home/beuzet/.gradle/caches/transforms-2/files-2.1/281071ccfbf0b2f107df0707f63ece78/jetified-firebase-auth-20.0.4/AndroidManifest.xml:37:27-75
+141
+142                <data
+142-->[com.google.firebase:firebase-auth:20.0.4] /home/beuzet/.gradle/caches/transforms-2/files-2.1/281071ccfbf0b2f107df0707f63ece78/jetified-firebase-auth-20.0.4/AndroidManifest.xml:39:17-42:51
+143                    android:host="firebase.auth"
+143-->[com.google.firebase:firebase-auth:20.0.4] /home/beuzet/.gradle/caches/transforms-2/files-2.1/281071ccfbf0b2f107df0707f63ece78/jetified-firebase-auth-20.0.4/AndroidManifest.xml:40:21-49
+144                    android:path="/"
+144-->[com.google.firebase:firebase-auth:20.0.4] /home/beuzet/.gradle/caches/transforms-2/files-2.1/281071ccfbf0b2f107df0707f63ece78/jetified-firebase-auth-20.0.4/AndroidManifest.xml:41:21-37
+145                    android:scheme="recaptcha" />
+145-->[com.google.firebase:firebase-auth:20.0.4] /home/beuzet/.gradle/caches/transforms-2/files-2.1/281071ccfbf0b2f107df0707f63ece78/jetified-firebase-auth-20.0.4/AndroidManifest.xml:42:21-48
+146            </intent-filter>
+147        </activity>
+148
+149        <service
+149-->[com.google.firebase:firebase-auth:20.0.4] /home/beuzet/.gradle/caches/transforms-2/files-2.1/281071ccfbf0b2f107df0707f63ece78/jetified-firebase-auth-20.0.4/AndroidManifest.xml:64:9-73:19
+150            android:name="com.google.firebase.auth.api.fallback.service.FirebaseAuthFallbackService"
+150-->[com.google.firebase:firebase-auth:20.0.4] /home/beuzet/.gradle/caches/transforms-2/files-2.1/281071ccfbf0b2f107df0707f63ece78/jetified-firebase-auth-20.0.4/AndroidManifest.xml:65:13-101
+151            android:enabled="true"
+151-->[com.google.firebase:firebase-auth:20.0.4] /home/beuzet/.gradle/caches/transforms-2/files-2.1/281071ccfbf0b2f107df0707f63ece78/jetified-firebase-auth-20.0.4/AndroidManifest.xml:66:13-35
+152            android:exported="false" >
+152-->[com.google.firebase:firebase-auth:20.0.4] /home/beuzet/.gradle/caches/transforms-2/files-2.1/281071ccfbf0b2f107df0707f63ece78/jetified-firebase-auth-20.0.4/AndroidManifest.xml:67:13-37
+153            <intent-filter>
+153-->[com.google.firebase:firebase-auth:20.0.4] /home/beuzet/.gradle/caches/transforms-2/files-2.1/281071ccfbf0b2f107df0707f63ece78/jetified-firebase-auth-20.0.4/AndroidManifest.xml:68:13-72:29
+154                <action android:name="com.google.firebase.auth.api.gms.service.START" />
+154-->[com.google.firebase:firebase-auth:20.0.4] /home/beuzet/.gradle/caches/transforms-2/files-2.1/281071ccfbf0b2f107df0707f63ece78/jetified-firebase-auth-20.0.4/AndroidManifest.xml:69:17-89
+154-->[com.google.firebase:firebase-auth:20.0.4] /home/beuzet/.gradle/caches/transforms-2/files-2.1/281071ccfbf0b2f107df0707f63ece78/jetified-firebase-auth-20.0.4/AndroidManifest.xml:69:25-86
+155
+156                <category android:name="android.intent.category.DEFAULT" />
+156-->[com.google.firebase:firebase-auth:20.0.4] /home/beuzet/.gradle/caches/transforms-2/files-2.1/281071ccfbf0b2f107df0707f63ece78/jetified-firebase-auth-20.0.4/AndroidManifest.xml:36:17-76
+156-->[com.google.firebase:firebase-auth:20.0.4] /home/beuzet/.gradle/caches/transforms-2/files-2.1/281071ccfbf0b2f107df0707f63ece78/jetified-firebase-auth-20.0.4/AndroidManifest.xml:36:27-73
+157            </intent-filter>
+158        </service>
+159
+160        <provider
+160-->[com.google.firebase:firebase-common:19.5.0] /home/beuzet/.gradle/caches/transforms-2/files-2.1/9b4bd82ae0b47be582d97b97e8ba04ff/jetified-firebase-common-19.5.0/AndroidManifest.xml:26:9-31:39
+161            android:name="com.google.firebase.provider.FirebaseInitProvider"
+161-->[com.google.firebase:firebase-common:19.5.0] /home/beuzet/.gradle/caches/transforms-2/files-2.1/9b4bd82ae0b47be582d97b97e8ba04ff/jetified-firebase-common-19.5.0/AndroidManifest.xml:27:13-77
+162            android:authorities="com.example.prixbanqueapp.firebaseinitprovider"
+162-->[com.google.firebase:firebase-common:19.5.0] /home/beuzet/.gradle/caches/transforms-2/files-2.1/9b4bd82ae0b47be582d97b97e8ba04ff/jetified-firebase-common-19.5.0/AndroidManifest.xml:28:13-72
+163            android:directBootAware="true"
+163-->[com.google.firebase:firebase-common:19.5.0] /home/beuzet/.gradle/caches/transforms-2/files-2.1/9b4bd82ae0b47be582d97b97e8ba04ff/jetified-firebase-common-19.5.0/AndroidManifest.xml:29:13-43
+164            android:exported="false"
+164-->[com.google.firebase:firebase-common:19.5.0] /home/beuzet/.gradle/caches/transforms-2/files-2.1/9b4bd82ae0b47be582d97b97e8ba04ff/jetified-firebase-common-19.5.0/AndroidManifest.xml:30:13-37
+165            android:initOrder="100" />
+165-->[com.google.firebase:firebase-common:19.5.0] /home/beuzet/.gradle/caches/transforms-2/files-2.1/9b4bd82ae0b47be582d97b97e8ba04ff/jetified-firebase-common-19.5.0/AndroidManifest.xml:31:13-36
+166
+167        <activity
+167-->[com.google.android.gms:play-services-base:17.1.0] /home/beuzet/.gradle/caches/transforms-2/files-2.1/5fdc30c9827577f52e5f87dca1121159/jetified-play-services-base-17.1.0/AndroidManifest.xml:23:9-26:75
+168            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+168-->[com.google.android.gms:play-services-base:17.1.0] /home/beuzet/.gradle/caches/transforms-2/files-2.1/5fdc30c9827577f52e5f87dca1121159/jetified-play-services-base-17.1.0/AndroidManifest.xml:24:13-79
+169            android:exported="false"
+169-->[com.google.android.gms:play-services-base:17.1.0] /home/beuzet/.gradle/caches/transforms-2/files-2.1/5fdc30c9827577f52e5f87dca1121159/jetified-play-services-base-17.1.0/AndroidManifest.xml:25:13-37
+170            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+170-->[com.google.android.gms:play-services-base:17.1.0] /home/beuzet/.gradle/caches/transforms-2/files-2.1/5fdc30c9827577f52e5f87dca1121159/jetified-play-services-base-17.1.0/AndroidManifest.xml:26:13-72
+171
+172        <receiver
+172-->[com.google.android.gms:play-services-measurement:18.0.3] /home/beuzet/.gradle/caches/transforms-2/files-2.1/2f21e1e1b5e74b1f168d23b69db801fa/jetified-play-services-measurement-18.0.3/AndroidManifest.xml:29:9-33:20
+173            android:name="com.google.android.gms.measurement.AppMeasurementReceiver"
+173-->[com.google.android.gms:play-services-measurement:18.0.3] /home/beuzet/.gradle/caches/transforms-2/files-2.1/2f21e1e1b5e74b1f168d23b69db801fa/jetified-play-services-measurement-18.0.3/AndroidManifest.xml:30:13-85
+174            android:enabled="true"
+174-->[com.google.android.gms:play-services-measurement:18.0.3] /home/beuzet/.gradle/caches/transforms-2/files-2.1/2f21e1e1b5e74b1f168d23b69db801fa/jetified-play-services-measurement-18.0.3/AndroidManifest.xml:31:13-35
+175            android:exported="false" >
+175-->[com.google.android.gms:play-services-measurement:18.0.3] /home/beuzet/.gradle/caches/transforms-2/files-2.1/2f21e1e1b5e74b1f168d23b69db801fa/jetified-play-services-measurement-18.0.3/AndroidManifest.xml:32:13-37
+176        </receiver>
+177
+178        <service
+178-->[com.google.android.gms:play-services-measurement:18.0.3] /home/beuzet/.gradle/caches/transforms-2/files-2.1/2f21e1e1b5e74b1f168d23b69db801fa/jetified-play-services-measurement-18.0.3/AndroidManifest.xml:35:9-38:40
+179            android:name="com.google.android.gms.measurement.AppMeasurementService"
+179-->[com.google.android.gms:play-services-measurement:18.0.3] /home/beuzet/.gradle/caches/transforms-2/files-2.1/2f21e1e1b5e74b1f168d23b69db801fa/jetified-play-services-measurement-18.0.3/AndroidManifest.xml:36:13-84
+180            android:enabled="true"
+180-->[com.google.android.gms:play-services-measurement:18.0.3] /home/beuzet/.gradle/caches/transforms-2/files-2.1/2f21e1e1b5e74b1f168d23b69db801fa/jetified-play-services-measurement-18.0.3/AndroidManifest.xml:37:13-35
+181            android:exported="false" />
+181-->[com.google.android.gms:play-services-measurement:18.0.3] /home/beuzet/.gradle/caches/transforms-2/files-2.1/2f21e1e1b5e74b1f168d23b69db801fa/jetified-play-services-measurement-18.0.3/AndroidManifest.xml:38:13-37
+182        <service
+182-->[com.google.android.gms:play-services-measurement:18.0.3] /home/beuzet/.gradle/caches/transforms-2/files-2.1/2f21e1e1b5e74b1f168d23b69db801fa/jetified-play-services-measurement-18.0.3/AndroidManifest.xml:39:9-43:72
+183            android:name="com.google.android.gms.measurement.AppMeasurementJobService"
+183-->[com.google.android.gms:play-services-measurement:18.0.3] /home/beuzet/.gradle/caches/transforms-2/files-2.1/2f21e1e1b5e74b1f168d23b69db801fa/jetified-play-services-measurement-18.0.3/AndroidManifest.xml:40:13-87
+184            android:enabled="true"
+184-->[com.google.android.gms:play-services-measurement:18.0.3] /home/beuzet/.gradle/caches/transforms-2/files-2.1/2f21e1e1b5e74b1f168d23b69db801fa/jetified-play-services-measurement-18.0.3/AndroidManifest.xml:41:13-35
+185            android:exported="false"
+185-->[com.google.android.gms:play-services-measurement:18.0.3] /home/beuzet/.gradle/caches/transforms-2/files-2.1/2f21e1e1b5e74b1f168d23b69db801fa/jetified-play-services-measurement-18.0.3/AndroidManifest.xml:42:13-37
+186            android:permission="android.permission.BIND_JOB_SERVICE" />
+186-->[com.google.android.gms:play-services-measurement:18.0.3] /home/beuzet/.gradle/caches/transforms-2/files-2.1/2f21e1e1b5e74b1f168d23b69db801fa/jetified-play-services-measurement-18.0.3/AndroidManifest.xml:43:13-69
+187
+188        <meta-data
+188-->[com.google.android.gms:play-services-basement:17.1.0] /home/beuzet/.gradle/caches/transforms-2/files-2.1/49b64878b3db8f9798db62add70a458d/jetified-play-services-basement-17.1.0/AndroidManifest.xml:23:9-25:69
+189            android:name="com.google.android.gms.version"
+189-->[com.google.android.gms:play-services-basement:17.1.0] /home/beuzet/.gradle/caches/transforms-2/files-2.1/49b64878b3db8f9798db62add70a458d/jetified-play-services-basement-17.1.0/AndroidManifest.xml:24:13-58
+190            android:value="@integer/google_play_services_version" />
+190-->[com.google.android.gms:play-services-basement:17.1.0] /home/beuzet/.gradle/caches/transforms-2/files-2.1/49b64878b3db8f9798db62add70a458d/jetified-play-services-basement-17.1.0/AndroidManifest.xml:25:13-66
+191    </application>
+192
+193</manifest>
