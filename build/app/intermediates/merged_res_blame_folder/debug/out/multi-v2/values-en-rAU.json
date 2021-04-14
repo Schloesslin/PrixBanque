@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/home/beuzet/AndroidStudioProjects/prixbanqueapp/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-en-rAU/values-en-rAU.xml",
+            "outputFile": "/Users/schloesslin/AndroidStudioProjects/PrixBanque/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-en-rAU/values-en-rAU.xml",
             "map": [
                 {
-                    "source": "/home/beuzet/.gradle/caches/transforms-2/files-2.1/ce83ae1304f45c19becb303500258754/core-1.1.0/res/values-en-rAU/values-en-rAU.xml",
+                    "source": "/Users/schloesslin/.gradle/caches/transforms-2/files-2.1/ce83ae1304f45c19becb303500258754/core-1.1.0/res/values-en-rAU/values-en-rAU.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
