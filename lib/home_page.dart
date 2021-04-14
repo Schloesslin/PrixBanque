@@ -167,6 +167,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _createUser() async {
+    // ignore: unused_local_variable
     AuthResult userResult = await FirebaseAuth.instance
         .createUserWithEmailAndPassword(
             email: controllerEmail.text, password: controllerPassword.text);
