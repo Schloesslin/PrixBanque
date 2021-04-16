@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class HomePage extends StatefulWidget {
+  final Function(FirebaseUser) onSignIn;
+  HomePage({@required this.onSignIn});
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -147,6 +150,25 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _createButton(String _text) {
+    if (_text == "Login") {
+      return MaterialButton(
+        minWidth: 250,
+        color: Colors.blue,
+        textColor: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: new BorderRadius.circular(23.0),
+        ),
+        padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+        onPressed: () {
+          _signIn();
+        },
+        child: Text(
+          _text,
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 25),
+        ),
+      );
+    }
     return MaterialButton(
       minWidth: 250,
       color: Colors.blue,
@@ -172,6 +194,15 @@ class _HomePageState extends State<HomePage> {
         .createUserWithEmailAndPassword(
             email: controllerEmail.text, password: controllerPassword.text);
     // onCreate(userResult.user);
+    final FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    print("Le uid du compte que je viens de créer : " + user.uid);
+  }
+
+  Future<void> _signIn() async {
+    AuthResult userResult = await FirebaseAuth.instance
+        .signInWithEmailAndPassword(
+            email: controllerEmail.text, password: controllerPassword.text);
+    widget.onSignIn(userResult.user);
   }
 
   @override
