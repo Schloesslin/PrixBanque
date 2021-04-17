@@ -1,4 +1,4 @@
-#Sat Apr 17 01:35:06 CEST 2021
+#Sat Apr 17 16:49:15 CEST 2021
 path.1=classes.dex
 path.0=classes.dex
 renamed.8=classes9.dex
@@ -9,16 +9,16 @@ renamed.4=classes5.dex
 renamed.3=classes4.dex
 renamed.2=classes3.dex
 renamed.1=classes2.dex
-base.8=/Users/schloesslin/AndroidStudioProjects/PrixBanque/build/app/intermediates/dex/debug/mergeLibDexDebug/classes_5.dex
+base.8=/home/beuzet/AndroidStudioProjects/PrixBanque/build/app/intermediates/dex/debug/mergeLibDexDebug/classes_5.dex
 renamed.0=classes.dex
-base.7=/Users/schloesslin/AndroidStudioProjects/PrixBanque/build/app/intermediates/dex/debug/mergeLibDexDebug/classes_4.dex
-base.6=/Users/schloesslin/AndroidStudioProjects/PrixBanque/build/app/intermediates/dex/debug/mergeLibDexDebug/classes_3.dex
-base.5=/Users/schloesslin/AndroidStudioProjects/PrixBanque/build/app/intermediates/dex/debug/mergeLibDexDebug/classes_2.dex
-base.4=/Users/schloesslin/AndroidStudioProjects/PrixBanque/build/app/intermediates/dex/debug/mergeLibDexDebug/classes_1.dex
-base.3=/Users/schloesslin/AndroidStudioProjects/PrixBanque/build/app/intermediates/dex/debug/mergeLibDexDebug/classes_0.dex
-base.2=/Users/schloesslin/AndroidStudioProjects/PrixBanque/build/app/intermediates/dex/debug/mergeExtDexDebug/classes2.dex
-base.1=/Users/schloesslin/AndroidStudioProjects/PrixBanque/build/app/intermediates/dex/debug/mergeProjectDexDebug/classes.dex
-base.0=/Users/schloesslin/AndroidStudioProjects/PrixBanque/build/app/intermediates/dex/debug/mergeExtDexDebug/classes.dex
+base.7=/home/beuzet/AndroidStudioProjects/PrixBanque/build/app/intermediates/dex/debug/mergeLibDexDebug/classes_4.dex
+base.6=/home/beuzet/AndroidStudioProjects/PrixBanque/build/app/intermediates/dex/debug/mergeLibDexDebug/classes_3.dex
+base.5=/home/beuzet/AndroidStudioProjects/PrixBanque/build/app/intermediates/dex/debug/mergeLibDexDebug/classes_2.dex
+base.4=/home/beuzet/AndroidStudioProjects/PrixBanque/build/app/intermediates/dex/debug/mergeLibDexDebug/classes_1.dex
+base.3=/home/beuzet/AndroidStudioProjects/PrixBanque/build/app/intermediates/dex/debug/mergeLibDexDebug/classes_0.dex
+base.2=/home/beuzet/AndroidStudioProjects/PrixBanque/build/app/intermediates/dex/debug/mergeExtDexDebug/classes2.dex
+base.1=/home/beuzet/AndroidStudioProjects/PrixBanque/build/app/intermediates/dex/debug/mergeProjectDexDebug/classes.dex
+base.0=/home/beuzet/AndroidStudioProjects/PrixBanque/build/app/intermediates/dex/debug/mergeExtDexDebug/classes.dex
 path.8=classes_5.dex
 path.7=classes_4.dex
 path.6=classes_3.dex

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 class HomePage extends StatefulWidget {
   final Function(FirebaseUser) onSignIn;
@@ -14,6 +15,8 @@ class _HomePageState extends State<HomePage> {
   int index = 0;
   TextEditingController controllerEmail = TextEditingController();
   TextEditingController controllerPassword = TextEditingController();
+  TextEditingController controllerName = TextEditingController();
+  TextEditingController controllerLastName = TextEditingController();
   String error = "";
 
   Widget _refreshTitle(int _index) {
@@ -136,6 +139,7 @@ class _HomePageState extends State<HomePage> {
     return Container(
       margin: EdgeInsets.only(bottom: 5),
       child: TextFormField(
+        controller: _hint=="First name" ? controllerName : controllerLastName,
         decoration: InputDecoration(
           labelText: _hint,
           border: OutlineInputBorder(
@@ -190,12 +194,18 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> _createUser() async {
     // ignore: unused_local_variable
-    AuthResult userResult = await FirebaseAuth.instance
-        .createUserWithEmailAndPassword(
-            email: controllerEmail.text, password: controllerPassword.text);
+    try {
+      AuthResult userResult = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+          email: controllerEmail.text, password: controllerPassword.text);
+    }
+    catch(error) {
+      return;
+    }
     // onCreate(userResult.user);
     final FirebaseUser user = await FirebaseAuth.instance.currentUser();
-    print("Le uid du compte que je viens de créer : " + user.uid);
+    DatabaseReference _ref = FirebaseDatabase.instance.reference().child(user.uid).child("Main account");
+    _ref.push().set({'Balance' : 0,'First Name' : controllerName.text, 'Last Name' : controllerLastName.text});
   }
 
   Future<void> _signIn() async {

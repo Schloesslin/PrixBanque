@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/schloesslin/AndroidStudioProjects/PrixBanque/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-night-v8/values-night-v8.xml",
+            "outputFile": "/home/beuzet/AndroidStudioProjects/PrixBanque/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-night-v8/values-night-v8.xml",
             "map": [
                 {
-                    "source": "/Users/schloesslin/AndroidStudioProjects/PrixBanque/android/app/src/main/res/values-night/styles.xml",
+                    "source": "/home/beuzet/AndroidStudioProjects/PrixBanque/android/app/src/main/res/values-night/styles.xml",
                     "from": {
                         "startLines": "3,14",
                         "startColumns": "4,4",
