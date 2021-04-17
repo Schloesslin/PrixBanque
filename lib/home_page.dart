@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'dart:math';
 
 class HomePage extends StatefulWidget {
   final Function(FirebaseUser) onSignIn;
@@ -205,7 +206,7 @@ class _HomePageState extends State<HomePage> {
     // onCreate(userResult.user);
     final FirebaseUser user = await FirebaseAuth.instance.currentUser();
     DatabaseReference _ref = FirebaseDatabase.instance.reference().child(user.uid).child("Main account");
-    _ref.push().set({'Balance' : 0,'First Name' : controllerName.text, 'Last Name' : controllerLastName.text});
+    _ref.push().set({'Account number': Random().nextInt(99999999),'Balance' : 0,'First Name' : controllerName.text, 'Last Name' : controllerLastName.text});
   }
 
   Future<void> _signIn() async {
