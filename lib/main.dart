@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:prixbanqueapp/forgot_pass.dart';
 import 'package:prixbanqueapp/home_page.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -32,6 +33,7 @@ class _MyAppState extends State<MyApp> {
         home: HomePage(
           onSignIn: (userCred) => onRefresh(userCred),
         ),
+        routes: {ForgotPass.tag: (context) => ForgotPass()},
         debugShowCheckedModeBanner: false,
       );
     }

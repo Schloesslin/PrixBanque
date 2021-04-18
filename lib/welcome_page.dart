@@ -57,18 +57,27 @@ class _WelcomePageState extends State<WelcomePage> {
       title: _refreshTitle(index),
       centerTitle: true,
       toolbarHeight: 100,
-      leading: GestureDetector(
-        onTap: () {
-          Navigator.push(context,
-              MaterialPageRoute<void>(builder: (BuildContext context) {
-            return MyApp();
-          }));
-          return MyApp();
-        },
-        child: Icon(
-          Icons.logout,
+      actions: [
+        Container(
+          margin: EdgeInsets.only(right: 15),
+          child: GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute<void>(
+                  builder: (BuildContext context) {
+                    return MyApp();
+                  },
+                ),
+              );
+              return MyApp();
+            },
+            child: Icon(
+              Icons.logout,
+            ),
+          ),
         ),
-      ),
+      ],
     );
   }
 

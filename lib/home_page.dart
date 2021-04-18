@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:prixbanqueapp/forgot_pass.dart';
 
 class HomePage extends StatefulWidget {
   final Function(FirebaseUser) onSignIn;
@@ -11,7 +12,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int index = 0;
+  int index = 1;
   TextEditingController controllerEmail = TextEditingController();
   TextEditingController controllerPassword = TextEditingController();
   String error = "";
@@ -44,7 +45,6 @@ class _HomePageState extends State<HomePage> {
                 _createInputFormField("E-mail", "email"),
                 _createInputFormField("Password", "password"),
                 _createButton("Create account"),
-                Text(error),
               ],
             ),
           ),
@@ -61,6 +61,22 @@ class _HomePageState extends State<HomePage> {
             _createInputFormField("E-mail", "email"),
             _createInputFormField("Password", "password"),
             _createButton("Login"),
+            MaterialButton(
+              minWidth: 250,
+              textColor: Colors.grey,
+              shape: RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(23.0),
+              ),
+              padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+              onPressed: () {
+                _forgotPass();
+              },
+              child: Text(
+                "Forgot your password ?",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 15),
+              ),
+            )
           ],
         ),
       ),
@@ -189,20 +205,83 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _createUser() async {
-    // ignore: unused_local_variable
-    AuthResult userResult = await FirebaseAuth.instance
-        .createUserWithEmailAndPassword(
-            email: controllerEmail.text, password: controllerPassword.text);
-    // onCreate(userResult.user);
-    final FirebaseUser user = await FirebaseAuth.instance.currentUser();
-    print("Le uid du compte que je viens de créer : " + user.uid);
+    try {
+      // ignore: unused_local_variable
+      AuthResult userResult = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+              email: controllerEmail.text.trim(),
+              password: controllerPassword.text);
+    } catch (e) {
+      setState(() {
+        error = e.message;
+      });
+      return showDialog<void>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Error connection'),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text(error),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: Text('Ok'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 
   Future<void> _signIn() async {
-    AuthResult userResult = await FirebaseAuth.instance
-        .signInWithEmailAndPassword(
-            email: controllerEmail.text, password: controllerPassword.text);
-    widget.onSignIn(userResult.user);
+    try {
+      AuthResult userResult = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+              email: controllerEmail.text.trim(),
+              password: controllerPassword.text);
+      widget.onSignIn(userResult.user);
+    } catch (e) {
+      setState(() {
+        error = e.message;
+      });
+      return showDialog<void>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Error connection'),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text(error),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: Text('Ok'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
+  void _forgotPass() {
+    Navigator.of(context).pushNamed(ForgotPass.tag);
   }
 
   @override
