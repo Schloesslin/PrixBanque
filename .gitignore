@@ -46,3 +46,7 @@ app.*.map.json
 /android/app/release
 android/local.properties
 .android/local.properties
+ui-debug.log
+build/
+.dart_tool/
+.packages

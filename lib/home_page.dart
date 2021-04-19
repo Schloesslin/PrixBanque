@@ -198,15 +198,25 @@ class _HomePageState extends State<HomePage> {
     try {
       AuthResult userResult = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
-          email: controllerEmail.text, password: controllerPassword.text);
+          email: controllerEmail.text.trim(), password: controllerPassword.text);
     }
     catch(error) {
+      print("Error in the user creation"+error.toString());
       return;
     }
     // onCreate(userResult.user);
     final FirebaseUser user = await FirebaseAuth.instance.currentUser();
-    DatabaseReference _ref = FirebaseDatabase.instance.reference().child(user.uid).child("Main account");
-    _ref.push().set({'Account number': Random().nextInt(99999999),'Balance' : 0,'First Name' : controllerName.text, 'Last Name' : controllerLastName.text});
+    DatabaseReference _ref = FirebaseDatabase.instance.reference().child("Customers");
+    //Offre de lancement
+    //TODO : recuperation de l'attribut count et incrémentation en fonction
+    int _usernumber = await getCount(_ref);
+    if(_usernumber <= 10000) {
+      _ref.child(user.uid).child("Main account").push().set({'Account number': Random().nextInt(99999999),'Balance' : 1000,'First Name' : controllerName.text, 'Last Name' : controllerLastName.text});
+    }
+    else {
+      _ref.child(user.uid).child("Main account").push().set({'Account number': Random().nextInt(99999999),'Balance' : 0,'First Name' : controllerName.text, 'Last Name' : controllerLastName.text});
+
+    }
   }
 
   Future<void> _signIn() async {
@@ -214,6 +224,11 @@ class _HomePageState extends State<HomePage> {
         .signInWithEmailAndPassword(
             email: controllerEmail.text, password: controllerPassword.text);
     widget.onSignIn(userResult.user);
+  }
+
+  Future<int> getCount(DatabaseReference db) async {
+    int result = (await db.child("_count").once()).value;
+    return result+1;
   }
 
   @override
