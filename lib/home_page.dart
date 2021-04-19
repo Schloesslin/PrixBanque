@@ -222,7 +222,7 @@ class _HomePageState extends State<HomePage> {
   Future<void> _signIn() async {
     AuthResult userResult = await FirebaseAuth.instance
         .signInWithEmailAndPassword(
-            email: controllerEmail.text, password: controllerPassword.text);
+            email: controllerEmail.text.trim(), password: controllerPassword.text);
     widget.onSignIn(userResult.user);
   }
 
