@@ -1,4 +1,0 @@
-io/flutter/plugins/GeneratedPluginRegistrant.java
- io.flutter.plugins.GeneratedPluginRegistrant
-com/example/prixbanqueapp/BuildConfig.java
- com.example.prixbanqueapp.BuildConfig
