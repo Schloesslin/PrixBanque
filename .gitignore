@@ -30,6 +30,7 @@
 .pub-cache/
 .pub/
 /build/
+/android/
 
 # Web related
 lib/generated_plugin_registrant.dart
@@ -44,9 +45,3 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
-android/local.properties
-.android/local.properties
-ui-debug.log
-build/
-.dart_tool/
-.packages
