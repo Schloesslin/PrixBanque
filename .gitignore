@@ -30,8 +30,6 @@
 .pub-cache/
 .pub/
 /build/
-**/build
-**/android
 
 
 # Web related
