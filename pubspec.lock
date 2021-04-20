@@ -57,6 +57,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.2"
+  date_field:
+    dependency: "direct main"
+    description:
+      name: date_field
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.1"
   english_words:
     dependency: "direct main"
     description:
@@ -163,6 +170,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.4"
+  intl:
+    dependency: transitive
+    description:
+      name: intl
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.17.0"
   js:
     dependency: transitive
     description:
@@ -274,5 +288,5 @@ packages:
     source: hosted
     version: "2.1.0"
 sdks:
-  dart: ">=2.12.0-0.0 <3.0.0"
+  dart: ">=2.12.0 <3.0.0"
   flutter: ">=1.12.13+hotfix.4"

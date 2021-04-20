@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'dart:math';
 
+import 'package:prixbanqueapp/forgot_pass.dart';
+
 class HomePage extends StatefulWidget {
   final Function(FirebaseUser) onSignIn;
   HomePage({@required this.onSignIn});
@@ -13,7 +15,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int index = 0;
+  int index = 1;
   TextEditingController controllerEmail = TextEditingController();
   TextEditingController controllerPassword = TextEditingController();
   TextEditingController controllerName = TextEditingController();
@@ -48,7 +50,6 @@ class _HomePageState extends State<HomePage> {
                 _createInputFormField("E-mail", "email"),
                 _createInputFormField("Password", "password"),
                 _createButton("Create account"),
-                Text(error),
               ],
             ),
           ),
@@ -65,6 +66,22 @@ class _HomePageState extends State<HomePage> {
             _createInputFormField("E-mail", "email"),
             _createInputFormField("Password", "password"),
             _createButton("Login"),
+            MaterialButton(
+              minWidth: 250,
+              textColor: Colors.grey,
+              shape: RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(23.0),
+              ),
+              padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+              onPressed: () {
+                _forgotPass();
+              },
+              child: Text(
+                "Forgot your password ?",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 15),
+              ),
+            )
           ],
         ),
       ),
@@ -194,17 +211,42 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _createUser() async {
-    // ignore: unused_local_variable
+
     try {
+      // ignore: unused_local_variable
       AuthResult userResult = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
-          email: controllerEmail.text.trim(), password: controllerPassword.text);
+              email: controllerEmail.text.trim(),
+              password: controllerPassword.text);
+    } catch (e) {
+      setState(() {
+        error = e.message;
+      });
+      return showDialog<void>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Error connection'),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text(error),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: Text('Ok'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
     }
-    catch(error) {
-      print("Error in the user creation"+error.toString());
-      return;
-    }
-    // onCreate(userResult.user);
     final FirebaseUser user = await FirebaseAuth.instance.currentUser();
     DatabaseReference _ref = FirebaseDatabase.instance.reference().child("Customers");
     //Offre de lancement
@@ -215,15 +257,54 @@ class _HomePageState extends State<HomePage> {
     }
     else {
       _ref.child(user.uid).child("Main account").push().set({'Account number': Random().nextInt(99999999),'Balance' : 0,'First Name' : controllerName.text, 'Last Name' : controllerLastName.text});
-
-    }
+    }    
   }
 
   Future<void> _signIn() async {
-    AuthResult userResult = await FirebaseAuth.instance
-        .signInWithEmailAndPassword(
-            email: controllerEmail.text.trim(), password: controllerPassword.text);
-    widget.onSignIn(userResult.user);
+    try {
+      AuthResult userResult = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+              email: controllerEmail.text.trim(),
+              password: controllerPassword.text);
+      widget.onSignIn(userResult.user);
+    } catch (e) {
+      setState(() {
+        error = e.message;
+      });
+      return showDialog<void>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Error connection'),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text(error),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: Text('Ok'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
+  void _forgotPass() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ForgotPass(),
+      ),
+    );
   }
 
   Future<int> getCount(DatabaseReference db) async {

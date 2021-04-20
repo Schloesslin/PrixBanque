@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:prixbanqueapp/forgot_pass.dart';
 import 'package:prixbanqueapp/home_page.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:prixbanqueapp/transfert_immediat_page.dart';
 import 'package:prixbanqueapp/welcome_page.dart';
 
 void main() async {
