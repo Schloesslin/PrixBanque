@@ -39,11 +39,8 @@ class _WelcomePageState extends State<WelcomePage> {
 
   Widget _refreshBody(int _index) {
     if (_index == 0) {
-      //Pour éviter de faire trop d'appels inutiles
-      if (_name == "") {
-        print("laaaa");
-        _getUserData();
-      }
+      //In case of immediate transactions
+      _getUserData();
       return Container(
         alignment: Alignment.topCenter,
         child: Column(
@@ -76,7 +73,6 @@ class _WelcomePageState extends State<WelcomePage> {
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   ListTile(
-                    leading: Icon(Icons.account_balance_wallet_rounded),
                     title: Text(
                       'Compte principal',
                       style: TextStyle(
@@ -275,6 +271,13 @@ class _WelcomePageState extends State<WelcomePage> {
 
   @override
   Widget build(BuildContext context) {
+    print("build");
+    //Pour éviter de faire trop d'appels inutiles
+    /*if (_name == "") {
+      print("data");
+      _getUserData();
+    }*/
+    _getUserData();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
