@@ -281,7 +281,12 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _forgotPass() {
-    Navigator.of(context).pushNamed(ForgotPass.tag);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ForgotPass(),
+      ),
+    );
   }
 
   @override
