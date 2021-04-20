@@ -13,10 +13,10 @@ class WelcomePage extends StatefulWidget {
 
 class _WelcomePageState extends State<WelcomePage> {
   int index = 0;
-  String _account;
+  String _account = "";
   String _name = "";
-  String _lastname;
-  String _balance;
+  String _lastname = "";
+  String _balance = "";
   DateTime today = new DateTime.now().toLocal();
 
   Widget _refreshTitle(int _index) {
@@ -99,10 +99,10 @@ class _WelcomePageState extends State<WelcomePage> {
           ],
         ),
       );
-    } else if (index == 1) {
-      return Container();
+    } else if (index == 2) {
+      return _createVirementBody();
     }
-    return _createVirementBody();
+    return Container();
   }
 
   Widget _createBottomNavigationBar() {
@@ -267,8 +267,6 @@ class _WelcomePageState extends State<WelcomePage> {
         _name = map.values.toList()[0]["First Name"];
         _lastname = map.values.toList()[0]["Last Name"];
         _balance = map.values.toList()[0]["Balance"].toString();
-
-        return;
       });
     } catch (e) {
       print("error : " + (e.toString()));
