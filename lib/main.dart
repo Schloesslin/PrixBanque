@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:prixbanqueapp/account_page.dart';
 import 'package:prixbanqueapp/home_page.dart';
 
 void main() async {
@@ -17,7 +18,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: HomePage(),
+      home: AccountPage(),
       debugShowCheckedModeBanner: false,
     );
   }

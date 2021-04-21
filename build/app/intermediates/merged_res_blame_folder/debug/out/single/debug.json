@@ -1,26 +1,26 @@
 [
     {
-        "merged": "/Users/schloesslin/AndroidStudioProjects/PrixBanque/build/app/intermediates/res/merged/debug/drawable-v21_launch_background.xml.flat",
-        "source": "/Users/schloesslin/AndroidStudioProjects/PrixBanque/android/app/src/main/res/drawable-v21/launch_background.xml"
+        "merged": "C:\\Users\\guill\\Documents\\Projets\\Autres\\PrixBanque\\build\\app\\intermediates\\res\\merged\\debug\\mipmap-xxxhdpi_ic_launcher.png.flat",
+        "source": "C:\\Users\\guill\\Documents\\Projets\\Autres\\PrixBanque\\android\\app\\src\\main\\res\\mipmap-xxxhdpi\\ic_launcher.png"
     },
     {
-        "merged": "/Users/schloesslin/AndroidStudioProjects/PrixBanque/build/app/intermediates/res/merged/debug/mipmap-hdpi_ic_launcher.png.flat",
-        "source": "/Users/schloesslin/AndroidStudioProjects/PrixBanque/android/app/src/main/res/mipmap-hdpi/ic_launcher.png"
+        "merged": "C:\\Users\\guill\\Documents\\Projets\\Autres\\PrixBanque\\build\\app\\intermediates\\res\\merged\\debug\\mipmap-xhdpi_ic_launcher.png.flat",
+        "source": "C:\\Users\\guill\\Documents\\Projets\\Autres\\PrixBanque\\android\\app\\src\\main\\res\\mipmap-xhdpi\\ic_launcher.png"
     },
     {
-        "merged": "/Users/schloesslin/AndroidStudioProjects/PrixBanque/build/app/intermediates/res/merged/debug/mipmap-xxhdpi_ic_launcher.png.flat",
-        "source": "/Users/schloesslin/AndroidStudioProjects/PrixBanque/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png"
+        "merged": "C:\\Users\\guill\\Documents\\Projets\\Autres\\PrixBanque\\build\\app\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi_ic_launcher.png.flat",
+        "source": "C:\\Users\\guill\\Documents\\Projets\\Autres\\PrixBanque\\android\\app\\src\\main\\res\\mipmap-xxhdpi\\ic_launcher.png"
     },
     {
-        "merged": "/Users/schloesslin/AndroidStudioProjects/PrixBanque/build/app/intermediates/res/merged/debug/mipmap-xhdpi_ic_launcher.png.flat",
-        "source": "/Users/schloesslin/AndroidStudioProjects/PrixBanque/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png"
+        "merged": "C:\\Users\\guill\\Documents\\Projets\\Autres\\PrixBanque\\build\\app\\intermediates\\res\\merged\\debug\\mipmap-mdpi_ic_launcher.png.flat",
+        "source": "C:\\Users\\guill\\Documents\\Projets\\Autres\\PrixBanque\\android\\app\\src\\main\\res\\mipmap-mdpi\\ic_launcher.png"
     },
     {
-        "merged": "/Users/schloesslin/AndroidStudioProjects/PrixBanque/build/app/intermediates/res/merged/debug/mipmap-mdpi_ic_launcher.png.flat",
-        "source": "/Users/schloesslin/AndroidStudioProjects/PrixBanque/android/app/src/main/res/mipmap-mdpi/ic_launcher.png"
+        "merged": "C:\\Users\\guill\\Documents\\Projets\\Autres\\PrixBanque\\build\\app\\intermediates\\res\\merged\\debug\\mipmap-hdpi_ic_launcher.png.flat",
+        "source": "C:\\Users\\guill\\Documents\\Projets\\Autres\\PrixBanque\\android\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher.png"
     },
     {
-        "merged": "/Users/schloesslin/AndroidStudioProjects/PrixBanque/build/app/intermediates/res/merged/debug/mipmap-xxxhdpi_ic_launcher.png.flat",
-        "source": "/Users/schloesslin/AndroidStudioProjects/PrixBanque/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png"
+        "merged": "C:\\Users\\guill\\Documents\\Projets\\Autres\\PrixBanque\\build\\app\\intermediates\\res\\merged\\debug\\drawable-v21_launch_background.xml.flat",
+        "source": "C:\\Users\\guill\\Documents\\Projets\\Autres\\PrixBanque\\android\\app\\src\\main\\res\\drawable-v21\\launch_background.xml"
     }
 ]
