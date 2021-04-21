@@ -5,6 +5,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:prix_banque/transfert_attente_page.dart';
 import 'package:prix_banque/transfert_immediat_page.dart';
 import 'package:prix_banque/transfert_programme_page.dart';
+import 'package:prix_banque/creer_facture.dart';
 
 class WelcomePage extends StatefulWidget {
   @override
@@ -97,6 +98,9 @@ class _WelcomePageState extends State<WelcomePage> {
       );
     } else if (index == 2) {
       return _createVirementBody();
+    }
+    else if(index == 1){
+      return _CreateFactureBody();
     }
     return Container();
   }
@@ -248,7 +252,107 @@ class _WelcomePageState extends State<WelcomePage> {
       ),
     );
   }
+//----------------------------Facture-------------------------------------
+  Widget _createFactureBotton(String _text){
+    if (_text == "Create"){
+      return Container(
+        margin: EdgeInsets.only(bottom: 20),
+        child: MaterialButton(
+          minWidth: 300,
+          color: Colors.blue,
+          textColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: new BorderRadius.circular(23.0),
+          ),
+          padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => CreationFacturePage(),
+              ),
+            );
+          },
+          child: Text(
+            "Créer une Facture ",
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 25),
+          ),
+        ),
+      );
+    }
+    else if(_text == "Buy"){
+      return Container(
+        margin: EdgeInsets.only(bottom: 20),
+        child: MaterialButton(
+          minWidth: 300,
+          color: Colors.blue,
+          textColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: new BorderRadius.circular(23.0),
+          ),
+          padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                //builder: (context) => TransfertImmediatPage(),
+              ),
+            );
+          },
+          child: Text(
+            "Facture à Payer",
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 25),
+          ),
+        ),
+      );
+    }
+    else{
+      return Container(
+        margin: EdgeInsets.only(bottom: 20),
+        child: MaterialButton(
+          minWidth: 300,
+          color: Colors.blue,
+          textColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: new BorderRadius.circular(23.0),
+          ),
+          padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                //builder: (context) => TransfertImmediatPage(),
+              ),
+            );
+          },
+          child: Text(
+            "Facture Payée",
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 25),
+          ),
+        ),
+      );
 
+    }
+  }
+  Widget _CreateFactureBody(){
+    return Container(
+      alignment: Alignment.topCenter,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          _createFactureBotton("Create"),
+          _createFactureBotton("Buy"),
+          _createFactureBotton("View"),
+        ],
+      ),
+    );
+
+  }
+//---------------------------------Facture fin--------------------------------------
   Future<void> _getUserData() async {
     try {
       final FirebaseUser user = await FirebaseAuth.instance.currentUser();
