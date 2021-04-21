@@ -38,7 +38,10 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      -uses: actions/checkout@v2
+      - uses: actions/checkout@v2
     
-      -name: First step
-      run: echo This is the first step for test
+      - name: First step
+        run: echo This is the first step for test
+        
+      - name: Second step
+        run: echo This is the second step
