@@ -35,8 +35,8 @@ jobs:
           java-version: '12.x'
 
       - uses: subosito/flutter-action@v1
-          with:
-            flutter-version: '2.0.4'
+        with:
+          flutter-version: '2.0.4'
 
       # Runs a single command using the runners shell
       - name: Build apk
