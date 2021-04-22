@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prixbanqueapp/account_page.dart';
+import 'package:prixbanqueapp/component/transaction_details.dart';
 import 'package:prixbanqueapp/home_page.dart';
 
 void main() async {
@@ -20,6 +21,9 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       home: AccountPage(),
       debugShowCheckedModeBanner: false,
+      // routes: {
+      //   ExtractArgumentsScreen.routeName: (context) => ExtractArgumentsScreen(),
+      // },
     );
   }
 }
