@@ -54,7 +54,7 @@ jobs:
 
 #For master branch only, deploy google functions and publish the apk
 
-  cloud functions deploy:
+  cloud_functions_deploy:
 
     if: github.ref == 'refs/heads/master'
 
