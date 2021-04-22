@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:prix_banque/afficher_facture.dart';
 import 'package:prix_banque/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -119,7 +120,7 @@ class _WelcomePageState extends State<WelcomePage> {
           label: "Compte",
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.login),
+          icon: Icon(Icons.receipt),
           label: "Factures",
         ),
         BottomNavigationBarItem(
@@ -274,34 +275,7 @@ class _WelcomePageState extends State<WelcomePage> {
             );
           },
           child: Text(
-            "Créer une Facture ",
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 25),
-          ),
-        ),
-      );
-    }
-    else if(_text == "Buy"){
-      return Container(
-        margin: EdgeInsets.only(bottom: 20),
-        child: MaterialButton(
-          minWidth: 300,
-          color: Colors.blue,
-          textColor: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: new BorderRadius.circular(23.0),
-          ),
-          padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                //builder: (context) => TransfertImmediatPage(),
-              ),
-            );
-          },
-          child: Text(
-            "Facture à Payer",
+            "Créer",
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 25),
           ),
@@ -323,12 +297,12 @@ class _WelcomePageState extends State<WelcomePage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                //builder: (context) => TransfertImmediatPage(),
+                builder: (context) => AffichageFacturePage(),
               ),
             );
           },
           child: Text(
-            "Facture Payée",
+            "Consulter",
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 25),
           ),
@@ -345,7 +319,6 @@ class _WelcomePageState extends State<WelcomePage> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           _createFactureBotton("Create"),
-          _createFactureBotton("Buy"),
           _createFactureBotton("View"),
         ],
       ),

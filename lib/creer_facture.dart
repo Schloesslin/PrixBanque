@@ -1,5 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:date_field/date_field.dart';
+import 'package:flutter/services.dart';
 
 
 class CreationFacturePage extends StatefulWidget{
@@ -12,9 +15,10 @@ class _CreationFacturePageState  extends State<CreationFacturePage>{
 
   TextEditingController controllerEmail = TextEditingController();
   TextEditingController controllerPrice = TextEditingController();
-  TextEditingController controllerDate = TextEditingController();
-  String result = "";
   DateTime selectedDate = DateTime.now();
+
+  String result = "";
+
 
   Widget _createAppBar() {
     return AppBar(
@@ -44,6 +48,13 @@ class _CreationFacturePageState  extends State<CreationFacturePage>{
         margin: EdgeInsets.only(bottom: 5),
         child: TextFormField(
           controller: controllerPrice,
+          inputFormatters: <TextInputFormatter>[
+          ],
+          keyboardType: TextInputType.number,
+          validator: (dynamic value){
+            if(value <= 0) this.result = "Error";
+            return result;
+          },
           decoration: InputDecoration(
             prefixIcon: Icon(Icons.monetization_on_outlined),
             labelText: _hint,
@@ -153,7 +164,7 @@ class _CreationFacturePageState  extends State<CreationFacturePage>{
               _createInputFormField("Email destinataire", "email"),
               _createInputFormField('Montant', "price"),
               _createDateInput(),
-              _createButton("Créer"),
+              _createButton("Valider"),
               Text(
                 this.result,
                 style: TextStyle(fontSize: 15),
@@ -163,6 +174,18 @@ class _CreationFacturePageState  extends State<CreationFacturePage>{
         ),
       ),
     );
+  }
+
+  Future<void> _CreateBill() async{
+    final FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    DatabaseReference _ref = FirebaseDatabase.instance.reference().child("");
+
+      _ref.child(user.uid).child("").push().set({
+        'Email':          controllerEmail.text,
+        'Montant':        controllerPrice.text,
+        'Date creation' : selectedDate,
+      });
+
   }
 
   @override
