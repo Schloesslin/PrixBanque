@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:prix_banque/afficher_facture.dart';
 import 'package:prix_banque/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:prix_banque/transfert_attente_page.dart';
 import 'package:prix_banque/transfert_immediat_page.dart';
 import 'package:prix_banque/transfert_programme_page.dart';
+import 'package:prix_banque/creer_facture.dart';
 
 class WelcomePage extends StatefulWidget {
   @override
@@ -39,11 +41,8 @@ class _WelcomePageState extends State<WelcomePage> {
 
   Widget _refreshBody(int _index) {
     if (_index == 0) {
-      //Pour éviter de faire trop d'appels inutiles
-      if (_name == "") {
-        print("laaaa");
-        _getUserData();
-      }
+      //In case of immediate transactions
+      _getUserData();
       return Container(
         alignment: Alignment.topCenter,
         child: Column(
@@ -76,7 +75,6 @@ class _WelcomePageState extends State<WelcomePage> {
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   ListTile(
-                    leading: Icon(Icons.account_balance_wallet_rounded),
                     title: Text(
                       'Compte principal',
                       style: TextStyle(
@@ -102,6 +100,9 @@ class _WelcomePageState extends State<WelcomePage> {
     } else if (index == 2) {
       return _createVirementBody();
     }
+    else if(index == 1){
+      return _CreateFactureBody();
+    }
     return Container();
   }
 
@@ -119,7 +120,7 @@ class _WelcomePageState extends State<WelcomePage> {
           label: "Compte",
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.login),
+          icon: Icon(Icons.receipt),
           label: "Factures",
         ),
         BottomNavigationBarItem(
@@ -253,7 +254,79 @@ class _WelcomePageState extends State<WelcomePage> {
       ),
     );
   }
+//----------------------------Facture-------------------------------------
+  Widget _createFactureBotton(String _text){
+    if (_text == "Create"){
+      return Container(
+        margin: EdgeInsets.only(bottom: 20),
+        child: MaterialButton(
+          minWidth: 300,
+          color: Colors.blue,
+          textColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: new BorderRadius.circular(23.0),
+          ),
+          padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => CreationFacturePage(),
+              ),
+            );
+          },
+          child: Text(
+            "Créer",
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 25),
+          ),
+        ),
+      );
+    }
+    else{
+      return Container(
+        margin: EdgeInsets.only(bottom: 20),
+        child: MaterialButton(
+          minWidth: 300,
+          color: Colors.blue,
+          textColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: new BorderRadius.circular(23.0),
+          ),
+          padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AffichageFacturePage(),
+              ),
+            );
+          },
+          child: Text(
+            "Consulter",
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 25),
+          ),
+        ),
+      );
 
+    }
+  }
+  Widget _CreateFactureBody(){
+    return Container(
+      alignment: Alignment.topCenter,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          _createFactureBotton("Create"),
+          _createFactureBotton("View"),
+        ],
+      ),
+    );
+
+  }
+//---------------------------------Facture fin--------------------------------------
   Future<void> _getUserData() async {
     try {
       final FirebaseUser user = await FirebaseAuth.instance.currentUser();
@@ -276,6 +349,13 @@ class _WelcomePageState extends State<WelcomePage> {
 
   @override
   Widget build(BuildContext context) {
+    print("build");
+    //Pour éviter de faire trop d'appels inutiles
+    /*if (_name == "") {
+      print("data");
+      _getUserData();
+    }*/
+    _getUserData();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
