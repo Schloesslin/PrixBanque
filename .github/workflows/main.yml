@@ -80,7 +80,7 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    needs: [android_build, ios_build, test]
+    #needs: [android_build, ios_build, test]
 
     steps:
 
