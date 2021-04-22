@@ -52,7 +52,7 @@ jobs:
           flutter-version: '2.0.4'
 
       - name: Build IOS app
-        run: flutter buils ios
+        run: flutter build ios
 
   test:
 
