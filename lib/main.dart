@@ -21,9 +21,9 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       home: AccountPage(),
       debugShowCheckedModeBanner: false,
-      // routes: {
-      //   ExtractArgumentsScreen.routeName: (context) => ExtractArgumentsScreen(),
-      // },
+      routes: {
+        ExtractArgumentsScreen.routeName: (context) => ExtractArgumentsScreen(),
+      },
     );
   }
 }

@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:prixbanqueapp/component/transaction_details.dart';
@@ -16,11 +14,15 @@ class _TransactionListState extends State<TransactionList> {
   Widget build(BuildContext context) {
     return Container(
       child: StreamBuilder<QuerySnapshot>(
+        //We're getting the transactions from Firstore and order them by they're date
         stream: Firestore.instance
-            .collection("/Trades/test-user/trades/")
+            .collection("/Trades/test-user-2/trades/")
+            .orderBy("date", descending: true)
             .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          //We're initialising a list of widget to return
           List<Widget> children;
+          //If there is an error with the stream
           if (snapshot.hasError) {
             children = <Widget>[
               const Icon(
@@ -37,10 +39,24 @@ class _TransactionListState extends State<TransactionList> {
                 child: Text('Stack trace: ${snapshot.stackTrace}'),
               ),
             ];
-            // } else if (!snapshot.hasData) {
-            //   return Center(
-            //     child: CircularProgressIndicator(),
-            //   );
+          }
+          //If we didn't have any data yet, display a progress circle
+          else if (!snapshot.hasData) {
+            children = <Widget>[
+              const Icon(
+                Icons.error_outline_outlined,
+                color: Colors.red,
+                size: 60,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 16),
+                child: Text('Error: '),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: Text('Stack trace: '),
+              ),
+            ];
           } else {
             switch (snapshot.connectionState) {
               case ConnectionState.none:
@@ -70,33 +86,47 @@ class _TransactionListState extends State<TransactionList> {
                 ];
                 break;
               case ConnectionState.active:
-                children = <Widget>[
-                  Expanded(
-                    child: ListView(
-                      children: snapshot.data.documents.map((document) {
-                        var _value = document["value"].toString();
-                        print("Value: $_value");
-                        return ListTile(
-                          leading: Icon(Icons.account_balance_rounded),
-                          title: Text(document["uid_receiver"]),
-                          trailing: Text("$_value \$"),
-                          onTap: () {
-                            Navigator.pushNamed(
-                              context,
-                              ExtractArgumentsScreen.routeName,
-                              arguments: ScreenArguments(
-                                document['uid_receiver'],
-                                document['uid_emitter'],
-                                document['value'],
-                                document['date'],
-                              ),
-                            );
-                          },
-                        );
-                      }).toList(),
+                if (snapshot.data.documents.isEmpty) {
+                  children = <Widget>[
+                    Center(
+                      child: SizedBox(
+                        child: Icon(
+                          Icons.sentiment_dissatisfied_rounded,
+                          size: 50,
+                        ),
+                      ),
                     ),
-                  )
-                ];
+                    Text("Vous n'avez aucune transaction"),
+                  ];
+                } else {
+                  children = <Widget>[
+                    Expanded(
+                      child: ListView(
+                        children: snapshot.data.documents.map((document) {
+                          var _value = document["value"].toString();
+                          print("Value: $_value");
+                          return ListTile(
+                            leading: Icon(Icons.account_balance_rounded),
+                            title: Text(document["uid_receiver"]),
+                            trailing: Text("$_value \$"),
+                            onTap: () {
+                              Navigator.pushNamed(
+                                context,
+                                ExtractArgumentsScreen.routeName,
+                                arguments: ScreenArguments(
+                                  document['uid_receiver'],
+                                  document['uid_emitter'],
+                                  document['value'],
+                                  document['date'],
+                                ),
+                              );
+                            },
+                          );
+                        }).toList(),
+                      ),
+                    )
+                  ];
+                }
                 break;
               case ConnectionState.done:
                 children = const <Widget>[
@@ -113,7 +143,11 @@ class _TransactionListState extends State<TransactionList> {
                 break;
             }
           }
-
+          // if (children.isEmpty) {
+          //   children = <Widget>[
+          //     Text("vous n'avez pas de transactions enregistrées.")
+          //   ];
+          // }
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,

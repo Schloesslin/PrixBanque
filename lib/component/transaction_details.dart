@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+// import 'package:intl/intl.dart';
 
 // You can pass any object to the arguments parameter.
 // In this example, create a class that contains both
@@ -27,11 +29,11 @@ class ExtractArgumentsScreen extends StatelessWidget {
     var _receiver = args.receiver;
     var _transmitter = args.transmitter;
     var _value = args.value.toString();
-    var _date = args.date.toString();
+    var _date = DateFormat('dd/MM/yyyy').format(args.date.toDate());
     return AlertDialog(
       elevation: 0,
       content: Text(
-          "Compte émetteur: $_transmitter\nCompte receveur: $_receiver\nLe: $_date\n $_value"),
+          "Compte émetteur: $_transmitter\nCompte receveur: $_receiver\nLe: $_date\n $_value \$"),
       actions: <Widget>[
         TextButton(
             onPressed: () {
