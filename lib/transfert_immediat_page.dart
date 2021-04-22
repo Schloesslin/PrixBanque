@@ -1,8 +1,13 @@
+import 'dart:math';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:prix_banque/main.dart';
 
 class TransfertImmediatPage extends StatefulWidget {
   static const tag = "transfert_immediat";
-
+  static FirebaseUser user;
   @override
   _TransfertImmediatPageState createState() => _TransfertImmediatPageState();
 }
@@ -10,8 +15,10 @@ class TransfertImmediatPage extends StatefulWidget {
 class _TransfertImmediatPageState extends State<TransfertImmediatPage> {
   TextEditingController controllerEmail = TextEditingController();
   TextEditingController controllerValue = TextEditingController();
+  TextEditingController controllerQuestion = TextEditingController();
+  TextEditingController controllerResponse = TextEditingController();
   String result = "";
-
+  final databaseReference = Firestore.instance;
   Widget _createAppBar() {
     return AppBar(
       title: Text(
@@ -69,10 +76,27 @@ class _TransfertImmediatPageState extends State<TransfertImmediatPage> {
           ),
         ),
       );
+    } else if (_type == "question") {
+      return Container(
+        margin: EdgeInsets.only(bottom: 5),
+        child: TextFormField(
+          controller: controllerQuestion,
+          decoration: InputDecoration(
+            labelText: _hint,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+          ),
+        ),
+      );
     }
     return Container(
       margin: EdgeInsets.only(bottom: 5),
       child: TextFormField(
+        controller: controllerResponse,
         decoration: InputDecoration(
           labelText: _hint,
           border: OutlineInputBorder(
@@ -101,6 +125,7 @@ class _TransfertImmediatPageState extends State<TransfertImmediatPage> {
           setState(() {
             this.result = "Demande de virement envoyée";
           });
+          _sendTransfert();
         },
         child: Text(
           _text,
@@ -111,24 +136,78 @@ class _TransfertImmediatPageState extends State<TransfertImmediatPage> {
     );
   }
 
+  Future<void> _sendTransfert() async {
+    Stream<QuerySnapshot> messagesStream = databaseReference
+        .collection("Users")
+        .where('mail', isEqualTo: controllerEmail.text)
+        .snapshots();
+    QuerySnapshot messagesSnapshot = await messagesStream.first;
+    String destName = messagesSnapshot.documents.first['First Name'] +
+        " " +
+        messagesSnapshot.documents.first['Last Name'];
+
+    messagesStream = databaseReference
+        .collection("Users")
+        .where('mail', isEqualTo: MyApp.user.email)
+        .snapshots();
+    messagesSnapshot = await messagesStream.first;
+    String authName = messagesSnapshot.documents.first['First Name'] +
+        " " +
+        messagesSnapshot.documents.first['Last Name'];
+    int id = Random().nextInt(99999999);
+    await databaseReference
+        .collection("Factures")
+        .document(MyApp.user.email)
+        .collection("send")
+        .document(id.toString())
+        .setData(
+      {
+        'dest': controllerEmail.text,
+        'dest name': destName,
+        'question': controllerQuestion.text,
+        'response': controllerResponse.text,
+        'value': controllerValue.text,
+        'type': "Immédiat"
+      },
+    );
+
+    await databaseReference
+        .collection("Factures")
+        .document(controllerEmail.text)
+        .collection("receive")
+        .document(id.toString())
+        .setData(
+      {
+        'auth': MyApp.user.email,
+        'auth name': authName,
+        'question': controllerQuestion.text,
+        'response': controllerResponse.text,
+        'value': controllerValue.text,
+        'type': "Immédiat"
+      },
+    );
+  }
+
   Widget _refreshBody() {
-    return Container(
-      alignment: Alignment.topCenter,
+    return SingleChildScrollView(
       child: Container(
-        width: 250,
-        margin: EdgeInsets.only(top: 50),
-        child: Column(
-          children: [
-            _createInputFormField("Email destinataire", "email"),
-            _createInputFormField('Montant', "price"),
-            _createInputFormField("Question de sécurité", "question"),
-            _createInputFormField("Réponse", "reponse"),
-            _createButton("Envoyer"),
-            Text(
-              this.result,
-              style: TextStyle(fontSize: 15),
-            ),
-          ],
+        alignment: Alignment.topCenter,
+        child: Container(
+          width: 250,
+          margin: EdgeInsets.only(top: 50),
+          child: Column(
+            children: [
+              _createInputFormField("Email destinataire", "email"),
+              _createInputFormField('Montant', "price"),
+              _createInputFormField("Question de sécurité", "question"),
+              _createInputFormField("Réponse", "reponse"),
+              _createButton("Envoyer"),
+              Text(
+                this.result,
+                style: TextStyle(fontSize: 15),
+              ),
+            ],
+          ),
         ),
       ),
     );

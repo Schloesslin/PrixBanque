@@ -1,5 +1,9 @@
+import 'dart:math';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:date_field/date_field.dart';
+import 'package:prix_banque/main.dart';
 
 class TransfertProgrammePage extends StatefulWidget {
   @override
@@ -9,7 +13,10 @@ class TransfertProgrammePage extends StatefulWidget {
 class _TransfertProgrammePageState extends State<TransfertProgrammePage> {
   TextEditingController controllerEmail = TextEditingController();
   TextEditingController controllerValue = TextEditingController();
+  TextEditingController controllerQuestion = TextEditingController();
+  TextEditingController controllerResponse = TextEditingController();
   String result = "";
+  final databaseReference = Firestore.instance;
   DateTime selectedDate = DateTime.now();
 
   Widget _createAppBar() {
@@ -69,10 +76,27 @@ class _TransfertProgrammePageState extends State<TransfertProgrammePage> {
           ),
         ),
       );
+    } else if (_type == "question") {
+      return Container(
+        margin: EdgeInsets.only(bottom: 5),
+        child: TextFormField(
+          controller: controllerQuestion,
+          decoration: InputDecoration(
+            labelText: _hint,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+          ),
+        ),
+      );
     }
     return Container(
       margin: EdgeInsets.only(bottom: 5),
       child: TextFormField(
+        controller: controllerResponse,
         decoration: InputDecoration(
           labelText: _hint,
           border: OutlineInputBorder(
@@ -98,6 +122,7 @@ class _TransfertProgrammePageState extends State<TransfertProgrammePage> {
         ),
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
+          _sendTransfert();
           setState(() {
             this.result = "Demande de virement envoyée";
           });
@@ -157,6 +182,67 @@ class _TransfertProgrammePageState extends State<TransfertProgrammePage> {
           ),
         ),
       ),
+    );
+  }
+
+  Future<void> _sendTransfert() async {
+    Stream<QuerySnapshot> messagesStream = databaseReference
+        .collection("Users")
+        .where('mail', isEqualTo: controllerEmail.text)
+        .snapshots();
+    QuerySnapshot messagesSnapshot = await messagesStream.first;
+    String destName = messagesSnapshot.documents.first['First Name'] +
+        " " +
+        messagesSnapshot.documents.first['Last Name'];
+
+    messagesStream = databaseReference
+        .collection("Users")
+        .where('mail', isEqualTo: MyApp.user.email)
+        .snapshots();
+    messagesSnapshot = await messagesStream.first;
+    String authName = messagesSnapshot.documents.first['First Name'] +
+        " " +
+        messagesSnapshot.documents.first['Last Name'];
+    String date = selectedDate.day.toString() +
+        "/" +
+        selectedDate.month.toString() +
+        "/" +
+        selectedDate.year.toString() +
+        " - " +
+        selectedDate.hour.toString() +
+        "h" +
+        selectedDate.minute.toString();
+    int id = Random().nextInt(99999999);
+    await databaseReference
+        .collection("Factures")
+        .document(MyApp.user.email)
+        .collection("send")
+        .document(id.toString())
+        .setData(
+      {
+        'dest': controllerEmail.text,
+        'dest name': destName,
+        'question': controllerQuestion.text,
+        'response': controllerResponse.text,
+        'value': controllerValue.text,
+        'type': date
+      },
+    );
+
+    await databaseReference
+        .collection("Factures")
+        .document(controllerEmail.text)
+        .collection("receive")
+        .document(id.toString())
+        .setData(
+      {
+        'auth': MyApp.user.email,
+        'auth name': authName,
+        'question': controllerQuestion.text,
+        'response': controllerResponse.text,
+        'value': controllerValue.text,
+        'type': date
+      },
     );
   }
 

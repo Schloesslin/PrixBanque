@@ -1,4 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:prix_banque/main.dart';
+import 'package:prix_banque/transfert_immediat_page.dart';
 
 class TransfertAttentePage extends StatefulWidget {
   @override
@@ -7,6 +11,86 @@ class TransfertAttentePage extends StatefulWidget {
 
 class _TransfertAttentePageState extends State<TransfertAttentePage> {
   int index = 0;
+  final databaseReference = Firestore.instance;
+
+  Widget _refreshBody() {
+    if (index == 1) {
+      Stream<QuerySnapshot> messagesSnapshot = databaseReference
+          .collection("Factures/" + MyApp.user.email + "/send")
+          .snapshots();
+      StreamBuilder<QuerySnapshot> streamBuilder = StreamBuilder<QuerySnapshot>(
+        stream: messagesSnapshot,
+        builder:
+            (BuildContext context, AsyncSnapshot<QuerySnapshot> querySnapshot) {
+          if (querySnapshot.hasError)
+            return new Text('Error: ${querySnapshot.error}');
+          switch (querySnapshot.connectionState) {
+            case ConnectionState.waiting:
+              return new Text("Loading...");
+            default:
+              return new ListView(
+                  children:
+                      querySnapshot.data.documents.map((DocumentSnapshot doc) {
+                return new ListTile(
+                  trailing: Text(doc['type']),
+                  title: Container(
+                    child: GestureDetector(
+                      onTap: () {
+                        print("lol");
+                      },
+                      child: Text(
+                        "Destinataire : " + doc['dest name'],
+                      ),
+                    ),
+                  ),
+                  subtitle: Text(
+                    "Montant : " + doc['value'],
+                  ),
+                );
+              }).toList());
+          }
+        },
+      );
+      return streamBuilder;
+    }
+    Stream<QuerySnapshot> messagesSnapshot = databaseReference
+        .collection("Factures/" + MyApp.user.email + "/receive")
+        .snapshots();
+    StreamBuilder<QuerySnapshot> streamBuilder = StreamBuilder<QuerySnapshot>(
+      stream: messagesSnapshot,
+      builder:
+          (BuildContext context, AsyncSnapshot<QuerySnapshot> querySnapshot) {
+        if (querySnapshot.hasError)
+          return new Text('Error: ${querySnapshot.error}');
+        switch (querySnapshot.connectionState) {
+          case ConnectionState.waiting:
+            return new Text("Loading...");
+          default:
+            return new ListView(
+                children:
+                    querySnapshot.data.documents.map((DocumentSnapshot doc) {
+              return new ListTile(
+                trailing: Text(doc['type']),
+                title: Container(
+                  child: GestureDetector(
+                    onTap: () {
+                      print("lol2");
+                    },
+                    child: Text(
+                      "Payeur : " + doc['auth name'],
+                    ),
+                  ),
+                ),
+                subtitle: Text(
+                  "Montant : " + doc['value'],
+                ),
+              );
+            }).toList());
+        }
+      },
+    );
+    return streamBuilder;
+  }
 
   Widget _createAppBar() {
     return AppBar(
@@ -57,6 +141,7 @@ class _TransfertAttentePageState extends State<TransfertAttentePage> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: _createAppBar(),
+        body: _refreshBody(),
         bottomNavigationBar: _createBottomNavigationBar(),
       ),
     );

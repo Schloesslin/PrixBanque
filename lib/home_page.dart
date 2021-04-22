@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -21,6 +22,7 @@ class _HomePageState extends State<HomePage> {
   TextEditingController controllerName = TextEditingController();
   TextEditingController controllerLastName = TextEditingController();
   String error = "";
+  final databaseReference = Firestore.instance;
 
   Widget _refreshTitle(int _index) {
     if (_index == 0) {
@@ -267,6 +269,15 @@ class _HomePageState extends State<HomePage> {
         'Last Name': controllerLastName.text
       });
     }
+
+    await databaseReference.collection("Users").document().setData(
+      {
+        'uid': user.uid,
+        'First Name': controllerName.text,
+        'Last Name': controllerLastName.text,
+        'mail': user.email
+      },
+    );
   }
 
   Future<void> _signIn() async {
