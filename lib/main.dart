@@ -11,23 +11,22 @@ void main() async {
 
 class MyApp extends StatefulWidget {
   // This widget is the root of your application.
+  static FirebaseUser user;
 
   @override
   _MyAppState createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-  FirebaseUser user;
-
   onRefresh(userCred) {
     setState(() {
-      user = userCred;
+      MyApp.user = userCred;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    if (user == null) {
+    if (MyApp.user == null) {
       return MaterialApp(
         home: HomePage(
           onSignIn: (userCred) => onRefresh(userCred),

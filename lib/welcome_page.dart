@@ -140,6 +140,7 @@ class _WelcomePageState extends State<WelcomePage> {
           margin: EdgeInsets.only(right: 15),
           child: GestureDetector(
             onTap: () {
+              MyApp.user = null;
               Navigator.push(
                 context,
                 MaterialPageRoute<void>(
