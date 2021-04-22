@@ -28,6 +28,9 @@ class _AccountPageState extends State<AccountPage> {
         ),
         body: Container(
             margin: EdgeInsets.symmetric(horizontal: 16),
-            child: TransactionList()));
+            child: TransactionList(
+              isResume: true,
+              listOfTransactions: userTransactions,
+            )));
   }
 }
