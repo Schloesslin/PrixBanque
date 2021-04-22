@@ -7,10 +7,11 @@ on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
     #branches: [ master ]
-    branches: [ GitCI/CD ]
+    #branches: [ GitCI/CD ]
+    branches: [*]
   pull_request:
     #branches: [ master ]
-    branches: [ GitCI/CD ]
+    #branches: [ GitCI/CD ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -57,3 +58,23 @@ jobs:
           
       - name: Unit tests
         run: flutter test
+        #TODO : ajouter une étape pour le lancement des tests des microservices (google functions)
+
+#For master branch only, deploy google functions and publish the apk
+
+  cloud functions deploy:
+
+    if: github.ref == 'refs/heads/master'
+
+    runs-on: ubuntu-latest
+
+    needs: [build,test]
+
+    steps:
+
+      -name: Echo test
+      run: echo This is google functions deployment, which are run only for the master branch
+
+
+
+
