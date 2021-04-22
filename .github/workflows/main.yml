@@ -90,10 +90,11 @@ jobs:
         run: |
           cd functions
           npm install
-          alias firebase="`npm config get prefix`/bin/firebase"
 
       - name: Deploy Firebase Functions
-        run: firebase deploy --only functions
+        uses: w9jds/firebase-action@master*
+        with:
+          args: deploy --only functions
 
   #TODO: ajouter que le job de clouf_function doit âtre déployé avant que l'apk ne le soit, pour ne pas avoir apk pas en phase avec functions google
 
