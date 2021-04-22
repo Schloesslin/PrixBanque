@@ -94,6 +94,7 @@ jobs:
       - name: Deploy Firebase Functions
         uses: w9jds/firebase-action@master
         with:
+          token: ${{secrets.FIREBASE_TOKEN}}
           args: deploy --only functions
 
   #TODO: ajouter que le job de clouf_function doit âtre déployé avant que l'apk ne le soit, pour ne pas avoir apk pas en phase avec functions google
@@ -115,15 +116,13 @@ jobs:
         run: mkdir downloads
 
       - name: Step 2 - Add artifacts to publish to the temp folder
-        run: cp build/app/outputs/apk/release/app-release.apk downloads/
+        run: cp bbuild/app/outputs/flutter-apk/app-release.apk downloads/
 
       - name: Step 3 - Use the Upload Artifact GitHub Action
         uses: actions/upload-artifact@v2
         with:
           name: assets-for-download
           path: downloads
-
-
 
 
 
