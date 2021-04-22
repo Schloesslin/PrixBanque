@@ -64,7 +64,7 @@ jobs:
 
     steps:
 
-      -name: Echo test
+      - name: Echo test
       run: echo This is google functions deployment, which are run only for the master branch
 
 
