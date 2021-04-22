@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:prixbanqueapp/component/transaction_details.dart';
 
 class TransactionList extends StatefulWidget {
-  TransactionList({Key key}) : super(key: key);
+  final bool isResume;
+  final CollectionReference listOfTransactions;
+  TransactionList(
+      {Key key, @required this.isResume, @required this.listOfTransactions})
+      : super(key: key);
 
   @override
   _TransactionListState createState() => _TransactionListState();
@@ -15,8 +19,7 @@ class _TransactionListState extends State<TransactionList> {
     return Container(
       child: StreamBuilder<QuerySnapshot>(
         //We're getting the transactions from Firstore and order them by they're date
-        stream: Firestore.instance
-            .collection("/Trades/test-user-2/trades/")
+        stream: widget.listOfTransactions
             .orderBy("date", descending: true)
             .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -25,10 +28,12 @@ class _TransactionListState extends State<TransactionList> {
           //If there is an error with the stream
           if (snapshot.hasError) {
             children = <Widget>[
-              const Icon(
-                Icons.error_outline_outlined,
-                color: Colors.red,
-                size: 60,
+              Center(
+                child: const Icon(
+                  Icons.error_outline_outlined,
+                  color: Colors.red,
+                  size: 60,
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 16),
@@ -99,10 +104,13 @@ class _TransactionListState extends State<TransactionList> {
                     Text("Vous n'avez aucune transaction"),
                   ];
                 } else {
+                  var documentList = widget.isResume
+                      ? snapshot.data.documents.take(5)
+                      : snapshot.data.documents;
                   children = <Widget>[
                     Expanded(
                       child: ListView(
-                        children: snapshot.data.documents.map((document) {
+                        children: documentList.map((document) {
                           var _value = document["value"].toString();
                           print("Value: $_value");
                           return ListTile(
@@ -148,6 +156,9 @@ class _TransactionListState extends State<TransactionList> {
           //     Text("vous n'avez pas de transactions enregistrées.")
           //   ];
           // }
+          if (widget.isResume) {
+            children.take(4).toList();
+          }
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
