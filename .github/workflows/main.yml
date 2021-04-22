@@ -8,7 +8,7 @@ on:
   push:
     #branches: [ master ]
     #branches: [ GitCI/CD ]
-    branches: [*]
+    branches: '**'
   pull_request:
     #branches: [ master ]
     #branches: [ GitCI/CD ]
