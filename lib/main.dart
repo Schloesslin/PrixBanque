@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:prixbanqueapp/account_page.dart';
 import 'package:prixbanqueapp/component/transaction_details.dart';
+import 'package:prixbanqueapp/home_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

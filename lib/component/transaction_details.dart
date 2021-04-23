@@ -30,7 +30,6 @@ class ExtractArgumentsScreen extends StatelessWidget {
     var _transmitter = args.transmitter;
     var _value = args.value.toString();
     var _date = DateFormat('dd/MM/yyyy').format(args.date.toDate());
-    //Display a dialog with all the informationw about the clicked transaction
     return AlertDialog(
       elevation: 0,
       content: Text(
@@ -42,6 +41,32 @@ class ExtractArgumentsScreen extends StatelessWidget {
             },
             child: Text('Fermer'))
       ],
+    );
+  }
+}
+
+class TransactionDetails extends StatefulWidget {
+  TransactionDetails({Key key}) : super(key: key);
+
+  @override
+  _TransactionDetails createState() => _TransactionDetails();
+}
+
+class _TransactionDetails extends State<TransactionDetails> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_rounded),
+          padding: EdgeInsets.only(left: 8),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
+      body: Text('Page avec toutes les transitions'),
     );
   }
 }
