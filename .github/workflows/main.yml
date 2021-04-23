@@ -116,21 +116,34 @@ jobs:
         with:
           flutter-version: '2.0.4'
 
-      # Runs a single command using the runners shell
       - name: Build apk
         run: flutter build apk
 
-      - name: Step 1 - Create a temporary artifact downloads folder
-        run: mkdir downloads
+      - name: Upload binaries to release
+          uses: svenstaro/upload-release-action@v2
+          with:
+            repo_token: ${{ secrets.GITHUB_TOKEN }}
+            file: build/app/outputs/flutter-apk/app-release.apk
+            tag: ${{ github.ref }}
+            asset_name: "PrixBanque"
+            overwrite: true
+            body: "Uploading a new version of PrixBanque"
 
-      - name: Step 2 - Add artifacts to publish to the temp folder
-        run: cp build/app/outputs/flutter-apk/app-release.apk downloads/
+      # This create a release on the workflow only
+#      - name: Build apk
+      #        run: flutter build apk
+      #
+        #- name: Step 1 - Create a temporary artifact downloads folder
+        #run: mkdir downloads
 
-      - name: Step 3 - Use the Upload Artifact GitHub Action
-        uses: actions/upload-artifact@v2
-        with:
-          name: assets-for-download
-          path: downloads
+        # - name: Step 2 - Add artifacts to publish to the temp folder
+        #run: cp build/app/outputs/flutter-apk/app-release.apk downloads/
+
+        #- name: Step 3 - Use the Upload Artifact GitHub Action
+        #uses: actions/upload-artifact@v2
+          #with:
+          #name: assets-for-download
+          #path: downloads
 
 
 
