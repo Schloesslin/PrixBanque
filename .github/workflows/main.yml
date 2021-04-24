@@ -120,7 +120,7 @@ jobs:
         run: flutter build apk
 
       - name: Upload binaries to release
-          uses: svenstaro/upload-release-action@v2
+        uses: svenstaro/upload-release-action@v2
           with:
             repo_token: ${{ secrets.GITHUB_TOKEN }}
             file: build/app/outputs/flutter-apk/app-release.apk
@@ -128,6 +128,7 @@ jobs:
             asset_name: "PrixBanque"
             overwrite: true
             body: "Uploading a new version of PrixBanque"
+
 
       # This create a release on the workflow only
 #      - name: Build apk
