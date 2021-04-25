@@ -92,11 +92,11 @@ jobs:
           npm install
 
       - name: Deploy to Firebase
-          uses: doonstore/firebase-deploy@v1
-          with:
-            params: --only functions
-          env:
-            FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        uses: doonstore/firebase-deploy@v1
+        with:
+          params: --only functions
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
 
       #- name: Deploy to Firebase
         #  uses: w9jds/firebase-action@master
