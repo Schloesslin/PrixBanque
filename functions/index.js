@@ -31,3 +31,21 @@ return admin.database().ref('/Customers/'+data.uid+'/Main account').once('value'
         });
     });
 });
+
+exports.check_mail_presence = functions.https.onCall((data,context) => {
+    var db = admin.firestore();
+    var usersReference = db.collection("Users");
+    var email = data.email_destinataire;
+    //Get them
+    return usersReference.get().then((querySnapshot) => {
+        //querySnapshot is "iteratable" itself
+        var result = false;
+        querySnapshot.forEach((userDoc) => {
+            //userDoc contains all metadata of Firestore object, such as reference and id
+            if( email == userDoc.data().mail) {
+                    result = true;
+                }
+            });
+            return result;
+        });
+});

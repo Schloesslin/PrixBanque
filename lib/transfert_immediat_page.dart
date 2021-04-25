@@ -145,6 +145,13 @@ class _TransfertImmediatPageState extends State<TransfertImmediatPage> {
       return result;
   }
 
+  Future<HttpsCallableResult> _checkMailPresence(data) async {
+    HttpsCallable callable = CloudFunctions.instance.getHttpsCallable(functionName: "check_mail_presence");
+    final HttpsCallableResult result =  await callable.call(data);
+    return result;
+  }
+
+
   Future<void> _sendTransfert() async {
     final FirebaseUser user = await FirebaseAuth.instance.currentUser();
     // Create the arguments to the callable function.
@@ -156,6 +163,17 @@ class _TransfertImmediatPageState extends State<TransfertImmediatPage> {
 
     if(enough_in_balance) {
       //Vérification de la présence email destinataire
+      var mail = await _checkMailPresence(data).then((value) {
+        print(value.data);
+        return value.data;
+      });
+      if(mail) {
+        //peut proceder transaction
+        print("procede transaction");
+      } else {
+        //afficher message erreur comme quoi solde ou email incorrect
+        return;
+      }
     }
     else {
       //TODO: afficher un message d'erreur
