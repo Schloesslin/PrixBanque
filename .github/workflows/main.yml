@@ -91,19 +91,20 @@ jobs:
           cd functions
           npm install
 
-      - name: Download Artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: build
-          path: build
-          
       - name: Deploy to Firebase
-        uses: w9jds/firebase-action@master
-        with:
-          args: deploy --only functions
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-          PROJECT_ID: "default"
+          uses: doonstore/firebase-deploy@v1
+          with:
+            params: --only functions
+          env:
+            FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+
+      #- name: Deploy to Firebase
+        #  uses: w9jds/firebase-action@master
+          #with:
+        #args: deploy --only functions
+          #env:
+          #FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        #PROJECT_ID: "default"
 
   #TODO: ajouter que le job de clouf_function doit âtre déployé avant que l'apk ne le soit, pour ne pas avoir apk pas en phase avec functions google
 
