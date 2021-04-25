@@ -95,6 +95,7 @@ jobs:
         uses: jonahsnider/firebase-action@1.0.7
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
         with:
           args: deploy --only functions
 
