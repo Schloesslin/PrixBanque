@@ -95,7 +95,9 @@ jobs:
         uses: w9jds/firebase-action@master
         with:
           args: deploy --only functions
-          token : ${{ secrets.FIREBASE_TOKEN }}
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          TARGET: default
 
   #TODO: ajouter que le job de clouf_function doit âtre déployé avant que l'apk ne le soit, pour ne pas avoir apk pas en phase avec functions google
 
