@@ -91,11 +91,17 @@ jobs:
           cd functions
           npm install
 
-      - name: install firebase
-        run: npm i firebase-tools
+      - name: Install Dependencies
+        run: npm ci
+        working-directory: /functions
 
-      - name: Deploy Firebase Functions
-        run: firebase deploy --token ${{ secrets.FIREBASE_TOKEN }}
+      - name: Deploy to Firebase
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only functions
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          PROJECT_ID: "default"
 
      # - name: Deploy Firebase Functions
         #   uses: w9jds/firebase-action@master
