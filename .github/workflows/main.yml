@@ -90,9 +90,9 @@ jobs:
         run: |
           cd functions
           npm install
-          
+
       - name: install firebase
-        run: npm i firebase-tools -g
+        run: npm i firebase-tools
 
       - name: Deploy Firebase Functions
         run: firebase deploy --token ${{ secrets.FIREBASE_TOKEN }}
