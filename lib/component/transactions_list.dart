@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'transaction_details.dart';
 
 class TransactionList extends StatefulWidget {
@@ -23,7 +24,7 @@ class _TransactionListState extends State<TransactionList> {
             Center(
               child: SizedBox(
                 child: Icon(
-                  Icons.sentiment_dissatisfied_rounded,
+                  Icons.sticky_note_2_outlined,
                   size: 50,
                 ),
               ),
@@ -61,24 +62,6 @@ class _TransactionListState extends State<TransactionList> {
                 child: Text('Stack trace: ${snapshot.stackTrace}'),
               ),
             ];
-          }
-          //If we didn't have any data yet, display a progress circle
-          else if (!snapshot.hasData) {
-            children = <Widget>[
-              const Icon(
-                Icons.error_outline_outlined,
-                color: Colors.red,
-                size: 60,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 16),
-                child: Text('Error: '),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 8),
-                child: Text('Stack trace: '),
-              ),
-            ];
           } else {
             switch (snapshot.connectionState) {
               case ConnectionState.none:
@@ -103,7 +86,7 @@ class _TransactionListState extends State<TransactionList> {
                   ),
                   Padding(
                     padding: EdgeInsets.only(top: 16),
-                    child: Text('Loading'),
+                    child: Text('Chargement'),
                   )
                 ];
                 break;
@@ -113,7 +96,7 @@ class _TransactionListState extends State<TransactionList> {
                     Center(
                       child: SizedBox(
                         child: Icon(
-                          Icons.sentiment_dissatisfied_rounded,
+                          Icons.sticky_note_2_outlined,
                           size: 50,
                         ),
                       ),
@@ -121,36 +104,68 @@ class _TransactionListState extends State<TransactionList> {
                     Text("Vous n'avez aucune transaction."),
                   ];
                 } else {
-                  var documentList = widget.isResume
-                      ? snapshot.data.documents.take(5)
-                      : snapshot.data.documents;
-                  children = <Widget>[
-                    Expanded(
-                      child: ListView(
-                        children: documentList.map((document) {
-                          var _value = document["value"].toString();
-                          print("Value: $_value");
-                          return ListTile(
-                            leading: Icon(Icons.account_balance_rounded),
-                            title: Text(document["uid_receiver"]),
-                            trailing: Text("$_value \$"),
-                            onTap: () {
-                              Navigator.pushNamed(
-                                context,
-                                ExtractArgumentsScreen.routeName,
-                                arguments: ScreenArguments(
-                                  document['uid_receiver'],
-                                  document['uid_emitter'],
-                                  document['value'],
-                                  document['date'],
-                                ),
-                              );
-                            },
-                          );
-                        }).toList(),
+                  if (widget.isResume) {
+                    var documentList = snapshot.data.documents.length > 5
+                        ? snapshot.data.documents.take(5)
+                        : snapshot.data.documents;
+                    children = <Widget>[
+                      SizedBox(
+                        height: 280,
+                        child: ListView(
+                          shrinkWrap: true,
+                          children: documentList.map((document) {
+                            var _value = document["value"].toString();
+                            print("Value: $_value");
+                            return ListTile(
+                              leading: Icon(Icons.account_balance_rounded),
+                              title: Text(document["uid_receiver"]),
+                              trailing: Text("$_value \$"),
+                              onTap: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  ExtractArgumentsScreen.routeName,
+                                  arguments: ScreenArguments(
+                                    document['uid_receiver'],
+                                    document['uid_emitter'],
+                                    document['value'],
+                                    document['date'],
+                                  ),
+                                );
+                              },
+                            );
+                          }).toList(),
+                        ),
                       ),
-                    )
-                  ];
+                    ];
+                  } else {
+                    children = <Widget>[
+                      Expanded(
+                        child: ListView(
+                          children: snapshot.data.documents.map((document) {
+                            var _value = document["value"].toString();
+                            print("Value: $_value");
+                            return ListTile(
+                              leading: Icon(Icons.account_balance_rounded),
+                              title: Text(document["uid_receiver"]),
+                              trailing: Text("$_value \$"),
+                              onTap: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  ExtractArgumentsScreen.routeName,
+                                  arguments: ScreenArguments(
+                                    document['uid_receiver'],
+                                    document['uid_emitter'],
+                                    document['value'],
+                                    document['date'],
+                                  ),
+                                );
+                              },
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    ];
+                  }
                 }
                 break;
               case ConnectionState.done:
@@ -168,9 +183,10 @@ class _TransactionListState extends State<TransactionList> {
                 break;
             }
           }
-          if (widget.isResume && children.length >= 5) {
-            children.take(5).toList();
-          }
+          // if (widget.isResume && (children.length > 4)) {
+          //   children.take(4).toList();
+          // }
+          // children.toList();
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,

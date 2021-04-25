@@ -33,8 +33,37 @@ class ExtractArgumentsScreen extends StatelessWidget {
     //Display a dialog with all the informationw about the clicked transaction
     return AlertDialog(
       elevation: 0,
-      content: Text(
-          "Compte émetteur: $_transmitter\nCompte receveur: $_receiver\nLe: $_date\n $_value \$"),
+      content: Container(
+        height: 200,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Icon(
+              Icons.account_balance,
+              size: 40,
+              color: Colors.blue,
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 24),
+              child: Text(
+                "Compte émetteur: $_transmitter",
+                textAlign: TextAlign.center,
+              ),
+            ),
+            Text("Compte émetteur: $_receiver"),
+            Text("Le $_date"),
+            Padding(
+              padding: EdgeInsets.only(top: 16),
+              child: Text(
+                "$_value \$",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+            )
+          ],
+        ),
+      ),
+      // Text(
+      //     "Compte émetteur: $_transmitter\nCompte receveur: $_receiver\nLe: $_date\n $_value \$"),
       actions: <Widget>[
         TextButton(
             onPressed: () {

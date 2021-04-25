@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:date_field/date_field.dart';
+// import 'package:date_field/date_field.dart';
 
-class AffichageFacturePage extends StatefulWidget{
-
+class AffichageFacturePage extends StatefulWidget {
   @override
-  _AffichageFacturePageState createState() => _AffichageFacturePageState ();
-
+  _AffichageFacturePageState createState() => _AffichageFacturePageState();
 }
 
-class _AffichageFacturePageState extends State<AffichageFacturePage>{
+class _AffichageFacturePageState extends State<AffichageFacturePage> {
   int index = 0;
 
   Widget _createAppBar() {
@@ -32,6 +30,7 @@ class _AffichageFacturePageState extends State<AffichageFacturePage>{
       ),
     );
   }
+
   Widget _createBottomNavigationBar() {
     return BottomNavigationBar(
       onTap: (_index) {
