@@ -22,11 +22,13 @@ class _ForgotPassState extends State<ForgotPass> {
           Navigator.push(context,
               MaterialPageRoute<void>(builder: (BuildContext context) {
             return MyApp(
-              index: 1,
+              indexHome: 1,
+              indexWelcome: 0,
             );
           }));
           return MyApp(
-            index: 1,
+            indexHome: 1,
+            indexWelcome: 0,
           );
         },
         child: Icon(
