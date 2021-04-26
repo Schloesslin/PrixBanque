@@ -68,8 +68,7 @@ jobs:
           flutter-version: '2.0.4'
           
       - name: Unit tests
-        #run: flutter test
-        run: ls pubspec.yaml
+        run: flutter test --coverage
         #TODO : ajouter une étape pour le lancement des tests des microservices (google functions)
 
 #For master branch only, deploy google functions and publish the apk
