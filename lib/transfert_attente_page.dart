@@ -16,7 +16,7 @@ class _TransfertAttentePageState extends State<TransfertAttentePage> {
   Widget _refreshBody() {
     if (index == 1) {
       Stream<QuerySnapshot> messagesSnapshot = databaseReference
-          .collection("Factures/" + MyApp.user.email + "/send")
+          .collection("Factures/" + MyApp.userEmail + "/send")
           .snapshots();
       StreamBuilder<QuerySnapshot> streamBuilder = StreamBuilder<QuerySnapshot>(
         stream: messagesSnapshot,
@@ -54,7 +54,7 @@ class _TransfertAttentePageState extends State<TransfertAttentePage> {
       return streamBuilder;
     }
     Stream<QuerySnapshot> messagesSnapshot = databaseReference
-        .collection("Factures/" + MyApp.user.email + "/receive")
+        .collection("Factures/" + MyApp.userEmail + "/receive")
         .snapshots();
     StreamBuilder<QuerySnapshot> streamBuilder = StreamBuilder<QuerySnapshot>(
       stream: messagesSnapshot,

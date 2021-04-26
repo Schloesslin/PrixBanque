@@ -5,83 +5,84 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:prix_banque/forgot_pass.dart';
+import 'package:prix_banque/main.dart';
 
-class Controller {
-  Future<void> signIn(List<Object> params) async {
-    String error;
+enum Status { Uninitialized, Authenticated, Authenticating, Unauthenticated }
+
+class Controller with ChangeNotifier {
+  final FirebaseAuth auth;
+  FirebaseUser _user;
+  Status _status = Status.Uninitialized;
+  Status get status => _status;
+  FirebaseUser get user => _user;
+
+  final databaseReference = Firestore.instance;
+  Controller.instance({this.auth}) {
+    auth.onAuthStateChanged.listen(onAuthStateChanged);
+  }
+
+  Future<void> onAuthStateChanged(FirebaseUser firebaseUser) async {
+    if (firebaseUser == null) {
+      _status = Status.Unauthenticated;
+    } else {
+      _user = firebaseUser;
+      _status = Status.Authenticated;
+    }
+    notifyListeners();
+  }
+
+  Future<bool> signIn(String email, String password) async {
     try {
-      AuthResult userResult = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(
-              email: (params[0] as TextEditingController).text.trim(),
-              password: (params[1] as TextEditingController).text);
-      (params[2] as Function(FirebaseUser))(userResult.user);
+      _status = Status.Authenticating;
+      notifyListeners();
+      await auth.signInWithEmailAndPassword(email: email, password: password);
+      return true;
     } catch (e) {
-      error = e.message;
-      return showDialog<void>(
-        context: params[3] as BuildContext,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Error connection'),
-            content: SingleChildScrollView(
-              child: ListBody(
-                children: <Widget>[
-                  Text(error),
-                ],
-              ),
-            ),
-            actions: <Widget>[
-              TextButton(
-                child: Text('Ok'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
+      _status = Status.Unauthenticated;
+      notifyListeners();
+      return false;
     }
   }
 
-  Future<void> createUser(List<Object> params) async {
-    String error;
-    final databaseReference = Firestore.instance;
+  Future signOut() async {
+    auth.signOut();
+    _status = Status.Unauthenticated;
+    notifyListeners();
+    return Future.delayed(Duration.zero);
+  }
 
+  Future<String> createAccount({String email, String password}) async {
     try {
-      // ignore: unused_local_variable
-      AuthResult userResult = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(
-              email: (params[0] as TextEditingController).text.trim(),
-              password: (params[1] as TextEditingController).text);
-    } catch (e) {
-      error = e.message;
-      return showDialog<void>(
-        context: params[4] as BuildContext,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Error connection'),
-            content: SingleChildScrollView(
-              child: ListBody(
-                children: <Widget>[
-                  Text(error),
-                ],
-              ),
-            ),
-            actions: <Widget>[
-              TextButton(
-                child: Text('Ok'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
+      await auth.createUserWithEmailAndPassword(
+        email: email.trim(),
+        password: password.trim(),
       );
+      return "Success";
+    } catch (e) {
+      return e.message;
     }
-    final FirebaseUser user = await FirebaseAuth.instance.currentUser();
+  }
+
+  Future<String> createUserFirestore(
+      String uid, String email, String firstName, String lastName) async {
+    await databaseReference.collection("Users").document().setData(
+      {
+        'uid': uid,
+        'First Name': firstName,
+        'Last Name': lastName,
+        'mail': email
+      },
+    );
+    return "Succes";
+  }
+
+  //final FirebaseUser user = await FirebaseAuth.instance.currentUser();
+  Future<String> createUser(
+      String email, String pass, String firstName, String lastName) async {
+    String error;
+
+    createAccount(email: email, password: pass);
+    createUserFirestore(user.uid, user.email, firstName, lastName);
     DatabaseReference _ref =
         FirebaseDatabase.instance.reference().child("Customers");
     int _usernumber = await getCount(_ref);
@@ -89,39 +90,23 @@ class Controller {
       _ref.child(user.uid).child("Main account").push().set({
         'Account number': Random().nextInt(99999999),
         'Balance': 1000,
-        'First Name': (params[2] as TextEditingController).text,
-        'Last Name': (params[3] as TextEditingController).text
+        'First Name': firstName,
+        'Last Name': lastName
       });
     } else {
       _ref.child(user.uid).child("Main account").push().set({
         'Account number': Random().nextInt(99999999),
         'Balance': 0,
-        'First Name': (params[2] as TextEditingController).text,
-        'Last Name': (params[3] as TextEditingController).text
+        'First Name': firstName,
+        'Last Name': lastName
       });
     }
 
-    await databaseReference.collection("Users").document().setData(
-      {
-        'uid': user.uid,
-        'First Name': (params[2] as TextEditingController).text,
-        'Last Name': (params[3] as TextEditingController).text,
-        'mail': user.email
-      },
-    );
+    return "Succes";
   }
 
   Future<int> getCount(DatabaseReference db) async {
     int result = (await db.child("_count").once()).value;
     return result + 1;
-  }
-
-  void forgotPass(List<Object> params) {
-    Navigator.push(
-      params[0] as BuildContext,
-      MaterialPageRoute(
-        builder: (context) => ForgotPass(),
-      ),
-    );
   }
 }

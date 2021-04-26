@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:prix_banque/afficher_facture.dart';
 import 'package:prix_banque/component/transactions_list.dart';
+import 'package:prix_banque/controller.dart';
 import 'package:prix_banque/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -10,14 +11,16 @@ import 'package:prix_banque/transfert_attente_page.dart';
 import 'package:prix_banque/transfert_immediat_page.dart';
 import 'package:prix_banque/transfert_programme_page.dart';
 import 'package:prix_banque/creer_facture.dart';
+import 'package:provider/provider.dart';
 
 class WelcomePage extends StatefulWidget {
+  int index;
+  WelcomePage({@required this.index});
   @override
   _WelcomePageState createState() => _WelcomePageState();
 }
 
 class _WelcomePageState extends State<WelcomePage> {
-  int index = 0;
   String _account = "";
   String _name = "";
   String _lastname = "";
@@ -73,7 +76,7 @@ class _WelcomePageState extends State<WelcomePage> {
                 ],
               ),
             ),
-            SizedBox(height: MediaQuery.of(context).size.height / 8),
+            SizedBox(height: 100),
             GestureDetector(
               child: Card(
                 child: Column(
@@ -119,9 +122,9 @@ class _WelcomePageState extends State<WelcomePage> {
           ],
         ),
       );
-    } else if (index == 2) {
+    } else if (widget.index == 2) {
       return _createVirementBody();
-    } else if (index == 1) {
+    } else if (widget.index == 1) {
       return _CreateFactureBody();
     }
     return Container();
@@ -131,10 +134,10 @@ class _WelcomePageState extends State<WelcomePage> {
     return BottomNavigationBar(
       onTap: (_index) {
         setState(() {
-          index = _index;
+          widget.index = _index;
         });
       },
-      currentIndex: index,
+      currentIndex: widget.index,
       items: [
         BottomNavigationBarItem(
           icon: Icon(Icons.add_circle_outline),
@@ -154,25 +157,15 @@ class _WelcomePageState extends State<WelcomePage> {
 
   Widget _createAppBar() {
     return AppBar(
-      title: _refreshTitle(index),
+      title: _refreshTitle(widget.index),
       centerTitle: true,
       toolbarHeight: 100,
       actions: [
         Container(
           margin: EdgeInsets.only(right: 15),
           child: GestureDetector(
-            onTap: () {
-              MyApp.user = null;
-              Navigator.push(
-                context,
-                MaterialPageRoute<void>(
-                  builder: (BuildContext context) {
-                    return MyApp();
-                  },
-                ),
-              );
-              return MyApp();
-            },
+            onTap: () =>
+                Provider.of<Controller>(context, listen: false).signOut(),
             child: Icon(
               Icons.logout,
             ),
@@ -383,7 +376,7 @@ class _WelcomePageState extends State<WelcomePage> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: _createAppBar(),
-        body: _refreshBody(index),
+        body: _refreshBody(widget.index),
         bottomNavigationBar: _createBottomNavigationBar(),
       ),
     );
