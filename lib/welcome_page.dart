@@ -97,11 +97,11 @@ class _WelcomePageState extends State<WelcomePage> {
           ],
         ),
       );
-    } else if (index == 2) {
-      return _createVirementBody();
-    }
-    else if(index == 1){
+    } else if (index == 1) {
       return _CreateFactureBody();
+    }
+    else if(index == 2){
+      return _createVirementBody();
     }
     return Container();
   }
@@ -254,7 +254,7 @@ class _WelcomePageState extends State<WelcomePage> {
       ),
     );
   }
-//----------------------------Facture-------------------------------------
+//----------------------------Facture-------------------------------------------
   Widget _createFactureBotton(String _text){
     if (_text == "Create"){
       return Container(
@@ -326,7 +326,7 @@ class _WelcomePageState extends State<WelcomePage> {
     );
 
   }
-//---------------------------------Facture fin--------------------------------------
+//---------------------------------Facture fin----------------------------------
   Future<void> _getUserData() async {
     try {
       final FirebaseUser user = await FirebaseAuth.instance.currentUser();

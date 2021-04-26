@@ -1,8 +1,13 @@
+import 'dart:math';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:date_field/date_field.dart';
 import 'package:flutter/services.dart';
+
+import 'main.dart';
 
 
 class CreationFacturePage extends StatefulWidget{
@@ -14,8 +19,10 @@ class CreationFacturePage extends StatefulWidget{
 class _CreationFacturePageState  extends State<CreationFacturePage>{
 
   TextEditingController controllerEmail = TextEditingController();
-  TextEditingController controllerPrice = TextEditingController();
+  TextEditingController controllerValue = TextEditingController();
   DateTime selectedDate = DateTime.now();
+  String situation = 'F';
+  final databaseReference = Firestore.instance;
 
   String result = "";
 
@@ -47,7 +54,7 @@ class _CreationFacturePageState  extends State<CreationFacturePage>{
       return Container(
         margin: EdgeInsets.only(bottom: 5),
         child: TextFormField(
-          controller: controllerPrice,
+          controller: controllerValue,
           inputFormatters: <TextInputFormatter>[
           ],
           keyboardType: TextInputType.number,
@@ -139,6 +146,7 @@ class _CreationFacturePageState  extends State<CreationFacturePage>{
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
           setState(() {
+            _CreateBill();
             this.result = "Facture Créer";
           });
         },
@@ -176,16 +184,55 @@ class _CreationFacturePageState  extends State<CreationFacturePage>{
     );
   }
 
-  Future<void> _CreateBill() async{
-    final FirebaseUser user = await FirebaseAuth.instance.currentUser();
-    DatabaseReference _ref = FirebaseDatabase.instance.reference().child("");
+  Future<void> _CreateBill() async {
+    Stream<QuerySnapshot> messagesStream = databaseReference
+        .collection("Users")
+        .where('mail', isEqualTo: controllerEmail.text)
+        .snapshots();
+    QuerySnapshot messagesSnapshot = await messagesStream.first;
+    String destName = messagesSnapshot.documents.first['First Name'] +
+        " " + messagesSnapshot.documents.first['Last Name'];
 
-      _ref.child(user.uid).child("").push().set({
-        'Email':          controllerEmail.text,
-        'Montant':        controllerPrice.text,
-        'Date creation' : selectedDate,
-      });
+    messagesStream = databaseReference
+        .collection("Users")
+        .where('mail', isEqualTo: MyApp.user.email)
+        .snapshots();
+    messagesSnapshot = await messagesStream.first;
+    String authName = messagesSnapshot.documents.first['First Name'] +
+        " " + messagesSnapshot.documents.first['Last Name'];
 
+    int id = Random().nextInt(99999999);
+    await databaseReference
+        .collection("Bills")
+        .document(MyApp.user.email)
+        .collection("send")
+        .document(id.toString())
+        .setData(
+      {
+        'id': id.toString(),
+        'email dest': controllerEmail.text,
+        'dest name': destName,
+        'value': controllerValue.text,
+        'date reg': selectedDate.toString().substring(0,10),
+        'situation': situation
+      },
+    );
+
+    await databaseReference
+        .collection("Bills")
+        .document(controllerEmail.text)
+        .collection("receive")
+        .document(id.toString())
+        .setData(
+      {
+        'id': id.toString(),
+        'email auth': MyApp.user.email,
+        'auth name': authName,
+        'value': controllerValue.text,
+        'date reg': selectedDate.toString().substring(0,10),
+        'situation': situation
+      },
+    );
   }
 
   @override
