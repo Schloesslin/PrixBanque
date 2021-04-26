@@ -87,14 +87,14 @@ class Controller with ChangeNotifier {
         FirebaseDatabase.instance.reference().child("Customers");
     int _usernumber = await getCount(_ref);
     if (_usernumber <= 10000) {
-      _ref.child(user.uid).child("Main account").push().set({
+      _ref.child(user.uid).child("Main account").set({
         'Account number': Random().nextInt(99999999),
         'Balance': 1000,
         'First Name': firstName,
         'Last Name': lastName
       });
     } else {
-      _ref.child(user.uid).child("Main account").push().set({
+      _ref.child(user.uid).child("Main account").set({
         'Account number': Random().nextInt(99999999),
         'Balance': 0,
         'First Name': firstName,

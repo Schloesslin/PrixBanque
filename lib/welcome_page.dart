@@ -351,10 +351,10 @@ class _WelcomePageState extends State<WelcomePage> {
           .child("Main account");
       await _ref.once().then((DataSnapshot data) {
         Map<dynamic, dynamic> map = data.value;
-        _account = map.values.toList()[0]["Account number"].toString();
-        _name = map.values.toList()[0]["First Name"];
-        _lastname = map.values.toList()[0]["Last Name"];
-        _balance = map.values.toList()[0]["Balance"].toString();
+        _account = data.value["Account number"].toString();
+        _name = data.value["First Name"].toString();
+        _lastname = data.value["Last Name"].toString();
+        _balance = data.value["Balance"].toString();
       });
       _transactionlist =
           Firestore.instance.collection('/Trades/${user.uid}/trades');
