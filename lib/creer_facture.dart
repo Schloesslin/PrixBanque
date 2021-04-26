@@ -4,21 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:date_field/date_field.dart';
 import 'package:flutter/services.dart';
 
-
-class CreationFacturePage extends StatefulWidget{
+class CreationFacturePage extends StatefulWidget {
   @override
-  _CreationFacturePageState createState() => _CreationFacturePageState ();
-
+  _CreationFacturePageState createState() => _CreationFacturePageState();
 }
 
-class _CreationFacturePageState  extends State<CreationFacturePage>{
-
+class _CreationFacturePageState extends State<CreationFacturePage> {
   TextEditingController controllerEmail = TextEditingController();
   TextEditingController controllerPrice = TextEditingController();
   DateTime selectedDate = DateTime.now();
 
   String result = "";
-
 
   Widget _createAppBar() {
     return AppBar(
@@ -31,6 +27,7 @@ class _CreationFacturePageState  extends State<CreationFacturePage>{
       leading: Container(
         margin: EdgeInsets.only(left: 15),
         child: GestureDetector(
+          key: Key("test"),
           onTap: () {
             Navigator.pop(context);
           },
@@ -48,11 +45,10 @@ class _CreationFacturePageState  extends State<CreationFacturePage>{
         margin: EdgeInsets.only(bottom: 5),
         child: TextFormField(
           controller: controllerPrice,
-          inputFormatters: <TextInputFormatter>[
-          ],
+          inputFormatters: <TextInputFormatter>[],
           keyboardType: TextInputType.number,
-          validator: (dynamic value){
-            if(value <= 0) this.result = "Error";
+          validator: (dynamic value) {
+            if (value <= 0) this.result = "Error";
             return result;
           },
           decoration: InputDecoration(
@@ -101,7 +97,6 @@ class _CreationFacturePageState  extends State<CreationFacturePage>{
     );
   }
 
-
   Widget _createDateInput() {
     return Container(
       margin: EdgeInsets.only(bottom: 5),
@@ -124,7 +119,6 @@ class _CreationFacturePageState  extends State<CreationFacturePage>{
       ),
     );
   }
-
 
   Widget _createButton(String _text) {
     return Container(
@@ -151,7 +145,6 @@ class _CreationFacturePageState  extends State<CreationFacturePage>{
     );
   }
 
-
   Widget _refreshBody() {
     return SingleChildScrollView(
       child: Container(
@@ -176,16 +169,15 @@ class _CreationFacturePageState  extends State<CreationFacturePage>{
     );
   }
 
-  Future<void> _CreateBill() async{
+  Future<void> _CreateBill() async {
     final FirebaseUser user = await FirebaseAuth.instance.currentUser();
     DatabaseReference _ref = FirebaseDatabase.instance.reference().child("");
 
-      _ref.child(user.uid).child("").push().set({
-        'Email':          controllerEmail.text,
-        'Montant':        controllerPrice.text,
-        'Date creation' : selectedDate,
-      });
-
+    _ref.child(user.uid).child("").push().set({
+      'Email': controllerEmail.text,
+      'Montant': controllerPrice.text,
+      'Date creation': selectedDate,
+    });
   }
 
   @override
@@ -199,4 +191,3 @@ class _CreationFacturePageState  extends State<CreationFacturePage>{
     );
   }
 }
-

@@ -22,11 +22,13 @@ class _ForgotPassState extends State<ForgotPass> {
           Navigator.push(context,
               MaterialPageRoute<void>(builder: (BuildContext context) {
             return MyApp(
-              index: 1,
+              indexHome: 1,
+              indexWelcome: 0,
             );
           }));
           return MyApp(
-            index: 1,
+            indexHome: 1,
+            indexWelcome: 0,
           );
         },
         child: Icon(
@@ -83,7 +85,7 @@ class _ForgotPassState extends State<ForgotPass> {
       ),
       padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
       onPressed: () {
-        _resetPass();
+        resetPass(controllerEmail.text.trim());
       },
       child: Text(
         _text,
@@ -93,10 +95,9 @@ class _ForgotPassState extends State<ForgotPass> {
     );
   }
 
-  Future<void> _resetPass() async {
+  Future<void> resetPass(String email) async {
     try {
-      await FirebaseAuth.instance
-          .sendPasswordResetEmail(email: controllerEmail.text.trim());
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
       return showDialog<void>(
         context: context,
         barrierDismissible: false,

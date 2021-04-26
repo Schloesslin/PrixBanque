@@ -24,13 +24,27 @@ class MockAuthResult extends Mock implements AuthResult {}
 void main() {
   testWidgets("ouverture myApp", (WidgetTester tester) async {
     await tester.pumpWidget(MyApp(
-      index: 1,
+      indexHome: 1,
+      indexWelcome: 0,
     ));
   });
 
   testWidgets("ouverture myApp", (WidgetTester tester) async {
     await tester.pumpWidget(MyApp(
-      index: 0,
+      indexHome: 0,
+      indexWelcome: 1,
+    ));
+  });
+  testWidgets("ouverture myApp", (WidgetTester tester) async {
+    await tester.pumpWidget(MyApp(
+      indexHome: 1,
+      indexWelcome: 1,
+    ));
+  });
+  testWidgets("ouverture myApp", (WidgetTester tester) async {
+    await tester.pumpWidget(MyApp(
+      indexHome: 0,
+      indexWelcome: 0,
     ));
   });
 

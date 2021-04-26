@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2021-04-26 21:40:46</td>
+            <td class="headerValue">2021-04-26 22:28:21</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -413,10 +413,10 @@
 <a name="351"><span class="lineNum">     351 </span><span class="lineNoCov">          0 :           .child(&quot;Main account&quot;);</span></a>
 <a name="352"><span class="lineNum">     352 </span><span class="lineNoCov">          0 :       await _ref.once().then((DataSnapshot data) {</span></a>
 <a name="353"><span class="lineNum">     353 </span><span class="lineNoCov">          0 :         Map&lt;dynamic, dynamic&gt; map = data.value;</span></a>
-<a name="354"><span class="lineNum">     354 </span><span class="lineNoCov">          0 :         _account = map.values.toList()[0][&quot;Account number&quot;].toString();</span></a>
-<a name="355"><span class="lineNum">     355 </span><span class="lineNoCov">          0 :         _name = map.values.toList()[0][&quot;First Name&quot;];</span></a>
-<a name="356"><span class="lineNum">     356 </span><span class="lineNoCov">          0 :         _lastname = map.values.toList()[0][&quot;Last Name&quot;];</span></a>
-<a name="357"><span class="lineNum">     357 </span><span class="lineNoCov">          0 :         _balance = map.values.toList()[0][&quot;Balance&quot;].toString();</span></a>
+<a name="354"><span class="lineNum">     354 </span><span class="lineNoCov">          0 :         _account = data.value[&quot;Account number&quot;].toString();</span></a>
+<a name="355"><span class="lineNum">     355 </span><span class="lineNoCov">          0 :         _name = data.value[&quot;First Name&quot;].toString();</span></a>
+<a name="356"><span class="lineNum">     356 </span><span class="lineNoCov">          0 :         _lastname = data.value[&quot;Last Name&quot;].toString();</span></a>
+<a name="357"><span class="lineNum">     357 </span><span class="lineNoCov">          0 :         _balance = data.value[&quot;Balance&quot;].toString();</span></a>
 <a name="358"><span class="lineNum">     358 </span>            :       });</a>
 <a name="359"><span class="lineNum">     359 </span><span class="lineNoCov">          0 :       _transactionlist =</span></a>
 <a name="360"><span class="lineNum">     360 </span><span class="lineNoCov">          0 :           Firestore.instance.collection('/Trades/${user.uid}/trades');</span></a>

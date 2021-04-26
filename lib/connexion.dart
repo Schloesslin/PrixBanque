@@ -5,8 +5,9 @@ import 'package:prix_banque/welcome_page.dart';
 import 'package:provider/provider.dart';
 
 class AuthHomePage extends StatelessWidget {
-  int index;
-  AuthHomePage({@required this.index});
+  int indexWelcome;
+  int indexHome;
+  AuthHomePage({@required this.indexWelcome, @required this.indexHome});
 
   @override
   Widget build(BuildContext context) {
@@ -15,10 +16,11 @@ class AuthHomePage extends StatelessWidget {
         switch (user.status) {
           case Status.Authenticated:
             return WelcomePage(
-              index: index,
+              index: indexWelcome,
             );
           default:
-            return HomePage(index: index);
+            //index = 1;
+            return HomePage(index: indexHome);
         }
       },
     );
