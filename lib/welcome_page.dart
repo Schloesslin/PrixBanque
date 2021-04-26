@@ -1,8 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:prix_banque/afficher_facture.dart';
+import 'package:prix_banque/component/transactions_list.dart';
 import 'package:prix_banque/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:prix_banque/transaction_page.dart';
 import 'package:prix_banque/transfert_attente_page.dart';
 import 'package:prix_banque/transfert_immediat_page.dart';
 import 'package:prix_banque/transfert_programme_page.dart';
@@ -20,6 +23,7 @@ class _WelcomePageState extends State<WelcomePage> {
   String _lastname = "";
   String _balance = "";
   DateTime today = new DateTime.now().toLocal();
+  CollectionReference _transactionlist;
 
   Widget _refreshTitle(int _index) {
     if (_index == 0) {
@@ -70,37 +74,54 @@ class _WelcomePageState extends State<WelcomePage> {
               ),
             ),
             SizedBox(height: MediaQuery.of(context).size.height / 8),
-            Card(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  ListTile(
-                    title: Text(
-                      'Compte principal',
-                      style: TextStyle(
-                        fontSize: 25.0,
+            GestureDetector(
+              child: Card(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    ListTile(
+                      title: Text(
+                        'Compte principal',
+                        style: TextStyle(
+                          fontSize: 25.0,
+                        ),
                       ),
+                      subtitle: Text("N° de compte : " + _account,
+                          style: TextStyle(
+                            height: 5,
+                            fontSize: 10.0,
+                          )),
+                      trailing: Text(_balance + " \$",
+                          style: TextStyle(
+                            fontSize: 22,
+                          )),
                     ),
-                    subtitle: Text("N° de compte : " + _account,
-                        style: TextStyle(
-                          height: 5,
-                          fontSize: 10.0,
-                        )),
-                    trailing: Text(_balance + " \$",
-                        style: TextStyle(
-                          fontSize: 22,
-                        )),
-                  ),
-                ],
+                  ],
+                ),
               ),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => TransactionPage(
+                            transactionList: _transactionlist)));
+              },
+            ),
+            Text(
+              "Vos dernières transactions",
+              textAlign: TextAlign.left,
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 16),
+              child: TransactionList(
+                  isResume: true, listOfTransactions: _transactionlist),
             )
           ],
         ),
       );
     } else if (index == 2) {
       return _createVirementBody();
-    }
-    else if(index == 1){
+    } else if (index == 1) {
       return _CreateFactureBody();
     }
     return Container();
@@ -254,9 +275,10 @@ class _WelcomePageState extends State<WelcomePage> {
       ),
     );
   }
+
 //----------------------------Facture-------------------------------------
-  Widget _createFactureBotton(String _text){
-    if (_text == "Create"){
+  Widget _createFactureBotton(String _text) {
+    if (_text == "Create") {
       return Container(
         margin: EdgeInsets.only(bottom: 20),
         child: MaterialButton(
@@ -282,8 +304,7 @@ class _WelcomePageState extends State<WelcomePage> {
           ),
         ),
       );
-    }
-    else{
+    } else {
       return Container(
         margin: EdgeInsets.only(bottom: 20),
         child: MaterialButton(
@@ -309,10 +330,10 @@ class _WelcomePageState extends State<WelcomePage> {
           ),
         ),
       );
-
     }
   }
-  Widget _CreateFactureBody(){
+
+  Widget _CreateFactureBody() {
     return Container(
       alignment: Alignment.topCenter,
       child: Column(
@@ -324,8 +345,8 @@ class _WelcomePageState extends State<WelcomePage> {
         ],
       ),
     );
-
   }
+
 //---------------------------------Facture fin--------------------------------------
   Future<void> _getUserData() async {
     try {
@@ -342,6 +363,8 @@ class _WelcomePageState extends State<WelcomePage> {
         _lastname = data.value["Last Name"].toString();
         _balance = data.value["Balance"].toString();
       });
+      _transactionlist =
+          Firestore.instance.collection('/Trades/${user.uid}/trades');
     } catch (e) {
       print("error : " + (e.toString()));
     }
