@@ -168,15 +168,17 @@ class _TransfertImmediatPageState extends State<TransfertImmediatPage> {
         return value.data;
       });
       if(mail) {
-        //peut proceder transaction
+        //TODO : appel microservice transaction
         print("procede transaction");
       } else {
-        //afficher message erreur comme quoi solde ou email incorrect
+        showAlertDialog(this.context, "Viremant annulé", "Le destinataire n'est pas un utilisateur de PrixBanque.");
         return;
       }
     }
     else {
-      //TODO: afficher un message d'erreur
+      //
+      showAlertDialog(this.context, "Virement refusé", "Le solde de votre compte ne vous permet pas de réaliser ce virement.");
+      return;
     }
 /*
     Stream<QuerySnapshot> messagesStream = databaseReference
@@ -228,6 +230,32 @@ class _TransfertImmediatPageState extends State<TransfertImmediatPage> {
         'type': "Immédiat"
       },
     );*/
+  }
+
+  showAlertDialog(BuildContext context, String title, String content) {
+
+    // set up the button
+    Widget okButton = TextButton(
+      child: Text("OK"),
+      onPressed: () { Navigator.of(context).pop(); },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text(title),
+      content: Text(content),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 
   Widget _refreshBody() {
