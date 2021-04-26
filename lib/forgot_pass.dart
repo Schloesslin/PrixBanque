@@ -21,9 +21,13 @@ class _ForgotPassState extends State<ForgotPass> {
         onTap: () {
           Navigator.push(context,
               MaterialPageRoute<void>(builder: (BuildContext context) {
-            return MyApp();
+            return MyApp(
+              index: 1,
+            );
           }));
-          return MyApp();
+          return MyApp(
+            index: 1,
+          );
         },
         child: Icon(
           Icons.arrow_back,
