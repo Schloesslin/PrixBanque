@@ -12,6 +12,7 @@ import 'package:prix_banque/transfert_immediat_page.dart';
 import 'package:prix_banque/transfert_programme_page.dart';
 import 'package:prix_banque/creer_facture.dart';
 import 'package:provider/provider.dart';
+import 'package:prix_banque/logger.dart';
 
 class WelcomePage extends StatefulWidget {
   int index;
@@ -27,8 +28,10 @@ class _WelcomePageState extends State<WelcomePage> {
   String _balance = "";
   DateTime today = new DateTime.now().toLocal();
   CollectionReference _transactionlist;
+  final log = getLogger('_WelcomePageState');
 
   Widget _refreshTitle(int _index) {
+    log.i('_refreshTitle | name : ${_index.toString()}');
     if (_index == 0) {
       return Text(
         "Compte",
@@ -47,6 +50,7 @@ class _WelcomePageState extends State<WelcomePage> {
   }
 
   Widget _refreshBody(int _index) {
+    log.i('_refreshBody | name : ${_index.toString()}');
     if (_index == 0) {
       //In case of immediate transactions
       _getUserData();
@@ -131,6 +135,7 @@ class _WelcomePageState extends State<WelcomePage> {
   }
 
   Widget _createBottomNavigationBar() {
+    log.i('_createBottomNavigationBar');
     return BottomNavigationBar(
       onTap: (_index) {
         setState(() {
@@ -156,6 +161,7 @@ class _WelcomePageState extends State<WelcomePage> {
   }
 
   Widget _createAppBar() {
+    log.i('_createAppBar');
     return AppBar(
       title: _refreshTitle(widget.index),
       centerTitle: true,
@@ -176,6 +182,7 @@ class _WelcomePageState extends State<WelcomePage> {
   }
 
   Widget _createButton(String _text) {
+    log.i('_createButton | name : ${_text}');
     if (_text == "Immediat") {
       return Container(
         margin: EdgeInsets.only(bottom: 20),
@@ -255,6 +262,7 @@ class _WelcomePageState extends State<WelcomePage> {
   }
 
   Widget _createVirementBody() {
+    log.i('_createVirementBody');
     return Container(
       alignment: Alignment.topCenter,
       child: Column(
@@ -271,6 +279,7 @@ class _WelcomePageState extends State<WelcomePage> {
 
 //----------------------------Facture-------------------------------------
   Widget _createFactureBotton(String _text) {
+    log.i('_createFactureBotton | name : ${_text}');
     if (_text == "Create") {
       return Container(
         margin: EdgeInsets.only(bottom: 20),
@@ -327,6 +336,7 @@ class _WelcomePageState extends State<WelcomePage> {
   }
 
   Widget _CreateFactureBody() {
+    log.i('_CreateFactureBody');
     return Container(
       alignment: Alignment.topCenter,
       child: Column(
@@ -342,6 +352,7 @@ class _WelcomePageState extends State<WelcomePage> {
 
 //---------------------------------Facture fin--------------------------------------
   Future<void> _getUserData() async {
+    log.i('_getUserData');
     try {
       final FirebaseUser user = await FirebaseAuth.instance.currentUser();
       DatabaseReference _ref = FirebaseDatabase.instance
@@ -365,12 +376,7 @@ class _WelcomePageState extends State<WelcomePage> {
 
   @override
   Widget build(BuildContext context) {
-    print("build");
-    //Pour éviter de faire trop d'appels inutiles
-    /*if (_name == "") {
-      print("data");
-      _getUserData();
-    }*/
+    log.i('build | name : ${context.toString()}');
     _getUserData();
     return MaterialApp(
       debugShowCheckedModeBanner: false,

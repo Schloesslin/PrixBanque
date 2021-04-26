@@ -33,6 +33,7 @@ dependencies:
   rxdart:
   provider: ^5.0.0
   cloud_functions: 0.4.1+2
+  logger: ^0.6.0
 
 
   # The following adds the Cupertino Icons font to your application.
