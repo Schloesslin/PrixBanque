@@ -67,7 +67,7 @@ jobs:
           
       - name: Unit tests
         #run: flutter test
-        run: ll
+        run: ls pubspec.yaml
         #TODO : ajouter une étape pour le lancement des tests des microservices (google functions)
 
 #For master branch only, deploy google functions and publish the apk
