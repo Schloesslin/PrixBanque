@@ -184,4 +184,9 @@ void main() {
         await _repo.createAccount(email: "tadas@gmail.com", password: "123456"),
         "Success");
   });
+
+  test("create user firebase", () {
+    _repo.createUser("email", "pass", "firstName", "lastName");
+    _repo.createUserFirestore("uid", "email", "firstName", "lastName");
+  });
 }

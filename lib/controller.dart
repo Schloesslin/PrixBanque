@@ -40,7 +40,8 @@ class Controller with ChangeNotifier {
     try {
       _status = Status.Authenticating;
       notifyListeners();
-      await auth.signInWithEmailAndPassword(email: email.trim(), password: password.trim());
+      await auth.signInWithEmailAndPassword(
+          email: email.trim(), password: password.trim());
       return true;
     } catch (e) {
       log.e("signIn | Error while signing in user ${e}");
@@ -75,7 +76,8 @@ class Controller with ChangeNotifier {
 
   Future<String> createUserFirestore(
       String uid, String email, String firstName, String lastName) async {
-    log.i('createUserFirestore | name: ${uid} ${email} ${firstName} ${lastName}');
+    log.i(
+        'createUserFirestore | name: ${uid} ${email} ${firstName} ${lastName}');
     await databaseReference.collection("Users").document().setData(
       {
         'uid': uid,
@@ -123,5 +125,4 @@ class Controller with ChangeNotifier {
     int result = (await db.child("_count").once()).value;
     return result + 1;
   }
-
 }
