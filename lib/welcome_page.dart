@@ -373,6 +373,7 @@ class _WelcomePageState extends State<WelcomePage> {
       _transactionlist =
           Firestore.instance.collection('/Trades/${user.uid}/trades');
     } catch (e) {
+      log.e("_getUserData | Error ${e}");
       print("error : " + (e.toString()));
     }
   }
