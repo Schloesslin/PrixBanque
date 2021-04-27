@@ -20,6 +20,7 @@ class _AffichageFacturePageState extends State<AffichageFacturePage> {
       leading: Container(
         margin: EdgeInsets.only(left: 15),
         child: GestureDetector(
+          key: Key("back"),
           onTap: () {
             Navigator.pop(context);
           },

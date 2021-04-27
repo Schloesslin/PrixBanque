@@ -54,19 +54,27 @@ void main() {
 
   testWidgets("ouverture transfert programme", (WidgetTester tester) async {
     await tester.pumpWidget(TransfertProgrammePage());
+    expect(find.byKey(Key("tt")), findsWidgets);
+    await tester.tap(find.byKey(Key("tt")));
+    await tester.pump();
+    expect(find.text("Demande de virement envoyée"), findsWidgets);
   });
 
   testWidgets("ouverture transfert attente", (WidgetTester tester) async {
-    MyApp.userEmail = "schloesslin.lucas@gmail.com";
-    await tester.pumpWidget(TransfertAttentePage());
+    await tester.pumpWidget(TransfertAttentePage(
+      index: 0,
+      email: "schloesslin.lucas@gmail.com",
+    ));
   });
 
+  testWidgets("ouverture transfert attente", (WidgetTester tester) async {
+    await tester.pumpWidget(TransfertAttentePage(
+      index: 1,
+      email: "schloesslin.lucas@gmail.com",
+    ));
+  });
   testWidgets("ouverture creation facture", (WidgetTester tester) async {
     await tester.pumpWidget(CreationFacturePage());
-  });
-
-  testWidgets("ouverture mot de passe oublie", (WidgetTester tester) async {
-    await tester.pumpWidget(ForgotPass());
   });
 
   group('welcome page', () {
@@ -85,12 +93,56 @@ void main() {
   });
   testWidgets("ouverture facture", (WidgetTester tester) async {
     await tester.pumpWidget(AffichageFacturePage());
+    expect(find.byKey(Key("back")), findsWidgets);
+    await tester.press(find.byKey(Key("back")));
+    await tester.pump();
   });
 
   MockFirebaseAuth _auth = MockFirebaseAuth();
   BehaviorSubject<MockFirebaseUser> _user = BehaviorSubject<MockFirebaseUser>();
   when(_auth.onAuthStateChanged).thenAnswer((_) {
     return _user;
+  });
+/*
+  testWidgets("ouverture mot de passe oublie", (WidgetTester tester) async {
+    when(
+      _auth.sendPasswordResetEmail(email: "schloesslin.lucas@gmail.com"),
+    ).thenAnswer((realInvocation) => null);
+
+    await tester.pumpWidget(ForgotPass());
+    await tester.enterText(
+        find.byKey(Key("email")), 'schloesslin.lucas@gmail.com');
+    await tester.tap(find.byKey(Key("sendpass")));
+    await tester.pump();
+    expect(find.text("Un email a été envoyé"), findsWidgets);
+  });
+*/
+  testWidgets("ouverture mot de passe oublie", (WidgetTester tester) async {
+    when(
+      _auth.sendPasswordResetEmail(email: "schloesslin.lucas@gmail.com"),
+    ).thenAnswer((realInvocation) => null);
+
+    await tester.pumpWidget(ForgotPass());
+    expect(find.text("lol"), findsWidgets);
+    expect(find.byKey(Key('email')), findsWidgets);
+
+    await tester.enterText(
+        find.byKey(Key("email")), 'schloesslin.lucas@gmail.com');
+    await tester.tap(find.byKey(Key("sendpass")));
+    await tester.pump();
+
+    expect(find.text("Un email a été envoyé"), findsWidgets);
+  });
+
+  test("convert datetime", () {
+    DateTime dateTime = DateTime(2020, 9, 7, 17, 30);
+    DateManage.getDateString(dateTime);
+    expect(DateManage.getDateString(dateTime), "7/9/2020 - 17h30");
+  });
+
+  test("get publish transfert programme", () {
+    DatabasePusher.pushTransfert("email", 1, "authmail", "authName", "destName",
+        "question", "response", "value", "date");
   });
 
   Controller _repo = Controller.instance(auth: _auth);

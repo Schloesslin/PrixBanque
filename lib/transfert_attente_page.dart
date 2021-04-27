@@ -1,22 +1,26 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:prix_banque/controller.dart';
 import 'package:prix_banque/main.dart';
 import 'package:prix_banque/transfert_immediat_page.dart';
+import 'package:provider/provider.dart';
 
 class TransfertAttentePage extends StatefulWidget {
+  int index;
+  String email;
+  TransfertAttentePage({@required this.index, @required this.email});
   @override
   _TransfertAttentePageState createState() => _TransfertAttentePageState();
 }
 
 class _TransfertAttentePageState extends State<TransfertAttentePage> {
-  int index = 0;
   final databaseReference = Firestore.instance;
 
   Widget _refreshBody() {
-    if (index == 1) {
+    if (widget.index == 1) {
       Stream<QuerySnapshot> messagesSnapshot = databaseReference
-          .collection("Factures/" + MyApp.userEmail + "/send")
+          .collection("Factures/" + widget.email + "/send")
           .snapshots();
       StreamBuilder<QuerySnapshot> streamBuilder = StreamBuilder<QuerySnapshot>(
         stream: messagesSnapshot,
@@ -54,7 +58,7 @@ class _TransfertAttentePageState extends State<TransfertAttentePage> {
       return streamBuilder;
     }
     Stream<QuerySnapshot> messagesSnapshot = databaseReference
-        .collection("Factures/" + MyApp.userEmail + "/receive")
+        .collection("Factures/" + widget.email + "/receive")
         .snapshots();
     StreamBuilder<QuerySnapshot> streamBuilder = StreamBuilder<QuerySnapshot>(
       stream: messagesSnapshot,
@@ -118,10 +122,10 @@ class _TransfertAttentePageState extends State<TransfertAttentePage> {
     return BottomNavigationBar(
       onTap: (_index) {
         setState(() {
-          index = _index;
+          widget.index = _index;
         });
       },
-      currentIndex: index,
+      currentIndex: widget.index,
       items: [
         BottomNavigationBarItem(
           icon: Icon(Icons.receipt),

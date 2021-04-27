@@ -3,7 +3,9 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:date_field/date_field.dart';
+import 'package:prix_banque/controller.dart';
 import 'package:prix_banque/main.dart';
+import 'package:provider/provider.dart';
 
 class TransfertProgrammePage extends StatefulWidget {
   @override
@@ -121,6 +123,7 @@ class _TransfertProgrammePageState extends State<TransfertProgrammePage> {
           borderRadius: new BorderRadius.circular(23.0),
         ),
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+        key: Key("tt"),
         onPressed: () {
           _sendTransfert();
           setState(() {
@@ -186,10 +189,13 @@ class _TransfertProgrammePageState extends State<TransfertProgrammePage> {
   }
 
   Future<void> _sendTransfert() async {
+    String date = DateManage.getDateString(selectedDate);
+    int id = Random().nextInt(99999999);
     Stream<QuerySnapshot> messagesStream = databaseReference
         .collection("Users")
         .where('mail', isEqualTo: controllerEmail.text)
         .snapshots();
+
     QuerySnapshot messagesSnapshot = await messagesStream.first;
     String destName = messagesSnapshot.documents.first['First Name'] +
         " " +
@@ -197,53 +203,25 @@ class _TransfertProgrammePageState extends State<TransfertProgrammePage> {
 
     messagesStream = databaseReference
         .collection("Users")
-        .where('mail', isEqualTo: MyApp.user.email)
+        .where('mail',
+            isEqualTo:
+                Provider.of<Controller>(context, listen: false).user.email)
         .snapshots();
     messagesSnapshot = await messagesStream.first;
     String authName = messagesSnapshot.documents.first['First Name'] +
         " " +
         messagesSnapshot.documents.first['Last Name'];
-    String date = selectedDate.day.toString() +
-        "/" +
-        selectedDate.month.toString() +
-        "/" +
-        selectedDate.year.toString() +
-        " - " +
-        selectedDate.hour.toString() +
-        "h" +
-        selectedDate.minute.toString();
-    int id = Random().nextInt(99999999);
-    await databaseReference
-        .collection("Factures")
-        .document(MyApp.user.email)
-        .collection("send")
-        .document(id.toString())
-        .setData(
-      {
-        'dest': controllerEmail.text,
-        'dest name': destName,
-        'question': controllerQuestion.text,
-        'response': controllerResponse.text,
-        'value': controllerValue.text,
-        'type': date
-      },
-    );
 
-    await databaseReference
-        .collection("Factures")
-        .document(controllerEmail.text)
-        .collection("receive")
-        .document(id.toString())
-        .setData(
-      {
-        'auth': MyApp.user.email,
-        'auth name': authName,
-        'question': controllerQuestion.text,
-        'response': controllerResponse.text,
-        'value': controllerValue.text,
-        'type': date
-      },
-    );
+    DatabasePusher.pushTransfert(
+        controllerEmail.text,
+        id,
+        Provider.of<Controller>(context, listen: false).user.email,
+        authName,
+        destName,
+        controllerQuestion.text,
+        controllerResponse.text,
+        controllerValue.text,
+        date);
   }
 
   @override
@@ -255,5 +233,69 @@ class _TransfertProgrammePageState extends State<TransfertProgrammePage> {
         body: _refreshBody(),
       ),
     );
+  }
+}
+
+class DateManage {
+  static String getDateString(DateTime dateTime) {
+    return dateTime.day.toString() +
+        "/" +
+        dateTime.month.toString() +
+        "/" +
+        dateTime.year.toString() +
+        " - " +
+        dateTime.hour.toString() +
+        "h" +
+        dateTime.minute.toString();
+  }
+}
+
+class DatabasePusher {
+  static Future<String> pushTransfert(
+      String email,
+      int id,
+      String authmail,
+      String authName,
+      String destName,
+      String question,
+      String response,
+      String value,
+      String date) async {
+    final databaseReference = Firestore.instance;
+    try {
+      await databaseReference
+          .collection("Factures")
+          .document(email)
+          .collection("receive")
+          .document(id.toString())
+          .setData(
+        {
+          'auth': authmail,
+          'auth name': authName,
+          'question': question,
+          'response': response,
+          'value': value,
+          'type': date
+        },
+      );
+    } catch (e) {}
+    try {
+      await databaseReference
+          .collection("Factures")
+          .document(authName)
+          .collection("send")
+          .document(id.toString())
+          .setData(
+        {
+          'dest': email,
+          'dest name': destName,
+          'question': question,
+          'response': response,
+          'value': value,
+          'type': date
+        },
+      );
+    } catch (e) {}
+    return "Success";
   }
 }
