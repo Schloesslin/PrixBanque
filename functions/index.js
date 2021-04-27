@@ -12,7 +12,7 @@ exports.countUsers = functions.database
     return change.after.ref.child("_count").set(count - 1);
   });
 
-exports.doTransaction2 = functions.https.onCall((data, context) => {
+exports.doTransaction = functions.https.onCall((data, context) => {
   // We get the input data
   var value = data.value;
   var receiver = data.receiver;
