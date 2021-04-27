@@ -23,3 +23,4 @@ The project is always under development so feel free to report bugs and new feat
 
 ## Credits
 
+Groupe PP04
