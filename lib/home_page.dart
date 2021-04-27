@@ -8,6 +8,7 @@ import 'package:prix_banque/input_type.dart';
 
 import 'package:prix_banque/tag_page.dart';
 import 'package:provider/provider.dart';
+import 'package:prix_banque/logger.dart';
 
 class HomePage extends StatefulWidget {
   int index;
@@ -18,6 +19,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   FirebaseAuth firebaseAuth;
+  final log = getLogger('_HomePageState');
 
   TextEditingController controllerEmail = TextEditingController();
   TextEditingController controllerPassword = TextEditingController();
@@ -26,8 +28,10 @@ class _HomePageState extends State<HomePage> {
 
   Widget createInput(
       String hint, Input_type type, TextEditingController controller) {
+    log.i('createInput | name: ${hint} ${type.toString()} ${controller.text}');
     switch (type) {
       case Input_type.EMAIL:
+        log.i('createInput | type email');
         return Container(
           margin: EdgeInsets.only(bottom: 5),
           child: TextFormField(
@@ -46,6 +50,7 @@ class _HomePageState extends State<HomePage> {
         );
         break;
       case Input_type.PASSWORD:
+        log.i('createInput | type password');
         return Container(
           margin: EdgeInsets.only(bottom: 5),
           child: TextFormField(
@@ -65,6 +70,7 @@ class _HomePageState extends State<HomePage> {
         );
         break;
       default:
+        log.i('createInput | type default');
         return Container(
           margin: EdgeInsets.only(bottom: 5),
           child: TextFormField(
@@ -84,6 +90,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget createAppBar(Tag_page tag, int index) {
+    log.i('createAppBar | name ${tag.toString()} ${index}');
     switch (tag) {
       case Tag_page.HOME_PAGE:
         return AppBar(
@@ -101,6 +108,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget createBody(Tag_page tag) {
+    log.i('createBody | name ${tag.toString()}');
     switch (tag) {
       case Tag_page.HOME_PAGE:
         if (widget.index == 0) {
@@ -161,6 +169,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _createBottomNavigationBar() {
+    log.i('_createBottomNavigationBar');
+
     return BottomNavigationBar(
       onTap: (_index) {
         setState(() {
@@ -182,6 +192,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget createButton(String text, Button_type type) {
+    log.i('createButton | name ${text} ${type.toString()}');
     final controller = Provider.of<Controller>(context);
     switch (type) {
       case Button_type.LOGIN:
@@ -247,6 +258,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void forgotPass() {
+    log.i('forgotPass');
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -257,6 +269,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    log.i('build');
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
