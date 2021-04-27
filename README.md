@@ -19,8 +19,8 @@ Then, follow these steps :
 
 You have to Sign up yourself to begin to use our app. Once you dit that, you have access to your account and to the tools of bills and transactions between members of PrixBanque.
 We have keep the app as simple as possible so it might be very user-friendly.
-The project is always under development so feel free to report bugs and new features needed.
+The project is always under development so feel free to report bugs and new features needed. Moreover, some features are now unavailable but they will be soon ! 
 
 ## Credits
 
-Groupe PP04
+Groupe PP04 : Lucas Schloesslin, Mouctar Diallo, Hadja Forgo, Guillaume Montassier et Charles Beuzet.
