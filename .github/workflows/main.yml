@@ -124,5 +124,5 @@ jobs:
           file: build/app/outputs/flutter-apk/app-release.apk
           tag: ${{ github.ref }}
           asset_name: "PrixBanque"
-          overwrite: true
+          overwrite: false
           body: "Uploading a new version of PrixBanque"
