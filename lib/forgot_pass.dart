@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:prix_banque/controller.dart';
+import 'package:provider/provider.dart';
 import 'main.dart';
 
 class ForgotPass extends StatefulWidget {
@@ -11,8 +13,10 @@ class ForgotPass extends StatefulWidget {
 
 class _ForgotPassState extends State<ForgotPass> {
   TextEditingController controllerEmail = TextEditingController();
+  String response = "lol";
 
   Widget _createAppBar() {
+    //final controller = Provider.of<Controller>(context);
     return AppBar(
       title: Text("Forgot password"),
       centerTitle: true,
@@ -49,6 +53,7 @@ class _ForgotPassState extends State<ForgotPass> {
             children: [
               _createInputFormField("E-mail", "email"),
               _createButton("Forgot your password"),
+              Text(response),
             ],
           ),
         ),
@@ -60,6 +65,7 @@ class _ForgotPassState extends State<ForgotPass> {
     return Container(
       margin: EdgeInsets.only(bottom: 5),
       child: TextFormField(
+        key: Key("email"),
         controller: controllerEmail,
         decoration: InputDecoration(
           prefixIcon: Icon(Icons.mail_outline),
@@ -77,6 +83,7 @@ class _ForgotPassState extends State<ForgotPass> {
 
   Widget _createButton(String _text) {
     return MaterialButton(
+      key: Key("sendpass"),
       minWidth: 250,
       color: Colors.blue,
       textColor: Colors.white,
@@ -84,8 +91,11 @@ class _ForgotPassState extends State<ForgotPass> {
         borderRadius: new BorderRadius.circular(23.0),
       ),
       padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-      onPressed: () {
-        resetPass(controllerEmail.text.trim());
+      onPressed: () async {
+        sendPass(controllerEmail.text.trim());
+        setState(() {
+          response = "Un email a été envoyé";
+        });
       },
       child: Text(
         _text,
@@ -95,60 +105,12 @@ class _ForgotPassState extends State<ForgotPass> {
     );
   }
 
-  Future<void> resetPass(String email) async {
+  Future<bool> sendPass(String email) async {
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
-      return showDialog<void>(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Mail sent'),
-            content: SingleChildScrollView(
-              child: ListBody(
-                children: <Widget>[
-                  Text(
-                    "An email with reset password instructions has been send",
-                  ),
-                ],
-              ),
-            ),
-            actions: <Widget>[
-              TextButton(
-                child: Text('Ok'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
+      return true;
     } catch (e) {
-      return showDialog<void>(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Error send password'),
-            content: SingleChildScrollView(
-              child: ListBody(
-                children: <Widget>[
-                  Text(e.message),
-                ],
-              ),
-            ),
-            actions: <Widget>[
-              TextButton(
-                child: Text('Ok'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
+      return false;
     }
   }
 

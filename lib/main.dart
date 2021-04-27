@@ -19,8 +19,6 @@ void main() async {
 
 class MyApp extends StatefulWidget {
   // This widget is the root of your application.
-  static FirebaseUser user;
-  static String userEmail;
   int indexHome;
   int indexWelcome;
   MyApp({@required this.indexWelcome, @required this.indexHome});
@@ -29,13 +27,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  onRefresh(userCred) {
-    setState(() {
-      MyApp.user = userCred;
-      MyApp.userEmail = MyApp.user.email;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(

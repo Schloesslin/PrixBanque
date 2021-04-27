@@ -242,7 +242,10 @@ class _WelcomePageState extends State<WelcomePage> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => TransfertAttentePage(),
+            builder: (context) => TransfertAttentePage(
+              index: 0,
+              email: Provider.of<Controller>(context, listen: false).user.email,
+            ),
           ),
         );
       },
