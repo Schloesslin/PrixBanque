@@ -104,7 +104,7 @@ jobs:
 
     runs-on: ubuntu-latest
     #To don't publish an apk which is not in accord with the microservices
-    #needs: [cloud_functions_deploy]
+    needs: [cloud_functions_deploy]
 
     steps:
 
@@ -124,5 +124,5 @@ jobs:
           file: build/app/outputs/flutter-apk/app-release.apk
           tag: ${{ github.ref }}
           asset_name: "PrixBanque.apk"
-          overwrite: false
+          overwrite: true
           body: "Uploading a new version of PrixBanque"
