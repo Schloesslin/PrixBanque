@@ -28,7 +28,7 @@ exports.getUsersAndTransaction = functions.https.onCall( async (data,context) =>
     /*await callCloudFunction("getBalanceValue",{"uid":emitter}).then( data => {
         functions.logger.log("DATA",data);
     });*/
-    admin.auth().getUserByEmail(receiver_email).then((userRecord) => {
+    await admin.auth().getUserByEmail(receiver_email).then((userRecord) => {
      // See the UserRecord reference doc for the contents of userRecord.
      functions.logger.log("UID "+userRecord.uid);
      receiver =  userRecord.uid;
@@ -55,13 +55,14 @@ exports.getUsersAndTransaction = functions.https.onCall( async (data,context) =>
     callCloudFunction('doTransaction', {"value" : value, "emitter": emitter, "receiver": receiver, "emitter_balance":emitter_balance, "receiver_balance":receiver_balance});
   });
 
-exports.doTransaction = functions.https.onCall((data, context) => {
+exports.doTransaction = functions.https.onCall( async (data, context) => {
   // We get the input data
   var value = data.value;
   var receiver = data.receiver;
   var emitter = data.emitter;
   var emitter_balance = data.emitter_balance;
   var receiver_balance = data.receiver_balance;
+
   // We record the current hour
   const timeStamp = new Date().getTime();
   // var currentAccount = admin.database.ref('/Customers').ref(data.emitter).ref().ref('Balance');
@@ -71,25 +72,13 @@ exports.doTransaction = functions.https.onCall((data, context) => {
   functions.logger.log("Valeur"+value);
   functions.logger.log("Receiver"+receiver);
   //TODO: ecritures + get receiver balance. Important : faire les updates en même temps
-  customersDatabase.child(emitter+"/Main account/").update({'Balance': emitter_balance - value});
-  customersDatabase.child(receiver+"/Main account/").update({'Balance': receiver_balance + value});
-  /*var transmitterAccount = customersDatabase
-    .child(emitter)
-    .child("/Main account")
-    .get();
-  var receiverAccount = customersDatabase
-    .child(receiver)
-    .child("/Main account")
-    .get();
-
+  var updates = {};
+  updates[emitter+"/Main account/Balance"] = emitter_balance - value;
+  updates[receiver+"/Main account/Balance"] = +receiver_balance + +value;
+  customersDatabase.update(updates);
+  //customersDatabase.child(receiver+"/Main account/").update({'Balance': receiver_balance + value});
   var tradesCollection = admin.firestore().collection("Trades");
-  // We update the account value of the operation transmitter
-  return customersDatabase
-    .child(emitter + "/Main account/Balance")
-    .update(customersDatabase.child(emitter+"/Main account/Balance").get().val() - value)
-    .then(() => {
-      //then we we save the operation in both accounts database
-      tradesCollection
+  tradesCollection
         .doc(emitter)
         .collection("trades")
         .doc(timeStamp.toString())
@@ -97,13 +86,13 @@ exports.doTransaction = functions.https.onCall((data, context) => {
           {
             date: timeStamp.toString(),
             value: -value,
-            uid_receiver: receiverAccountNumber.child("Account number"),
-            uid_emitter: currentAccountNumber.child("Account number"),
+            uid_receiver: receiver,
+            uid_emitter: emitter,
           },
           { merge: true }
         );
 
-      tradesCollection
+  tradesCollection
         .doc(receiver)
         .collection("trades")
         .doc(timeStamp.toString())
@@ -111,16 +100,11 @@ exports.doTransaction = functions.https.onCall((data, context) => {
           {
             date: timeStamp.toString(),
             value: value,
-            uid_receiver: receiverAccountNumber.child("Account number"),
-            uid_emitter: currentAccountNumber.child("Account number"),
+            uid_receiver: receiver,
+            uid_emitter: emitter,
           },
           { merge: true }
-        );
-      //and we update the account value of the receiver user
-      customersDatabase
-        .child(emitter + "/Main account/Balance")
-        .update(customersDatabase.child(receiver+"/Main account/Balance").get().val() + value);
-    });*/
+          );
 });
 
 const callCloudFunction = async (functionName, data) => {
