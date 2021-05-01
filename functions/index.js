@@ -71,7 +71,6 @@ exports.doTransaction = functions.https.onCall( async (data, context) => {
   functions.logger.log("emitter : "+emitter);
   functions.logger.log("Valeur"+value);
   functions.logger.log("Receiver"+receiver);
-  //TODO: ecritures + get receiver balance. Important : faire les updates en même temps
   var updates = {};
   updates[emitter+"/Main account/Balance"] = emitter_balance - value;
   updates[receiver+"/Main account/Balance"] = +receiver_balance + +value;
