@@ -131,7 +131,7 @@ exports.doTransaction = functions.https.onCall( async (data, context) => {
         .set(
           {
             date: timeStamp.toString(),
-            value: value,
+            value: +value,
             uid_receiver: receiver,
             uid_emitter: emitter,
           },
