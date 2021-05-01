@@ -151,11 +151,17 @@ class _TransfertImmediatPageState extends State<TransfertImmediatPage> {
     return result;
   }
 
+  Future<HttpsCallableResult> writeTransaction(data) async {
+    HttpsCallable callable = CloudFunctions.instance.getHttpsCallable(functionName: "getUsersAndTransaction");
+    final HttpsCallableResult result =  await callable.call(data);
+    return result;
+  }
+
 
   Future<void> _sendTransfert() async {
     final FirebaseUser user = await FirebaseAuth.instance.currentUser();
     // Create the arguments to the callable function.
-    var data = {'uid': user.uid, 'value': controllerValue.text,'email_destinataire':controllerEmail.text};
+    var data = {'emitter': user.uid, 'value': controllerValue.text,'receiver_email':controllerEmail.text.trim()};
     var enough_in_balance = await _checkTransactionData(data).then((value) {
         print(value.data);
         return value.data;
@@ -168,7 +174,9 @@ class _TransfertImmediatPageState extends State<TransfertImmediatPage> {
         return value.data;
       });
       if(mail) {
-        //TODO : appel microservice transaction
+        await writeTransaction(data).then((value) {
+          print("write done");
+        });
         print("procede transaction");
       } else {
         showAlertDialog(this.context, "Viremant annulé", "Le destinataire n'est pas un utilisateur de PrixBanque.");
@@ -180,56 +188,6 @@ class _TransfertImmediatPageState extends State<TransfertImmediatPage> {
       showAlertDialog(this.context, "Virement refusé", "Le solde de votre compte ne vous permet pas de réaliser ce virement.");
       return;
     }
-/*
-    Stream<QuerySnapshot> messagesStream = databaseReference
-        .collection("Users")
-        .where('mail', isEqualTo: controllerEmail.text)
-        .snapshots();
-    QuerySnapshot messagesSnapshot = await messagesStream.first;
-    String destName = messagesSnapshot.documents.first['First Name'] +
-        " " +
-        messagesSnapshot.documents.first['Last Name'];
-
-    messagesStream = databaseReference
-        .collection("Users")
-        .where('mail', isEqualTo: MyApp.user.email)
-        .snapshots();
-    messagesSnapshot = await messagesStream.first;
-    String authName = messagesSnapshot.documents.first['First Name'] +
-        " " +
-        messagesSnapshot.documents.first['Last Name'];
-    int id = Random().nextInt(99999999);
-    await databaseReference
-        .collection("Factures")
-        .document(MyApp.user.email)
-        .collection("send")
-        .document(id.toString())
-        .setData(
-      {
-        'dest': controllerEmail.text,
-        'dest name': destName,
-        'question': controllerQuestion.text,
-        'response': controllerResponse.text,
-        'value': controllerValue.text,
-        'type': "Immédiat"
-      },
-    );
-
-    await databaseReference
-        .collection("Factures")
-        .document(controllerEmail.text)
-        .collection("receive")
-        .document(id.toString())
-        .setData(
-      {
-        'auth': MyApp.user.email,
-        'auth name': authName,
-        'question': controllerQuestion.text,
-        'response': controllerResponse.text,
-        'value': controllerValue.text,
-        'type': "Immédiat"
-      },
-    );*/
   }
 
   showAlertDialog(BuildContext context, String title, String content) {
