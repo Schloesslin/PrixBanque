@@ -140,19 +140,19 @@ class _TransfertImmediatPageState extends State<TransfertImmediatPage> {
   }
 
   Future<HttpsCallableResult> _checkTransactionData(data) async {
-    HttpsCallable callable = CloudFunctions.instance.getHttpsCallable(functionName: "check_data_transfert");
+    HttpsCallable callable = CloudFunctions.instance.getHttpsCallable(functionName: "DataCheckServices-check_data_transfert");
       final HttpsCallableResult result =  await callable.call(data);
       return result;
   }
 
   Future<HttpsCallableResult> _checkMailPresence(data) async {
-    HttpsCallable callable = CloudFunctions.instance.getHttpsCallable(functionName: "check_mail_presence");
+    HttpsCallable callable = CloudFunctions.instance.getHttpsCallable(functionName: "DataCheckServices-check_mail_presence");
     final HttpsCallableResult result =  await callable.call(data);
     return result;
   }
 
   Future<HttpsCallableResult> writeTransaction(data) async {
-    HttpsCallable callable = CloudFunctions.instance.getHttpsCallable(functionName: "getUsersAndTransaction");
+    HttpsCallable callable = CloudFunctions.instance.getHttpsCallable(functionName: "transfertServices-getUsersAndTransaction");
     final HttpsCallableResult result =  await callable.call(data);
     return result;
   }
