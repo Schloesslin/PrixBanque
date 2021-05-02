@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'transaction_details.dart';
+import 'package:prix_banque/logger.dart';
 
 class TransactionList extends StatefulWidget {
   final bool isResume;
@@ -15,9 +16,12 @@ class TransactionList extends StatefulWidget {
 }
 
 class _TransactionListState extends State<TransactionList> {
+  final log = getLogger('_TransactionListState');
+
   @override
   Widget build(BuildContext context) {
     if (widget.listOfTransactions == null) {
+      log.i('build | Empty list of transactions');
       return Container(
         child: Column(
           children: <Widget>[
@@ -73,7 +77,7 @@ class _TransactionListState extends State<TransactionList> {
                   ),
                   Padding(
                     padding: EdgeInsets.only(top: 16),
-                    child: Text('La connexion a été interrompu.'),
+                    child: Text('La connexion a été interrompue.'),
                   )
                 ];
                 break;
@@ -115,7 +119,7 @@ class _TransactionListState extends State<TransactionList> {
                           shrinkWrap: true,
                           children: documentList.map((document) {
                             var _value = document["value"].toString();
-                            print("Value: $_value");
+                            log.i('build |  Value : $_value');
                             return ListTile(
                               leading: Icon(Icons.account_balance_rounded),
                               title: Text(document["uid_receiver"]),

@@ -53,7 +53,6 @@ class _WelcomePageState extends State<WelcomePage> {
     future: _getUserData(),
     builder: (context, snapshot) {
       if(snapshot.hasData) {
-        print("SNAPSHOT");
         return Container(
           alignment: Alignment.topCenter,
           child: Column(
@@ -135,6 +134,7 @@ class _WelcomePageState extends State<WelcomePage> {
   );
 
   Widget _refreshBody(int _index) {
+    log.i('_refreshBody | _index : '+_index.toString());
         if (_index == 0) {
           return _buildWelcome();
         } else if (widget.index == 2) {
