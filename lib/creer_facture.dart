@@ -1,25 +1,31 @@
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:date_field/date_field.dart';
 import 'package:flutter/services.dart';
 import 'package:prix_banque/controller.dart';
 import 'package:provider/provider.dart';
 
-class CreationFacturePage extends StatefulWidget {
+import 'main.dart';
+
+
+class CreationFacturePage extends StatefulWidget{
   @override
-  _CreationFacturePageState createState() => _CreationFacturePageState();
+  _CreationFacturePageState createState() => _CreationFacturePageState ();
+
 }
 
-class _CreationFacturePageState extends State<CreationFacturePage> {
+class _CreationFacturePageState  extends State<CreationFacturePage>{
+
   TextEditingController controllerEmail = TextEditingController();
-  TextEditingController controllerPrice = TextEditingController();
+  TextEditingController controllerValue = TextEditingController();
   DateTime selectedDate = DateTime.now();
+  String situation = 'F';
+  final databaseReference = Firestore.instance;
 
   String result = "";
+
 
   Widget _createAppBar() {
     return AppBar(
@@ -32,7 +38,6 @@ class _CreationFacturePageState extends State<CreationFacturePage> {
       leading: Container(
         margin: EdgeInsets.only(left: 15),
         child: GestureDetector(
-          key: Key("test"),
           onTap: () {
             Navigator.pop(context);
           },
@@ -49,11 +54,12 @@ class _CreationFacturePageState extends State<CreationFacturePage> {
       return Container(
         margin: EdgeInsets.only(bottom: 5),
         child: TextFormField(
-          controller: controllerPrice,
-          inputFormatters: <TextInputFormatter>[],
+          controller: controllerValue,
+          inputFormatters: <TextInputFormatter>[
+          ],
           keyboardType: TextInputType.number,
-          validator: (dynamic value) {
-            if (value <= 0) this.result = "Error";
+          validator: (dynamic value){
+            if(value <= 0) this.result = "Error";
             return result;
           },
           decoration: InputDecoration(
@@ -102,6 +108,7 @@ class _CreationFacturePageState extends State<CreationFacturePage> {
     );
   }
 
+
   Widget _createDateInput() {
     return Container(
       margin: EdgeInsets.only(bottom: 5),
@@ -125,6 +132,7 @@ class _CreationFacturePageState extends State<CreationFacturePage> {
     );
   }
 
+
   Widget _createButton(String _text) {
     return Container(
       margin: EdgeInsets.only(bottom: 20),
@@ -138,9 +146,9 @@ class _CreationFacturePageState extends State<CreationFacturePage> {
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
           setState(() {
+            _CreateBill();
             this.result = "Facture Créer";
           });
-          _CreateBill();
         },
         child: Text(
           _text,
@@ -150,6 +158,7 @@ class _CreationFacturePageState extends State<CreationFacturePage> {
       ),
     );
   }
+
 
   Widget _refreshBody() {
     return SingleChildScrollView(
@@ -176,56 +185,56 @@ class _CreationFacturePageState extends State<CreationFacturePage> {
   }
 
   Future<void> _CreateBill() async {
-    final databaseReference = Firestore.instance;
-    int id = Random().nextInt(99999999);
+    final controller = Provider.of<Controller>(context, listen: false);
     Stream<QuerySnapshot> messagesStream = databaseReference
         .collection("Users")
-        .where('mail', isEqualTo: controllerEmail.text)
+        .where('mail', isEqualTo: controllerEmail.text.trim())
         .snapshots();
-
+    //TODO : alert when user is unknown
     QuerySnapshot messagesSnapshot = await messagesStream.first;
     String destName = messagesSnapshot.documents.first['First Name'] +
-        " " +
-        messagesSnapshot.documents.first['Last Name'];
+        " " + messagesSnapshot.documents.first['Last Name'];
 
     messagesStream = databaseReference
         .collection("Users")
-        .where('mail',
-            isEqualTo:
-                Provider.of<Controller>(context, listen: false).user.email)
+        .where('mail', isEqualTo: controller.user.email)
         .snapshots();
     messagesSnapshot = await messagesStream.first;
     String authName = messagesSnapshot.documents.first['First Name'] +
-        " " +
-        messagesSnapshot.documents.first['Last Name'];
-    try {
-      await databaseReference
-          .collection("Bills")
-          .document(controllerEmail.text.trim())
-          .collection("receive")
-          .document(id.toString())
-          .setData(
-        {
-          'auth': Provider.of<Controller>(context, listen: false).user.email,
-          'auth name': authName,
-          'value': controllerPrice.text,
-        },
-      );
-    } catch (e) {}
-    try {
-      await databaseReference
-          .collection("Bills")
-          .document(Provider.of<Controller>(context, listen: false).user.email)
-          .collection("send")
-          .document(id.toString())
-          .setData(
-        {
-          'auth': controllerEmail.text.trim(),
-          'auth name': destName,
-          'value': controllerPrice.text,
-        },
-      );
-    } catch (e) {}
+        " " + messagesSnapshot.documents.first['Last Name'];
+
+    int id = Random().nextInt(99999999);
+    await databaseReference
+        .collection("Bills")
+        .document(controller.user.email)
+        .collection("send")
+        .document(id.toString())
+        .setData(
+      {
+        'id': id.toString(),
+        'email dest': controllerEmail.text,
+        'dest name': destName,
+        'value': controllerValue.text,
+        'date reg': selectedDate.toString().substring(0,10),
+        'situation': situation
+      },
+    );
+
+    await databaseReference
+        .collection("Bills")
+        .document(controllerEmail.text.trim())
+        .collection("receive")
+        .document(id.toString())
+        .setData(
+      {
+        'id': id.toString(),
+        'email auth': controller.user.email,
+        'auth name': authName,
+        'value': controllerValue.text,
+        'date reg': selectedDate.toString().substring(0,10),
+        'situation': situation
+      },
+    );
   }
 
   @override
@@ -239,3 +248,4 @@ class _CreationFacturePageState extends State<CreationFacturePage> {
     );
   }
 }
+

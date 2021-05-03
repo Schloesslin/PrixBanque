@@ -6,7 +6,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:prix_banque/connexion.dart';
 import 'package:prix_banque/welcome_page.dart';
 import 'package:provider/provider.dart';
-
 import 'component/transaction_details.dart';
 
 void main() async {
@@ -37,6 +36,9 @@ class _MyAppState extends State<MyApp> {
           indexWelcome: widget.indexWelcome,
           indexHome: widget.indexHome,
         ),
+        routes: {
+          ExtractArgumentsScreen.routeName: (context) => ExtractArgumentsScreen(),
+        },
       ),
     );
   }

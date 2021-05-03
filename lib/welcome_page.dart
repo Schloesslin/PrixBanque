@@ -12,7 +12,7 @@ import 'package:prix_banque/transfert_immediat_page.dart';
 import 'package:prix_banque/transfert_programme_page.dart';
 import 'package:prix_banque/creer_facture.dart';
 import 'package:provider/provider.dart';
-import 'package:prix_banque/logger.dart';
+import 'package:prix_banque/component/logger.dart';
 
 class WelcomePage extends StatefulWidget {
   int index;

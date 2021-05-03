@@ -8,7 +8,7 @@ import 'package:prix_banque/input_type.dart';
 
 import 'package:prix_banque/tag_page.dart';
 import 'package:provider/provider.dart';
-import 'package:prix_banque/logger.dart';
+import 'package:prix_banque/component/logger.dart';
 
 class HomePage extends StatefulWidget {
   int index;
