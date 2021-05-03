@@ -28,7 +28,7 @@ class _AffichageFacturePageState extends State<AffichageFacturePage>{
   var data = {};
 
   Widget _createAppBar(BuildContext context, String titre) {
-    this.controller =  Provider.of<Controller>(context);
+    this.controller =  Provider.of<Controller>(context, listen: false);
     return AppBar(
       title: Text(
         titre,
