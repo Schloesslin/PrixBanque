@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:prix_banque/controller.dart';
+import 'package:provider/provider.dart';
 // import 'package:date_field/date_field.dart';
 
 class AffichageFacturePage extends StatefulWidget {
@@ -12,7 +15,7 @@ class _AffichageFacturePageState extends State<AffichageFacturePage> {
   Widget _createAppBar() {
     return AppBar(
       title: Text(
-        "Mes Facture",
+        "Mes Factures",
         style: TextStyle(fontSize: 30),
       ),
       centerTitle: true,
@@ -30,6 +33,88 @@ class _AffichageFacturePageState extends State<AffichageFacturePage> {
         ),
       ),
     );
+  }
+
+  final databaseReference = Firestore.instance;
+  Widget _refreshBody() {
+    if (index == 1) {
+      Stream<QuerySnapshot> messagesSnapshot = databaseReference
+          .collection("Bills/" +
+              Provider.of<Controller>(context, listen: false).user.email +
+              "/send")
+          .snapshots();
+      StreamBuilder<QuerySnapshot> streamBuilder = StreamBuilder<QuerySnapshot>(
+        stream: messagesSnapshot,
+        builder:
+            (BuildContext context, AsyncSnapshot<QuerySnapshot> querySnapshot) {
+          if (querySnapshot.hasError)
+            return new Text('Error: ${querySnapshot.error}');
+          switch (querySnapshot.connectionState) {
+            case ConnectionState.waiting:
+              return new Text("Loading...");
+            default:
+              return new ListView(
+                  children:
+                      querySnapshot.data.documents.map((DocumentSnapshot doc) {
+                return new ListTile(
+                  title: Container(
+                    child: GestureDetector(
+                      onTap: () {
+                        print("lol");
+                      },
+                      child: Text(
+                        "Destinataire : " + doc['auth name'],
+                      ),
+                    ),
+                  ),
+                  subtitle: Text(
+                    "Montant : " + doc['value'],
+                  ),
+                );
+              }).toList());
+          }
+        },
+      );
+      return streamBuilder;
+    }
+    Stream<QuerySnapshot> messagesSnapshot = databaseReference
+        .collection("Bills/" +
+            Provider.of<Controller>(context, listen: false).user.email +
+            "/receive")
+        .snapshots();
+    StreamBuilder<QuerySnapshot> streamBuilder = StreamBuilder<QuerySnapshot>(
+      stream: messagesSnapshot,
+      builder:
+          (BuildContext context, AsyncSnapshot<QuerySnapshot> querySnapshot) {
+        if (querySnapshot.hasError)
+          return new Text('Error: ${querySnapshot.error}');
+        switch (querySnapshot.connectionState) {
+          case ConnectionState.waiting:
+            return new Text("Loading...");
+          default:
+            return new ListView(
+                children:
+                    querySnapshot.data.documents.map((DocumentSnapshot doc) {
+              return new ListTile(
+                title: Container(
+                  child: GestureDetector(
+                    onTap: () {
+                      print("lol2");
+                    },
+                    child: Text(
+                      "Payeur : " + doc['auth name'],
+                    ),
+                  ),
+                ),
+                subtitle: Text(
+                  "Montant : " + doc['value'],
+                ),
+              );
+            }).toList());
+        }
+      },
+    );
+    return streamBuilder;
   }
 
   Widget _createBottomNavigationBar() {
@@ -64,6 +149,7 @@ class _AffichageFacturePageState extends State<AffichageFacturePage> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: _createAppBar(),
+        body: _refreshBody(),
         bottomNavigationBar: _createBottomNavigationBar(),
       ),
     );

@@ -13,7 +13,7 @@ class ForgotPass extends StatefulWidget {
 
 class _ForgotPassState extends State<ForgotPass> {
   TextEditingController controllerEmail = TextEditingController();
-  String response = "lol";
+  String response = "";
 
   Widget _createAppBar() {
     //final controller = Provider.of<Controller>(context);

@@ -1,8 +1,13 @@
+import 'dart:math';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:date_field/date_field.dart';
 import 'package:flutter/services.dart';
+import 'package:prix_banque/controller.dart';
+import 'package:provider/provider.dart';
 
 class CreationFacturePage extends StatefulWidget {
   @override
@@ -135,6 +140,7 @@ class _CreationFacturePageState extends State<CreationFacturePage> {
           setState(() {
             this.result = "Facture Créer";
           });
+          _CreateBill();
         },
         child: Text(
           _text,
@@ -170,14 +176,56 @@ class _CreationFacturePageState extends State<CreationFacturePage> {
   }
 
   Future<void> _CreateBill() async {
-    final FirebaseUser user = await FirebaseAuth.instance.currentUser();
-    DatabaseReference _ref = FirebaseDatabase.instance.reference().child("");
+    final databaseReference = Firestore.instance;
+    int id = Random().nextInt(99999999);
+    Stream<QuerySnapshot> messagesStream = databaseReference
+        .collection("Users")
+        .where('mail', isEqualTo: controllerEmail.text)
+        .snapshots();
 
-    _ref.child(user.uid).child("").push().set({
-      'Email': controllerEmail.text,
-      'Montant': controllerPrice.text,
-      'Date creation': selectedDate,
-    });
+    QuerySnapshot messagesSnapshot = await messagesStream.first;
+    String destName = messagesSnapshot.documents.first['First Name'] +
+        " " +
+        messagesSnapshot.documents.first['Last Name'];
+
+    messagesStream = databaseReference
+        .collection("Users")
+        .where('mail',
+            isEqualTo:
+                Provider.of<Controller>(context, listen: false).user.email)
+        .snapshots();
+    messagesSnapshot = await messagesStream.first;
+    String authName = messagesSnapshot.documents.first['First Name'] +
+        " " +
+        messagesSnapshot.documents.first['Last Name'];
+    try {
+      await databaseReference
+          .collection("Bills")
+          .document(controllerEmail.text.trim())
+          .collection("receive")
+          .document(id.toString())
+          .setData(
+        {
+          'auth': Provider.of<Controller>(context, listen: false).user.email,
+          'auth name': authName,
+          'value': controllerPrice.text,
+        },
+      );
+    } catch (e) {}
+    try {
+      await databaseReference
+          .collection("Bills")
+          .document(Provider.of<Controller>(context, listen: false).user.email)
+          .collection("send")
+          .document(id.toString())
+          .setData(
+        {
+          'auth': controllerEmail.text.trim(),
+          'auth name': destName,
+          'value': controllerPrice.text,
+        },
+      );
+    } catch (e) {}
   }
 
   @override

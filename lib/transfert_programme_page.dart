@@ -282,7 +282,7 @@ class DatabasePusher {
     try {
       await databaseReference
           .collection("Factures")
-          .document(authName)
+          .document(authmail)
           .collection("send")
           .document(id.toString())
           .setData(
