@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:prix_banque/forgot_pass.dart';
 import 'package:prix_banque/main.dart';
-import 'package:prix_banque/logger.dart';
+import 'package:prix_banque/component/logger.dart';
 
 enum Status { Uninitialized, Authenticated, Authenticating, Unauthenticated }
 

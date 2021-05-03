@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 // import 'package:intl/intl.dart';
+import 'package:prix_banque/component/logger.dart';
 
 // You can pass any object to the arguments parameter.
 // In this example, create a class that contains both
@@ -10,7 +11,7 @@ class ScreenArguments {
   final String receiver;
   final String transmitter;
   final int value;
-  final Timestamp date;
+  final String date;
 
   ScreenArguments(this.receiver, this.transmitter, this.value, this.date);
 }
@@ -19,9 +20,11 @@ class ScreenArguments {
 // the ModalRoute.
 class ExtractArgumentsScreen extends StatelessWidget {
   static const routeName = '/extractArguments';
+  final log = getLogger('ExtractArgumentsScreen');
 
   @override
   Widget build(BuildContext context) {
+    log.i('ExtractArgumentsScreen - build');
     // Extract the arguments from the current ModalRoute
     // settings and cast them as ScreenArguments.
     final ScreenArguments args =
@@ -29,7 +32,9 @@ class ExtractArgumentsScreen extends StatelessWidget {
     var _receiver = args.receiver;
     var _transmitter = args.transmitter;
     var _value = args.value.toString();
-    var _date = DateFormat('dd/MM/yyyy').format(args.date.toDate());
+    //TODO : adding date in good format either String
+    //var _date = DateFormat('dd/MM/yyyy').format(args.date.toDate());
+    var _date = args.date;
     //Display a dialog with all the informationw about the clicked transaction
     return AlertDialog(
       elevation: 0,

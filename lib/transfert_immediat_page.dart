@@ -7,7 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:prix_banque/main.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:prix_banque/logger.dart';
+import 'package:prix_banque/component/logger.dart';
 
 class TransfertImmediatPage extends StatefulWidget {
   static const tag = "transfert_immediat";
