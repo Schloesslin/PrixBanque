@@ -3,49 +3,16 @@ const functions = require("firebase-functions");
 // The Firebase Admin SDK to access Firestore.
 const admin = require('firebase-admin');
 admin.initializeApp();
-//This function count and update the number of users in DB
-exports.countUsers = functions.database.ref('/Customers').onWrite((change, context) => {
-    const data = change.after.val();
-    const count = Object.keys(data).length;
-    return change.after.ref.child('_count').set(count-1);
-});
+const fetch = require("node-fetch");
 
-exports.check_data_transfert = functions.https.onCall((data,context) => {
-var value = data.value;
+exports.transfertServices = require('./TransfertServices');
+exports.DataCheckServices = require('./DataCheckServices');
 
-return admin.database().ref('/Customers/'+data.uid+'/Main account').once('value').then(snapshot => {
-        return snapshot.forEach(function(data) {
-        if(data.key == "Balance") {
-        var result;
-            //check
-            functions.logger.log("Balance "+data.val());
-            if(value <= data.val()) {
-                functions.logger.log("ok");
-                result = true;
-            } else {
-                functions.logger.log("Not ok");
-                result = false;
-            }
-        return result;
-        }
-        });
-    });
-});
+//Transferts
+/*exports.transfertServices = transfertServices.getUsersAndTransaction;
+exports.transfertServices = transfertServices.doTransaction;
 
-exports.check_mail_presence = functions.https.onCall((data,context) => {
-    var db = admin.firestore();
-    var usersReference = db.collection("Users");
-    var email = data.email_destinataire;
-    //Get them
-    return usersReference.get().then((querySnapshot) => {
-        //querySnapshot is "iteratable" itself
-        var result = false;
-        querySnapshot.forEach((userDoc) => {
-            //userDoc contains all metadata of Firestore object, such as reference and id
-            if( email == userDoc.data().mail) {
-                    result = true;
-                }
-            });
-            return result;
-        });
-});
+//Check
+exports.DataCheckServices = DataCheckServices.countUsers;
+exports.DataCheckServices = DataCheckServices.check_data_transfert;
+exports.DataCheckServices = DataCheckServices.check_mail_presence;*/

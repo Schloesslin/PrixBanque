@@ -49,90 +49,101 @@ class _WelcomePageState extends State<WelcomePage> {
     );
   }
 
-  Widget _refreshBody(int _index) {
-    log.i('_refreshBody | name : ${_index.toString()}');
-    if (_index == 0) {
-      //In case of immediate transactions
-      _getUserData();
-      return Container(
-        alignment: Alignment.topCenter,
-        child: Column(
-          //mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Card(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  ListTile(
-                    leading: Icon(Icons.account_balance_sharp),
-                    title: Text('Bonjour, ' + _name + ' ' + _lastname + ' !'),
-                    subtitle: Text("Nous sommes le " +
-                        today.day.toString() +
-                        "/" +
-                        today.month.toString() +
-                        "/" +
-                        today.year.toString() +
-                        "et il est " +
-                        today.hour.toString() +
-                        "h" +
-                        today.minute.toString()),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 100),
-            GestureDetector(
-              child: Card(
+  Widget _buildWelcome() => FutureBuilder(
+    future: _getUserData(),
+    builder: (context, snapshot) {
+      if(snapshot.hasData) {
+        return Container(
+          alignment: Alignment.topCenter,
+          child: Column(
+            //mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Card(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     ListTile(
-                      title: Text(
-                        'Compte principal',
-                        style: TextStyle(
-                          fontSize: 25.0,
-                        ),
-                      ),
-                      subtitle: Text("N° de compte : " + _account,
-                          style: TextStyle(
-                            height: 5,
-                            fontSize: 10.0,
-                          )),
-                      trailing: Text(_balance + " \$",
-                          style: TextStyle(
-                            fontSize: 22,
-                          )),
+                      leading: Icon(Icons.account_balance_sharp),
+                      title: Text('Bonjour, ' + _name + ' ' + _lastname +
+                          ' !'),
+                      subtitle: Text("Nous sommes le " +
+                          today.day.toString() +
+                          "/" +
+                          today.month.toString() +
+                          "/" +
+                          today.year.toString() +
+                          "et il est " +
+                          today.hour.toString() +
+                          "h" +
+                          today.minute.toString()),
                     ),
                   ],
                 ),
               ),
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => TransactionPage(
-                            transactionList: _transactionlist)));
-              },
-            ),
-            Text(
-              "Vos dernières transactions",
-              textAlign: TextAlign.left,
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 16),
-              child: TransactionList(
-                  isResume: true, listOfTransactions: _transactionlist),
-            )
-          ],
-        ),
-      );
-    } else if (widget.index == 2) {
-      return _createVirementBody();
-    } else if (widget.index == 1) {
-      return _CreateFactureBody();
-    }
-    return Container();
-  }
+              SizedBox(height: 100),
+              GestureDetector(
+                child: Card(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      ListTile(
+                        title: Text(
+                          'Compte principal',
+                          style: TextStyle(
+                            fontSize: 25.0,
+                          ),
+                        ),
+                        subtitle: Text("N° de compte : " + _account,
+                            style: TextStyle(
+                              height: 5,
+                              fontSize: 10.0,
+                            )),
+                        trailing: Text(_balance + " \$",
+                            style: TextStyle(
+                              fontSize: 22,
+                            )),
+                      ),
+                    ],
+                  ),
+                ),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              TransactionPage(
+                                  transactionList: _transactionlist)));
+                },
+              ),
+              Text(
+                "Vos dernières transactions",
+                textAlign: TextAlign.left,
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 16),
+                child: TransactionList(
+                    isResume: true, listOfTransactions: _transactionlist),
+              )
+            ],
+          ),
+        );
+      } else {
+        return CircularProgressIndicator();
+      }
+    },
+  );
+
+  Widget _refreshBody(int _index) {
+    log.i('_refreshBody | _index : '+_index.toString());
+        if (_index == 0) {
+          return _buildWelcome();
+        } else if (widget.index == 2) {
+          return _createVirementBody();
+        } else if (widget.index == 1) {
+          return _CreateFactureBody();
+        }
+        //return Container();
+}
 
   Widget _createBottomNavigationBar() {
     log.i('_createBottomNavigationBar');
@@ -354,7 +365,7 @@ class _WelcomePageState extends State<WelcomePage> {
   }
 
 //---------------------------------Facture fin--------------------------------------
-  Future<void> _getUserData() async {
+  Future<bool> _getUserData() async {
     log.i('_getUserData');
     try {
       final FirebaseUser user = await FirebaseAuth.instance.currentUser();
@@ -373,14 +384,16 @@ class _WelcomePageState extends State<WelcomePage> {
       _transactionlist =
           Firestore.instance.collection('/Trades/${user.uid}/trades');
     } catch (e) {
+      log.e("_getUserData | Error ${e}");
       print("error : " + (e.toString()));
     }
+    return true;
   }
 
   @override
   Widget build(BuildContext context) {
     log.i('build | name : ${context.toString()}');
-    _getUserData();
+    //_getUserData();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(

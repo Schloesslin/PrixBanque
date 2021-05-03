@@ -7,6 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:prix_banque/main.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:prix_banque/logger.dart';
 
 class TransfertImmediatPage extends StatefulWidget {
   static const tag = "transfert_immediat";
@@ -22,6 +23,7 @@ class _TransfertImmediatPageState extends State<TransfertImmediatPage> {
   TextEditingController controllerResponse = TextEditingController();
   String result = "";
   final databaseReference = Firestore.instance;
+  final log = getLogger('_WelcomePageState');
   Widget _createAppBar() {
     return AppBar(
       title: Text(
@@ -140,96 +142,60 @@ class _TransfertImmediatPageState extends State<TransfertImmediatPage> {
   }
 
   Future<HttpsCallableResult> _checkTransactionData(data) async {
-    HttpsCallable callable = CloudFunctions.instance.getHttpsCallable(functionName: "check_data_transfert");
+    log.i('_checkTransactionData | name : '+data.toString());
+    HttpsCallable callable = CloudFunctions.instance.getHttpsCallable(functionName: "DataCheckServices-check_data_transfert");
       final HttpsCallableResult result =  await callable.call(data);
       return result;
   }
 
   Future<HttpsCallableResult> _checkMailPresence(data) async {
-    HttpsCallable callable = CloudFunctions.instance.getHttpsCallable(functionName: "check_mail_presence");
+    log.i('_checkMailPresence | name : '+data.toString());
+    HttpsCallable callable = CloudFunctions.instance.getHttpsCallable(functionName: "DataCheckServices-check_mail_presence");
+    final HttpsCallableResult result =  await callable.call(data);
+    return result;
+  }
+
+  Future<HttpsCallableResult> writeTransaction(data) async {
+    log.i('writeTransaction | name : '+data.toString());
+    HttpsCallable callable = CloudFunctions.instance.getHttpsCallable(functionName: "transfertServices-getUsersAndTransaction");
     final HttpsCallableResult result =  await callable.call(data);
     return result;
   }
 
 
   Future<void> _sendTransfert() async {
+    log.i('_sendTransfert');
     final FirebaseUser user = await FirebaseAuth.instance.currentUser();
     // Create the arguments to the callable function.
-    var data = {'uid': user.uid, 'value': controllerValue.text,'email_destinataire':controllerEmail.text};
+    var data = {'emitter': user.uid, 'value': controllerValue.text,'receiver_email':controllerEmail.text.trim()};
     var enough_in_balance = await _checkTransactionData(data).then((value) {
-        print(value.data);
+        log.w('_sendTransfert | enough_in_balance : ' + value.data.toString());
         return value.data;
     });
 
     if(enough_in_balance) {
       //Vérification de la présence email destinataire
       var mail = await _checkMailPresence(data).then((value) {
-        print(value.data);
+        log.w('_sendTransfert | mail presence : ' + value.data.toString());
         return value.data;
       });
       if(mail) {
-        //TODO : appel microservice transaction
-        print("procede transaction");
+        await writeTransaction(data).then((value) {
+          log.i('_sendTransfert | Transaction writed');
+        });
+        log.i('_sendTransfert | Transaction finished');
       } else {
+        log.w('_sendTransfert | Mail does not correspond to a user');
         showAlertDialog(this.context, "Viremant annulé", "Le destinataire n'est pas un utilisateur de PrixBanque.");
         return;
       }
     }
     else {
       //
+      log.w('_sendTransfert | Account balance does not permit to execute the transaction');
       showAlertDialog(this.context, "Virement refusé", "Le solde de votre compte ne vous permet pas de réaliser ce virement.");
       return;
     }
-/*
-    Stream<QuerySnapshot> messagesStream = databaseReference
-        .collection("Users")
-        .where('mail', isEqualTo: controllerEmail.text)
-        .snapshots();
-    QuerySnapshot messagesSnapshot = await messagesStream.first;
-    String destName = messagesSnapshot.documents.first['First Name'] +
-        " " +
-        messagesSnapshot.documents.first['Last Name'];
-
-    messagesStream = databaseReference
-        .collection("Users")
-        .where('mail', isEqualTo: MyApp.user.email)
-        .snapshots();
-    messagesSnapshot = await messagesStream.first;
-    String authName = messagesSnapshot.documents.first['First Name'] +
-        " " +
-        messagesSnapshot.documents.first['Last Name'];
-    int id = Random().nextInt(99999999);
-    await databaseReference
-        .collection("Factures")
-        .document(MyApp.user.email)
-        .collection("send")
-        .document(id.toString())
-        .setData(
-      {
-        'dest': controllerEmail.text,
-        'dest name': destName,
-        'question': controllerQuestion.text,
-        'response': controllerResponse.text,
-        'value': controllerValue.text,
-        'type': "Immédiat"
-      },
-    );
-
-    await databaseReference
-        .collection("Factures")
-        .document(controllerEmail.text)
-        .collection("receive")
-        .document(id.toString())
-        .setData(
-      {
-        'auth': MyApp.user.email,
-        'auth name': authName,
-        'question': controllerQuestion.text,
-        'response': controllerResponse.text,
-        'value': controllerValue.text,
-        'type': "Immédiat"
-      },
-    );*/
   }
 
   showAlertDialog(BuildContext context, String title, String content) {
