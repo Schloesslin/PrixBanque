@@ -36,9 +36,6 @@ class _MyAppState extends State<MyApp> {
           indexWelcome: widget.indexWelcome,
           indexHome: widget.indexHome,
         ),
-        routes: {
-          ExtractArgumentsScreen.routeName: (context) => ExtractArgumentsScreen(),
-        },
       ),
     );
   }
