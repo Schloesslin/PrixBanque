@@ -125,16 +125,20 @@ class _TransactionListState extends State<TransactionList> {
                               title: Text(document["uid_receiver"]),
                               trailing: Text("$_value \$"),
                               onTap: () {
-                                Navigator.pushNamed(
-                                  context,
-                                  ExtractArgumentsScreen.routeName,
-                                  arguments: ScreenArguments(
-                                    document['uid_receiver'],
-                                    document['uid_emitter'],
-                                    document['value'],
-                                    document['date'],
-                                  ),
-                                );
+                                Navigator.push(
+                                    context,
+                                    PageRouteBuilder(
+                                        barrierDismissible: true,
+                                        opaque: false,
+                                        pageBuilder: (_, anim1, anim2) =>
+                                            TransactionDetails(
+                                              transmitter:
+                                                  document["uid_emitter"],
+                                              receiver:
+                                                  document["uid_receiver"],
+                                              value: document["value"],
+                                              date: document["date"],
+                                            )));
                               },
                             );
                           }).toList(),
@@ -153,16 +157,20 @@ class _TransactionListState extends State<TransactionList> {
                               title: Text(document["uid_receiver"]),
                               trailing: Text("$_value \$"),
                               onTap: () {
-                                Navigator.pushNamed(
-                                  context,
-                                  ExtractArgumentsScreen.routeName,
-                                  arguments: ScreenArguments(
-                                    document['uid_receiver'],
-                                    document['uid_emitter'],
-                                    document['value'],
-                                    document['date'],
-                                  ),
-                                );
+                                Navigator.push(
+                                    context,
+                                    PageRouteBuilder(
+                                        barrierDismissible: true,
+                                        opaque: false,
+                                        pageBuilder: (_, anim1, anim2) =>
+                                            TransactionDetails(
+                                              transmitter:
+                                                  document["uid_emitter"],
+                                              receiver:
+                                                  document["uid_receiver"],
+                                              value: document["value"],
+                                              date: document["date"],
+                                            )));
                               },
                             );
                           }).toList(),
