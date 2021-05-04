@@ -91,12 +91,13 @@ void main() {
       expect(find.text('Transferts'), findsWidgets);
     });
   });
+  /*
   testWidgets("ouverture facture", (WidgetTester tester) async {
     await tester.pumpWidget(AffichageFacturePage());
     expect(find.byKey(Key("back")), findsWidgets);
     await tester.press(find.byKey(Key("back")));
     await tester.pump();
-  });
+  });*/
 
   MockFirebaseAuth _auth = MockFirebaseAuth();
   BehaviorSubject<MockFirebaseUser> _user = BehaviorSubject<MockFirebaseUser>();

@@ -8,6 +8,9 @@ import 'package:prix_banque/main.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:prix_banque/component/logger.dart';
+import 'package:provider/provider.dart';
+
+import 'controller.dart';
 
 class TransfertImmediatPage extends StatefulWidget {
   static const tag = "transfert_immediat";
@@ -24,6 +27,8 @@ class _TransfertImmediatPageState extends State<TransfertImmediatPage> {
   String result = "";
   final databaseReference = Firestore.instance;
   final log = getLogger('_WelcomePageState');
+  Controller controller;
+
   Widget _createAppBar() {
     return AppBar(
       title: Text(
