@@ -10,7 +10,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:prix_banque/component/logger.dart';
 import 'package:provider/provider.dart';
 
-import 'controller.dart';
+import '../controller/controller.dart';
 
 class TransfertImmediatPage extends StatefulWidget {
   static const tag = "transfert_immediat";
