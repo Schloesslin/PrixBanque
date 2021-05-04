@@ -1,27 +1,38 @@
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:date_field/date_field.dart';
 import 'package:flutter/services.dart';
-import 'package:prix_banque/controller.dart';
+import 'package:prix_banque/controller/controller.dart';
 import 'package:provider/provider.dart';
+import 'package:cloud_functions/cloud_functions.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:prix_banque/component/logger.dart';
 
-class CreationFacturePage extends StatefulWidget {
+import '../main.dart';
+
+
+class CreationFacturePage extends StatefulWidget{
   @override
-  _CreationFacturePageState createState() => _CreationFacturePageState();
+  _CreationFacturePageState createState() => _CreationFacturePageState ();
+
 }
 
-class _CreationFacturePageState extends State<CreationFacturePage> {
+class _CreationFacturePageState  extends State<CreationFacturePage>{
+
   TextEditingController controllerEmail = TextEditingController();
-  TextEditingController controllerPrice = TextEditingController();
+  TextEditingController controllerValue = TextEditingController();
   DateTime selectedDate = DateTime.now();
+  String situation = 'F';
+  final databaseReference = Firestore.instance;
+  final log = getLogger('_CreationFacturePageState');
 
   String result = "";
 
+
   Widget _createAppBar() {
+    log.i("_createAppBar");
     return AppBar(
       title: Text(
         "Creation Facture",
@@ -32,7 +43,6 @@ class _CreationFacturePageState extends State<CreationFacturePage> {
       leading: Container(
         margin: EdgeInsets.only(left: 15),
         child: GestureDetector(
-          key: Key("test"),
           onTap: () {
             Navigator.pop(context);
           },
@@ -45,15 +55,17 @@ class _CreationFacturePageState extends State<CreationFacturePage> {
   }
 
   Widget _createInputFormField(String _hint, String _type) {
+    log.i("_createInputFormField");
     if (_type == "price") {
       return Container(
         margin: EdgeInsets.only(bottom: 5),
         child: TextFormField(
-          controller: controllerPrice,
-          inputFormatters: <TextInputFormatter>[],
+          controller: controllerValue,
+          inputFormatters: <TextInputFormatter>[
+          ],
           keyboardType: TextInputType.number,
-          validator: (dynamic value) {
-            if (value <= 0) this.result = "Error";
+          validator: (dynamic value){
+            if(value <= 0) this.result = "Error";
             return result;
           },
           decoration: InputDecoration(
@@ -102,7 +114,9 @@ class _CreationFacturePageState extends State<CreationFacturePage> {
     );
   }
 
+
   Widget _createDateInput() {
+    log.i("_createDateInput");
     return Container(
       margin: EdgeInsets.only(bottom: 5),
       child: DateTimeField(
@@ -125,7 +139,9 @@ class _CreationFacturePageState extends State<CreationFacturePage> {
     );
   }
 
+
   Widget _createButton(String _text) {
+    log.i("_createButton");
     return Container(
       margin: EdgeInsets.only(bottom: 20),
       child: MaterialButton(
@@ -138,9 +154,8 @@ class _CreationFacturePageState extends State<CreationFacturePage> {
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
           setState(() {
-            this.result = "Facture Créer";
+            _CreateBill();
           });
-          _CreateBill();
         },
         child: Text(
           _text,
@@ -151,7 +166,9 @@ class _CreationFacturePageState extends State<CreationFacturePage> {
     );
   }
 
+
   Widget _refreshBody() {
+    log.i("_refreshBody");
     return SingleChildScrollView(
       child: Container(
         alignment: Alignment.topCenter,
@@ -175,57 +192,104 @@ class _CreationFacturePageState extends State<CreationFacturePage> {
     );
   }
 
+  Future<HttpsCallableResult> _checkMailPresence(data) async {
+    log.i('_checkMailPresence | name : '+data.toString());
+    HttpsCallable callable = CloudFunctions.instance.getHttpsCallable(functionName: "DataCheckServices-check_mail_presence");
+    final HttpsCallableResult result =  await callable.call(data);
+    return result;
+  }
+
+
+
   Future<void> _CreateBill() async {
-    final databaseReference = Firestore.instance;
-    int id = Random().nextInt(99999999);
+    log.i("_CreateBill");
+    final controller = Provider.of<Controller>(context, listen: false);
+    final FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    var data = {'emitter': user.uid, 'value': controllerValue.text,'receiver_email':controllerEmail.text.trim()};
+    var mail = await _checkMailPresence(data).then((value) {
+      log.w('_CreateBill | mail presence : ' + value.data.toString());
+      return value.data;
+    });
+    if(mail != true){
+      log.w('_CreateBill | showing alert');
+      showAlertDialog(this.context, "Création de facture annulée", "Le mail que vous avez précisé ne correspond pas à un utilisateur de PrixBanque.");
+      return;
+    }
     Stream<QuerySnapshot> messagesStream = databaseReference
         .collection("Users")
-        .where('mail', isEqualTo: controllerEmail.text)
+        .where('mail', isEqualTo: controllerEmail.text.trim())
         .snapshots();
-
     QuerySnapshot messagesSnapshot = await messagesStream.first;
     String destName = messagesSnapshot.documents.first['First Name'] +
-        " " +
-        messagesSnapshot.documents.first['Last Name'];
+        " " + messagesSnapshot.documents.first['Last Name'];
 
     messagesStream = databaseReference
         .collection("Users")
-        .where('mail',
-            isEqualTo:
-                Provider.of<Controller>(context, listen: false).user.email)
+        .where('mail', isEqualTo: controller.user.email)
         .snapshots();
     messagesSnapshot = await messagesStream.first;
     String authName = messagesSnapshot.documents.first['First Name'] +
-        " " +
-        messagesSnapshot.documents.first['Last Name'];
-    try {
-      await databaseReference
-          .collection("Bills")
-          .document(controllerEmail.text.trim())
-          .collection("receive")
-          .document(id.toString())
-          .setData(
-        {
-          'auth': Provider.of<Controller>(context, listen: false).user.email,
-          'auth name': authName,
-          'value': controllerPrice.text,
-        },
-      );
-    } catch (e) {}
-    try {
-      await databaseReference
-          .collection("Bills")
-          .document(Provider.of<Controller>(context, listen: false).user.email)
-          .collection("send")
-          .document(id.toString())
-          .setData(
-        {
-          'auth': controllerEmail.text.trim(),
-          'auth name': destName,
-          'value': controllerPrice.text,
-        },
-      );
-    } catch (e) {}
+        " " + messagesSnapshot.documents.first['Last Name'];
+
+    int id = Random().nextInt(99999999);
+    await databaseReference
+        .collection("Bills")
+        .document(controller.user.email)
+        .collection("send")
+        .document(id.toString())
+        .setData(
+      {
+        'id': id.toString(),
+        'email dest': controllerEmail.text,
+        'dest name': destName,
+        'value': controllerValue.text,
+        'date reg': selectedDate.toString().substring(0,10),
+        'situation': situation
+      },
+    );
+
+    await databaseReference
+        .collection("Bills")
+        .document(controllerEmail.text.trim())
+        .collection("receive")
+        .document(id.toString())
+        .setData(
+      {
+        'id': id.toString(),
+        'email auth': controller.user.email,
+        'auth name': authName,
+        'value': controllerValue.text,
+        'date reg': selectedDate.toString().substring(0,10),
+        'situation': situation
+      },
+    );
+    this.result = "Votre facture a bien été créée.";
+  }
+
+  showAlertDialog(BuildContext context, String title, String content) {
+
+    // set up the button
+    Widget okButton = TextButton(
+      child: Text("OK"),
+      onPressed: () { Navigator.of(context).pop(); },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text(title),
+      content: Text(content),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 
   @override
@@ -239,3 +303,4 @@ class _CreationFacturePageState extends State<CreationFacturePage> {
     );
   }
 }
+

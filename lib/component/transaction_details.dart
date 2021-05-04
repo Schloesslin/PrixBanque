@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 // import 'package:intl/intl.dart';
+import 'package:prix_banque/component/logger.dart';
 
 // You can pass any object to the arguments parameter.
 // In this example, create a class that contains both

@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'transaction_details.dart';
-import 'package:prix_banque/logger.dart';
+import 'package:prix_banque/component/logger.dart';
 
 class TransactionList extends StatefulWidget {
   final bool isResume;

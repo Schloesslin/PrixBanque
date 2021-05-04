@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:prix_banque/button_type.dart';
-import 'package:prix_banque/controller.dart';
-import 'package:prix_banque/forgot_pass.dart';
-import 'package:prix_banque/input_type.dart';
+import 'package:prix_banque/types/button_type.dart';
+import 'package:prix_banque/controller/controller.dart';
+import 'package:prix_banque/views/forgot_pass_page.dart';
+import 'package:prix_banque/types/input_type.dart';
 
-import 'package:prix_banque/tag_page.dart';
+import 'package:prix_banque/types/tag_page.dart';
 import 'package:provider/provider.dart';
-import 'package:prix_banque/logger.dart';
+import 'package:prix_banque/component/logger.dart';
 
 class HomePage extends StatefulWidget {
   int index;

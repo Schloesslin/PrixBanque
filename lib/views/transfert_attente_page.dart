@@ -1,47 +1,26 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:prix_banque/controller.dart';
+import 'package:prix_banque/controller/controller.dart';
+import 'package:prix_banque/main.dart';
+import 'package:prix_banque/views/transfert_immediat_page.dart';
 import 'package:provider/provider.dart';
-// import 'package:date_field/date_field.dart';
 
-class AffichageFacturePage extends StatefulWidget {
+class TransfertAttentePage extends StatefulWidget {
+  int index;
+  String email;
+  TransfertAttentePage({@required this.index, @required this.email});
   @override
-  _AffichageFacturePageState createState() => _AffichageFacturePageState();
+  _TransfertAttentePageState createState() => _TransfertAttentePageState();
 }
 
-class _AffichageFacturePageState extends State<AffichageFacturePage> {
-  int index = 0;
-
-  Widget _createAppBar() {
-    return AppBar(
-      title: Text(
-        "Mes Factures",
-        style: TextStyle(fontSize: 30),
-      ),
-      centerTitle: true,
-      toolbarHeight: 100,
-      leading: Container(
-        margin: EdgeInsets.only(left: 15),
-        child: GestureDetector(
-          key: Key("back"),
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: Icon(
-            Icons.arrow_back,
-          ),
-        ),
-      ),
-    );
-  }
-
+class _TransfertAttentePageState extends State<TransfertAttentePage> {
   final databaseReference = Firestore.instance;
+
   Widget _refreshBody() {
-    if (index == 1) {
+    if (widget.index == 1) {
       Stream<QuerySnapshot> messagesSnapshot = databaseReference
-          .collection("Bills/" +
-              Provider.of<Controller>(context, listen: false).user.email +
-              "/send")
+          .collection("Factures/" + widget.email + "/send")
           .snapshots();
       StreamBuilder<QuerySnapshot> streamBuilder = StreamBuilder<QuerySnapshot>(
         stream: messagesSnapshot,
@@ -57,13 +36,14 @@ class _AffichageFacturePageState extends State<AffichageFacturePage> {
                   children:
                       querySnapshot.data.documents.map((DocumentSnapshot doc) {
                 return new ListTile(
+                  trailing: Text(doc['type']),
                   title: Container(
                     child: GestureDetector(
                       onTap: () {
                         print("lol");
                       },
                       child: Text(
-                        "Destinataire : " + doc['auth name'],
+                        "Destinataire : " + doc['dest name'],
                       ),
                     ),
                   ),
@@ -78,9 +58,7 @@ class _AffichageFacturePageState extends State<AffichageFacturePage> {
       return streamBuilder;
     }
     Stream<QuerySnapshot> messagesSnapshot = databaseReference
-        .collection("Bills/" +
-            Provider.of<Controller>(context, listen: false).user.email +
-            "/receive")
+        .collection("Factures/" + widget.email + "/receive")
         .snapshots();
     StreamBuilder<QuerySnapshot> streamBuilder = StreamBuilder<QuerySnapshot>(
       stream: messagesSnapshot,
@@ -96,6 +74,7 @@ class _AffichageFacturePageState extends State<AffichageFacturePage> {
                 children:
                     querySnapshot.data.documents.map((DocumentSnapshot doc) {
               return new ListTile(
+                trailing: Text(doc['type']),
                 title: Container(
                   child: GestureDetector(
                     onTap: () {
@@ -117,26 +96,44 @@ class _AffichageFacturePageState extends State<AffichageFacturePage> {
     return streamBuilder;
   }
 
+  Widget _createAppBar() {
+    return AppBar(
+      title: Text(
+        "Virements en attente",
+        style: TextStyle(fontSize: 30),
+      ),
+      centerTitle: true,
+      toolbarHeight: 100,
+      leading: Container(
+        margin: EdgeInsets.only(left: 15),
+        child: GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Icon(
+            Icons.arrow_back,
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _createBottomNavigationBar() {
     return BottomNavigationBar(
       onTap: (_index) {
         setState(() {
-          index = _index;
+          widget.index = _index;
         });
       },
-      currentIndex: index,
+      currentIndex: widget.index,
       items: [
         BottomNavigationBarItem(
-          icon: Icon(Icons.add_shopping_cart),
-          label: "A Payé",
-        ),
-        BottomNavigationBarItem(
           icon: Icon(Icons.receipt),
-          label: "Emise",
+          label: "Reçu",
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.receipt_long),
-          label: "Payer",
+          icon: Icon(Icons.send),
+          label: "Envoyé",
         ),
       ],
     );
@@ -144,7 +141,6 @@ class _AffichageFacturePageState extends State<AffichageFacturePage> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
