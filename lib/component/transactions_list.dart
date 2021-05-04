@@ -195,10 +195,6 @@ class _TransactionListState extends State<TransactionList> {
                 break;
             }
           }
-          // if (widget.isResume && (children.length > 4)) {
-          //   children.take(4).toList();
-          // }
-          // children.toList();
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
