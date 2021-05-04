@@ -117,7 +117,7 @@ class _TransactionDetailsState extends State<TransactionDetails> {
                 textAlign: TextAlign.center,
               ),
             ),
-            Text("Compte émetteur: ${widget.receiver}"),
+            Text("Compte receveur: ${widget.receiver}"),
             Text("Le ${date2}"),
             Text(
               "${widget.value.toString()} \$",
