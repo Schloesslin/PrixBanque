@@ -87,12 +87,9 @@ class _AffichageFacturePageState extends State<AffichageFacturePage>{
     );
   }
 
-  void getTransactionData() async {
-    log.i("getTransactionData");
-    final FirebaseUser user = await FirebaseAuth.instance.currentUser();
-    data['emitter'] = user.uid;
-}
-
+  /*
+  widget pour afficher les factures à payer
+   */
   Widget _BillToBuy() {
     log.i("_BillToBuy");
     Stream<QuerySnapshot> messagesSnapshot = databaseReference
@@ -140,7 +137,7 @@ class _AffichageFacturePageState extends State<AffichageFacturePage>{
                                   floatingActionButton: FloatingActionButton(
                                     onPressed: () => setState(() {
                                       log.i("_BillToBuy | Button pressed");
-                                      _BuytoBill(doc['id'],doc['email auth']);
+                                      _BuyToBill(doc['id'],doc['email auth']);
                                       this.controller.writeTransaction(data).then((value) {
                                         log.i("_BillToBuy | Transaction done");
                                       });
@@ -177,33 +174,9 @@ class _AffichageFacturePageState extends State<AffichageFacturePage>{
     return streamBuilder;
   }
 
- showAlertDialog(BuildContext context, String title, String content) {
-
-    // set up the button
-    Widget okButton = TextButton(
-      child: Text("OK"),
-      onPressed: () { Navigator.of(context).pop(); },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      title: Text(title),
-      content: Text(content),
-      actions: [
-        okButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
-
+  /*
+  widget pour afficher les factures partagées
+   */
   Widget _BillSend(){
   log.i("_BillSend");
     Stream<QuerySnapshot> messagesSnapshot = databaseReference
@@ -282,6 +255,9 @@ class _AffichageFacturePageState extends State<AffichageFacturePage>{
     return streamBuilder;
   }
 
+  /*
+  widget pour afficher les factures payées
+   */
   Widget _BillReceive(){
     log.i("_BillReceive");
     Stream<QuerySnapshot> messagesSnapshot = databaseReference
@@ -364,7 +340,12 @@ class _AffichageFacturePageState extends State<AffichageFacturePage>{
 
   }
 
-  Future<void> _BuytoBill(String idBill, String emailAuth) async{
+  /*
+  Facture pour payer une facture
+  @idBill: l'identifiant da facture
+  @email: Email de l'auteur
+   */
+  Future<void> _BuyToBill(String idBill, String emailAuth) async{
     log.i("_BuytoBill | idBill ${idBill} email ${emailAuth}");
     String val = "O";
 
@@ -390,6 +371,12 @@ class _AffichageFacturePageState extends State<AffichageFacturePage>{
     );
   }
 
+  /*
+  Facture pour supprimer une facture
+  @idBill: l'identifiant da facture
+  @email: Email de l'auteur
+  @emailDest : Email du destinateur
+   */
   Future<void> _deleteBill(String idBill,String emailAuth,emailDest) async{
     log.i("_deleteBill | idBill ${idBill} email ${emailAuth} destinataire ${emailDest}");
     await databaseReference
@@ -407,9 +394,41 @@ class _AffichageFacturePageState extends State<AffichageFacturePage>{
         .delete();
   }
 
+  showAlertDialog(BuildContext context, String title, String content) {
+
+    // set up the button
+    Widget okButton = TextButton(
+      child: Text("OK"),
+      onPressed: () { Navigator.of(context).pop(); },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text(title),
+      content: Text(content),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   String _situationView(String val){
     log.i("_situationView | situation ${val}");
     return (val.compareTo(this.situation) == 0) ? "Non Regler" : "Regler";
+  }
+
+  void getTransactionData() async {
+    log.i("getTransactionData");
+    final FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    data['emitter'] = user.uid;
   }
 
 
