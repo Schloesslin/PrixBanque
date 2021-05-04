@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
-import 'package:prix_banque/forgot_pass.dart';
+import 'package:prix_banque/views/forgot_pass_page.dart';
 import 'package:prix_banque/main.dart';
 import 'package:prix_banque/component/logger.dart';
 import 'package:cloud_functions/cloud_functions.dart';

@@ -1,16 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:prix_banque/afficher_facture.dart';
+import 'package:prix_banque/views/afficher_facture_page.dart';
 import 'package:prix_banque/component/transactions_list.dart';
-import 'package:prix_banque/controller.dart';
+import 'package:prix_banque/controller/controller.dart';
 import 'package:prix_banque/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:prix_banque/transaction_page.dart';
-import 'package:prix_banque/transfert_attente_page.dart';
-import 'package:prix_banque/transfert_immediat_page.dart';
-import 'package:prix_banque/transfert_programme_page.dart';
-import 'package:prix_banque/creer_facture.dart';
+import 'package:prix_banque/views/transaction_page.dart';
+import 'package:prix_banque/views/transfert_attente_page.dart';
+import 'package:prix_banque/views/transfert_immediat_page.dart';
+import 'package:prix_banque/views/transfert_programme_page.dart';
+import 'package:prix_banque/views/creer_facture_page.dart';
 import 'package:provider/provider.dart';
 import 'package:prix_banque/component/logger.dart';
 

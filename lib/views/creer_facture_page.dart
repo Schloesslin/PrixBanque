@@ -4,13 +4,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:date_field/date_field.dart';
 import 'package:flutter/services.dart';
-import 'package:prix_banque/controller.dart';
+import 'package:prix_banque/controller/controller.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:prix_banque/component/logger.dart';
 
-import 'main.dart';
+import '../main.dart';
 
 
 class CreationFacturePage extends StatefulWidget{

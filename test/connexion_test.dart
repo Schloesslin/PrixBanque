@@ -2,17 +2,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:prix_banque/afficher_facture.dart';
-import 'package:prix_banque/controller.dart';
-import 'package:prix_banque/creer_facture.dart';
-import 'package:prix_banque/forgot_pass.dart';
+import 'package:prix_banque/views/afficher_facture_page.dart';
+import 'package:prix_banque/controller/controller.dart';
+import 'package:prix_banque/views/creer_facture_page.dart';
+import 'package:prix_banque/views/forgot_pass_page.dart';
 import 'package:mockito/mockito.dart';
-import 'package:prix_banque/home_page.dart';
+import 'package:prix_banque/views/home_page.dart';
 import 'package:prix_banque/main.dart';
-import 'package:prix_banque/transfert_attente_page.dart';
-import 'package:prix_banque/transfert_immediat_page.dart';
-import 'package:prix_banque/transfert_programme_page.dart';
-import 'package:prix_banque/welcome_page.dart';
+import 'package:prix_banque/views/transfert_attente_page.dart';
+import 'package:prix_banque/views/transfert_immediat_page.dart';
+import 'package:prix_banque/views/transfert_programme_page.dart';
+import 'package:prix_banque/views/welcome_page.dart';
 import 'package:rxdart/rxdart.dart';
 
 class MockFirebaseAuth extends Mock implements FirebaseAuth {}
@@ -124,7 +124,7 @@ void main() {
     ).thenAnswer((realInvocation) => null);
 
     await tester.pumpWidget(ForgotPass());
-    expect(find.text("lol"), findsWidgets);
+    expect(find.text("Forgot password"), findsWidgets);
     expect(find.byKey(Key('email')), findsWidgets);
 
     await tester.enterText(

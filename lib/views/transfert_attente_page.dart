@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:prix_banque/controller.dart';
+import 'package:prix_banque/controller/controller.dart';
 import 'package:prix_banque/main.dart';
-import 'package:prix_banque/transfert_immediat_page.dart';
+import 'package:prix_banque/views/transfert_immediat_page.dart';
 import 'package:provider/provider.dart';
 
 class TransfertAttentePage extends StatefulWidget {
