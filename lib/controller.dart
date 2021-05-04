@@ -8,6 +8,7 @@ import 'package:logger/logger.dart';
 import 'package:prix_banque/forgot_pass.dart';
 import 'package:prix_banque/main.dart';
 import 'package:prix_banque/component/logger.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 
 enum Status { Uninitialized, Authenticated, Authenticating, Unauthenticated }
 
@@ -125,4 +126,12 @@ class Controller with ChangeNotifier {
     int result = (await db.child("_count").once()).value;
     return result + 1;
   }
+
+  Future<HttpsCallableResult> writeTransaction(data) async {
+    log.i('writeTransaction | name : '+data.toString());
+    HttpsCallable callable = CloudFunctions.instance.getHttpsCallable(functionName: "transfertServices-getUsersAndTransaction");
+    final HttpsCallableResult result =  await callable.call(data);
+    return result;
+  }
+
 }

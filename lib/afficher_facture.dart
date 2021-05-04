@@ -8,6 +8,7 @@ import 'package:prix_banque/controller.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:prix_banque/component/logger.dart';
 
 import 'controller.dart';
 
@@ -22,6 +23,7 @@ class AffichageFacturePage extends StatefulWidget{
 class _AffichageFacturePageState extends State<AffichageFacturePage>{
   Controller controller;
   final databaseReference = Firestore.instance;
+  final log = getLogger('_AffichageFacturePageState');
 
   int index = 0;
   String situation = "F";
@@ -86,13 +88,13 @@ class _AffichageFacturePageState extends State<AffichageFacturePage>{
   }
 
   void getTransactionData() async {
+    log.i("getTransactionData");
     final FirebaseUser user = await FirebaseAuth.instance.currentUser();
     data['emitter'] = user.uid;
 }
 
   Widget _BillToBuy() {
-
-    print(this.situation);
+    log.i("_BillToBuy");
     Stream<QuerySnapshot> messagesSnapshot = databaseReference
         .collection("Bills/" + controller.user.email + "/receive")
         .where("situation", isEqualTo: this.situation)
@@ -137,11 +139,12 @@ class _AffichageFacturePageState extends State<AffichageFacturePage>{
                                   ),
                                   floatingActionButton: FloatingActionButton(
                                     onPressed: () => setState(() {
+                                      log.i("_BillToBuy | Button pressed");
                                       _BuytoBill(doc['id'],doc['email auth']);
-                                      //TODO : call write transaction microservices --> récupérer toutes les données nécessaires
-                                      writeTransaction(data).then((value) {
-                                        print("Transaction done");
+                                      this.controller.writeTransaction(data).then((value) {
+                                        log.i("_BillToBuy | Transaction done");
                                       });
+                                      showAlertDialog(this.context,"Transaction effectuée","Le paiement de cette facture a bien été réalisé");
                                       Navigator.pop(context);
                                     }),
                                     child: const Icon(Icons.add_shopping_cart_sharp),
@@ -174,16 +177,35 @@ class _AffichageFacturePageState extends State<AffichageFacturePage>{
     return streamBuilder;
   }
 
-  Future<HttpsCallableResult> writeTransaction(data) async {
-    //log.i('writeTransaction | name : '+data.toString());
-    HttpsCallable callable = CloudFunctions.instance.getHttpsCallable(functionName: "transfertServices-getUsersAndTransaction");
-    final HttpsCallableResult result =  await callable.call(data);
-    return result;
+ showAlertDialog(BuildContext context, String title, String content) {
+
+    // set up the button
+    Widget okButton = TextButton(
+      child: Text("OK"),
+      onPressed: () { Navigator.of(context).pop(); },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text(title),
+      content: Text(content),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 
 
   Widget _BillSend(){
-
+  log.i("_BillSend");
     Stream<QuerySnapshot> messagesSnapshot = databaseReference
         .collection("Bills/" + controller.user.email + "/send")
         .snapshots();
@@ -227,6 +249,7 @@ class _AffichageFacturePageState extends State<AffichageFacturePage>{
                                     ),
                                     floatingActionButton: FloatingActionButton(
                                       onPressed: () => setState(() {
+                                        log.i("_BillSend | Button pressed");
                                         _deleteBill(doc['id'],controller.user.email,doc['dest name']);
                                         Navigator.pop(context);
                                       }),
@@ -260,7 +283,7 @@ class _AffichageFacturePageState extends State<AffichageFacturePage>{
   }
 
   Widget _BillReceive(){
-
+    log.i("_BillReceive");
     Stream<QuerySnapshot> messagesSnapshot = databaseReference
         .collection("Bills/" + controller.user.email + "/receive")
         .where("situation", isEqualTo: "O")
@@ -306,6 +329,7 @@ class _AffichageFacturePageState extends State<AffichageFacturePage>{
                                   ),
                                   floatingActionButton: FloatingActionButton(
                                     onPressed: () => setState(() {
+                                      log.i("_BillReceive | Button pressed");
                                       _deleteBill(doc['id'],doc['email auth'],controller.user.email);
                                       Navigator.pop(context);
                                     }),
@@ -341,7 +365,7 @@ class _AffichageFacturePageState extends State<AffichageFacturePage>{
   }
 
   Future<void> _BuytoBill(String idBill, String emailAuth) async{
-
+    log.i("_BuytoBill | idBill ${idBill} email ${emailAuth}");
     String val = "O";
 
     await databaseReference
@@ -367,7 +391,7 @@ class _AffichageFacturePageState extends State<AffichageFacturePage>{
   }
 
   Future<void> _deleteBill(String idBill,String emailAuth,emailDest) async{
-
+    log.i("_deleteBill | idBill ${idBill} email ${emailAuth} destinataire ${emailDest}");
     await databaseReference
         .collection("Bills")
         .document(emailAuth )
@@ -384,6 +408,7 @@ class _AffichageFacturePageState extends State<AffichageFacturePage>{
   }
 
   String _situationView(String val){
+    log.i("_situationView | situation ${val}");
     return (val.compareTo(this.situation) == 0) ? "Non Regler" : "Regler";
   }
 
@@ -396,7 +421,7 @@ class _AffichageFacturePageState extends State<AffichageFacturePage>{
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar: _createAppBar(context, "Mes Facutres"),
+        appBar: _createAppBar(context, "Mes Factures"),
         body: _refrechBody(),
         bottomNavigationBar: _createBottomNavigationBar(),
       ),
